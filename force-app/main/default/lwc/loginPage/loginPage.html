@@ -1,0 +1,60 @@
+<template>
+    <template if:false={selector}>
+    <lightning-card>
+    <div class="slds-align_absolute-center">
+        <div class="slds-col slds-size_2-of-7">
+            <img src={expPict}>
+        </div> 
+    </div>
+    <div class="help-tooltip">
+        
+        <lightning-input type="text" name="inputLogin" label="Login"
+        placeholder="Enter your username"  required="true"  onchange={handleLoginInput}
+         >
+        </lightning-input>
+ 
+    <lightning-input type="text" name="inputPassword" label="Password"
+    placeholder="Password"  required="true"  onchange={handlePassInput}
+     >
+    </lightning-input>
+    
+    <br>
+    
+    
+    <lightning-button class="slds-button slds-button_brand slds-align_absolute-center" variant="brand" label="Login" title="Primary action" onclick={handleClick} ></lightning-button>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</lightning-card>
+</template>
+<template if:true={selector}>
+    <lightning-card>
+    <template if:true={isAdmin}>
+        <div class="slds-col slds-size_1-of-2"> Admin</div>
+   
+    </template>
+
+   
+    <template if:true={isEmployee}>
+        <div class="slds-clearfix">
+            <div class="slds-float_left">
+              <p>Expenses office 3</p>
+            </div>
+            <div class="slds-float_right">
+                <p>Balance:$195</p>
+              </div>
+            <div class="slds-align_absolute-center">bla bla</div>
+            
+          </div>  
+    
+    <c-employee 
+     
+     ></c-employee>
+    </template>
+</lightning-card>
+</template>
+</template>

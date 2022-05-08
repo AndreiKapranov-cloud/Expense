@@ -1,0 +1,15 @@
+.my-css {
+ --slds-c-button-brand-color-background: #BB00FF;
+ --slds-c-button-brand-color-background-onclick: #8700B8;
+ --slds-c-button-brand-color-border: #BB00FF;
+ --slds-c-button-brand-color-border-hover: #8700B8;
+}
+.datatable-orange:hover{
+    color:#000;
+    background-color:#e06000;
+  }
+  .THIS.noRowHover{
+
+    pointer-events: none;
+
+}
