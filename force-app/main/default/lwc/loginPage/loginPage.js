@@ -2,10 +2,13 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { LightningElement,api,track,wire} from 'lwc';
 import EXPENSES from '@salesforce/resourceUrl/exp';
 import getDetails from '@salesforce/apex/LoginController.getDetails';
+import getOffice from '@salesforce/apex/LoginController.getOffice';
+import getId from '@salesforce/apex/LoginController.getId';
 
 export default class LoginPage extends LightningElement {
-   
+ keeperId;
  expPict = EXPENSES;
+ office;
  login;
  password;
  error;
@@ -74,7 +77,12 @@ handlePassInput(event) {
     
             }
     
-    
+            this.office = await getOffice({
+                login: this.login,password: this.password
+            });
+            this.keeperId = await getId({
+                login: this.login,password: this.password
+            });
     
     
     
@@ -120,6 +128,19 @@ handlePassInput(event) {
         this.dispatchEvent(evt);  
     }
 }
-
+ 
+/* @wire(getOffice,{login: this.login,password: this.password})
+ getOff({ error, data }) {
+ if (data) {
+     this.office = data;
+     console.log(this.office);
+     this.error = undefined;
+ } else if (error) {
+     this.error = error;
+     this.office = undefined; 
+     console.log('Something went wrong:', error);
+     console.error('e.message => ' + e.message );
+  }
+ }*/
 }
  

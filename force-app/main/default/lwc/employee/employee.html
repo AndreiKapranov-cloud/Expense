@@ -1,101 +1,51 @@
 <template> 
-  <!--
-  <div class="demo-only" style="width:320px">
-    <nav class="slds-nav-vertical" aria-label="Sub page">
-      <div class="slds-nav-vertical__section">
-        <h2 id="entity-header" class="slds-nav-vertical__title">Reports</h2>
-        <ul aria-describedby="entity-header">
-          <li class="slds-nav-vertical__item">
-            <a href="#" class="slds-nav-vertical__action" aria-current="true">
-               <span class="slds-badge" > 155</span><span class="slds-badge" >155</span>
-            </a>
-          </li>
-          <li class="slds-nav-vertical__item">
-            <a href="#" class="slds-nav-vertical__action">Created by Me</a>
-          </li>
-          <li class="slds-nav-vertical__item">
-            <a href="#" class="slds-nav-vertical__action">Private Reports</a>
-          </li>
-          <li class="slds-nav-vertical__item">
-            <a href="#" class="slds-nav-vertical__action">Public Reports</a>
-          </li>
-          <li class="slds-nav-vertical__item">
-            <a href="#" class="slds-nav-vertical__action">All Reports</a>
-          </li>
-        </ul>
-      </div>
-      <div class="slds-nav-vertical__section">
-        <h2 id="folder-header" class="slds-nav-vertical__title">Folders</h2>
-        <ul aria-describedby="folder-header">
-          <li class="slds-nav-vertical__item">
-            <a href="#" class="slds-nav-vertical__action">Created by Me</a>
-          </li>
-          <li class="slds-nav-vertical__item">
-            <a href="#" class="slds-nav-vertical__action">Shared with Me</a>
-          </li>
-          <li class="slds-nav-vertical__item">
-            <a href="#" class="slds-nav-vertical__action">All Reports</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
   
-    <div style="width: 320px;">
-        <lightning-vertical-navigation>
-            <lightning-vertical-navigation-section label="Reports">
-                <lightning-vertical-navigation-item label="Recent" name="recent"></lightning-vertical-navigation-item>
-                <lightning-vertical-navigation-item label="Created by Me" name="created"></lightning-vertical-navigation-item>
-                <lightning-vertical-navigation-item label="Private Reports" name="private"></lightning-vertical-navigation-item>
-                <lightning-vertical-navigation-item label="Public Reports" name="public"></lightning-vertical-navigation-item>
-                <lightning-vertical-navigation-item label="All Reports" name="all"></lightning-vertical-navigation-item>
-            </lightning-vertical-navigation-section>
-        </lightning-vertical-navigation>
-    </div>
+ <div class="slds-m-top_none">
+ <div class="slds-page-header">
+            
+            <div class="slds-float_left">
+              <p>{office}</p>
+            </div>
+            <div class="slds-float_right">
+              <lightning-button label="&#8595; Income" title="Income" onclick={handleIncomeClick} class="slds-m-left_x-small"></lightning-button>
+              <lightning-button label="New Expense" title="New Expense" onclick={handleNewExpenseClick} class="slds-m-left_x-small"></lightning-button>
 
-  
-         
-    <div style="width: 320px;"></div>
-  <lightning-vertical-navigation > 
-    
-    <lightning-vertical-navigation-section  >
-     
-      <template for:each={tabs} for:item="tab">
-      <lightning-vertical-navigation-item-badge label={tab.Month__c} name="all" badge-count={tab.Amount__c} key={tab.Id}>
-       <lightning-vertical-navigation-item-badge badge-count={tab.Amount__c}></lightning-vertical-navigation-item-badge>
-      </lightning-vertical-navigation-item-badge>
-       
- 
-    </template>
-  </lightning-vertical-navigation-section>
-  
+              </div>
+            <div class="slds-align_absolute-center slds-text-heading_medium">Balance:    <b>${yearBalance}</b></div>
+           </div>
+       <br>
 
-</lightning-vertical-navigation >
- 
-</div>
--->
+
+<div class="slds-p-horizontal_x-small">
 <div class="slds-grid slds-gutters">
-  <div class="slds-col slds-size_1-of-3">
+  <div class="slds-col slds-size_2-of-7">
+    
 <template if:true = {tabs} >
-
+  <div class="slds-border_right">
   <nav class="slds-nav-vertical" aria-label="Sub page">
     <div class="slds-nav-vertical__section">
+      <p id="entity-header">         MONTHS    Amount  Income</p>
       <template for:each={tabs} for:item="tab" for:index="index">
  
         <li class="slds-nav-vertical__item" key={tab.Id} onclick={handleMonthClick} data-index={index}>
-          <a href="#" class="slds-nav-vertical__action" aria-current="true">
+          <a href="#" class="slds-nav-vertical__action" aria-current="true" aria-selected = "true">
           
-            {tab.Month__c}<span class="slds-badge" if:true={tab.Amount__c}>{tab.Amount__c}</span><span class="slds-badge" if:true={tab.Income__c}>{tab.Income__c}</span>
+            {tab.Month__c}<span class="slds-badge" if:true={tab.Amount__c}> {tab.Amount__c}</span>
+                        <span class="slds-badge" if:true={tab.Income__c}>{tab.Income__c}</span>
           </a>
         </li>
        </template>
      
     </div>
-   
+    <div style="background:#afb1b4"><b>         Total:           {amountTotal}   {yearIncome}</b></div>
   </nav>
-
+ 
+ 
+  
+  years
+</div>
 </template>
-<div class="slds-button-group" role="group" >
+<div class="slds-button-group" role="group" style = "width:6rem" >
    
   <template if:true={years}>
   <template for:each={years} for:item="year" for:index="index">
@@ -104,292 +54,86 @@
   </template>  
 </div>
 </div>
-<div class="slds-col slds-size_2-of-3">
-  <div class="slds-scrollable_y" style="height:25rem;width:30rem">
-  <template if:true={dateList}>
-    <lightning-accordion allow-multiple-sections-open>
-    <template for:each={dateList} for:item="dat" for:index="indexVar">
-        <lightning-accordion-section key={dat.CardDate__c} name={dat.CardDate__c} label={dat.CardDate__c}>
-          
-            
-              <p>{dat.CardDate__c} 
-              </p>
-              <p>{dat.Id} 
-              </p>
-            
-            
-        </lightning-accordion-section>  
-    </template> 
-</lightning-accordion>
-</template>
-</div>
-  
+<div class="slds-col slds-size_5-of-7">
+  <c-accord>
+
+  </c-accord>
  
   </div>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!--<template if:true={dateList}>
-    <lightning-accordion allow-multiple-sections-open>
-    <template for:each={dateList} for:item="dat" for:index="indexVar">
-        <lightning-accordion-section key={dat.Id} name={dat.CardDate__c} label={dat.CardDate__c}>
-          
-            
-              <p>{dat.CardDate__c} 
-              </p>
-              <p>{dat.Id} 
-              </p>
-            
-            
-        </lightning-accordion-section>  
-    </template> 
-</lightning-accordion>
-</template>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!--<template if:true={dateList}>
-    <lightning-accordion allow-multiple-sections-open>
-    <template for:each={dateList} for:item="day" for:index="indexVar">
-      <lightning-accordion-section key={day.Id} name={day.Name} label={day.CardDate__c}>
-          
-                    <div style="height: 500px;">
-                        <lightning-datatable
-                                             key-field="Id"
-                                             data={dateList}
-                                             columns={columnsForAc}
-                                          
-                                             hide-checkbox-column>
-                        </lightning-datatable>
-                    </div>       
-              
-        </lightning-accordion-section>  
-   </template> 
-</lightning-accordion>
-</template>-->
-
-  <!--<template if:true={expenses}>
-  <div class="slds-grid slds-gutters">
-    <div class="slds-col slds-size_1-of-3">
-        <template if:true={tabs}>
-         
-          
-            <lightning-vertical-navigation for:each={tabs} for:item="tab" key={tab.Id} > 
-              <lightning-vertical-navigation-section key={tab.Id} label="k" name= {tab.Name}>
-            
-                {tab.Month__c} <span class="slds-badge" if:true={tab.Amount__c}> {tab.Amount__c}</span><span class="slds-badge" if:true={tab.Income__c}>{tab.Income__c}</span> 
-             
-            </lightning-vertical-navigation-section>
-          </lightning-vertical-navigation >
-      </template>
-    -->
-      
-     <!--     </div>
-          <div class="slds-col slds-size_2-of-3">
-           
-            <template if:true={myList}>
-              <lightning-accordion allow-multiple-sections-open>
-              <template for:each={myList} for:item="exp" for:index="indexVar">
-                  <lightning-accordion-section key={exp.Id} name={exp.Name} label={exp.MonthDate__c}>
-                      <template if:true={exp.MonthDate__c} >
-                          <p>{exp.Balance__c} 
-                            </p>
-                            <p>{exp.Title} 
-                            </p>
-                            <p>{exp.Namex} 
-                            </p>
-                      </template>
-                  </lightning-accordion-section>  
-              </template> 
-          </lightning-accordion>
-        </template>
+  </div>
+  </div>
+  <template if:true={isModalOpen}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal slds-modal slds-fade-in-open">
+        <div class="slds-modal__container ">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                    <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Expense Card</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <lightning-input style="width:240px" type="currency" name="Amount" label="Amount"
+            placeholder="Amount..."   onchange={handleAmountInput}
+             >
+            </lightning-input>
+     
+        <lightning-input type="date" style="width:240px" name="Date" label="Date"
+        placeholder="12 May 2016"   onchange={handleDateInput}
+         >
+        </lightning-input>
+        <lightning-textarea rows=10 type="text" name="Description" label="Description"
+        placeholder="Placeholder text"    onchange={handleDescInput}
+         >
+        </lightning-textarea>
       </div>
-   </div>-->
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={handleSaveExpenseCard} title="save">Save</button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+
+
+<template if:true={isIncomeModalOpen}>
+  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal slds-modal slds-fade-in-open">
+      <div class="slds-modal__container ">
+          <header class="slds-modal__header">
+              <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeIncomeModal}>
+                  <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                  <span class="slds-assistive-text">Close</span>
+              </button>
+              <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">New Income</h2>
+          </header>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+          <lightning-input style="width:240px" type="currency" name="Income" label="Income"
+          placeholder="Income..."   onchange={handleIncomeInput}
+           >
+          </lightning-input>
    
-
-  
-
-  
-    
-    
-<!--
-<template if:true={months}>
-  <lightning-accordion allow-multiple-sections-open>
-  <template for:each={months} for:item="month" for:index="indexVar">
-      <lightning-accordion-section key={month.Id} name={month.Name} label={month.MonthDate__c}>
-          <template if:true={month.Name} >
-              <p>{month.Title} 
-                </p>
-          </template>
-      </lightning-accordion-section>  
-  </template> 
-</lightning-accordion>
-</template>-->
-
-<!--<lightning-datatable
-                                         key-field="Id"
-                                         data={months}
-                                         columns={columnsForMonths}
-                                         
-                                         hide-checkbox-column>
-                    </lightning-datatable>-->
-                  
-                  
-                  
-                  <!--
-                    <lightning-button onclick={changeTitleHandler} label="Change Title" variant="brand" ></lightning-button> 
-                    <ul class="slds-m-around_medium">
-                      <template for:each={months} for:item="month">
-                          <li key={month.Id}>
-                              {month.Title} 
-                          </li>
-                          <li key={month.Id}>
-                            {month.Name} 
-                        </li>
-                       
-                      </template>
-                  </ul>
-               -->
-               
-               
-               <!--
-               <div class="slds-m-around_medium">
-                  <template if:true={tabs}>
-                      <template for:each={tabs} for:item="table">
-                          <p key={table.Id}>{table.Month__c}</p>
-                          <p key={table.Id}>{table.Amount__c}</p>
-                          <p key={table.Id}>{table.Income__c}</p>
-                      </template>
-                  </template>
-                 
-              </div>
-              <lightning-button onclick={populateValuesHandler} label="Populate" variant="brand" ></lightning-button> 
-              <ul class="slds-m-around_medium">
-                <template for:each={tabs} for:item="tab">
-                    <li key={tab.Id}>
-                        {tab.Month__c} 
-                    </li>
-                    <li key={tab.Id}>
-                      {tab.Amount__c} 
-                  </li>
-                  <li key={tab.Id}>
-                    {tab.Income__c} 
-                </li>
-                </template>
-            </ul>
-          </template>
-        
-      <table class="slds-table slds-table_cell-buffer slds-table_header-hidden " style="width: 60%;" aria-label=" Example headless table of Opportunities with no borders ">
-        <thead class="slds-assistive-text">
-          <tr class="slds-line-height_reset">
-            <th class="" scope="col">
-              <div class="slds-truncate" title="Opportunity Name">Opportunity Name</div>
-            </th>
-            <th class="" scope="col">
-              <div class="slds-truncate" title="Account Name">Account Name</div>
-            </th>
-            <th class="" scope="col">
-              <div class="slds-truncate" title="Close Date">Close Date</div>
-            </th>  
-          </tr>
-        </thead>
-        <tbody>  
-          <tr class="slds-hint-parent">
-            <th data-label="Opportunity Name" scope="row">
-              <div class="slds-truncate" title="Cloudhub">
-                <a href="#" tabindex="-1">January</a>
-              </div>
-            </th>
-            <td data-label="Account Name">
-              <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
-            </td>
-            <td data-label="Close Date">
-              <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
-            </td>  
-          </tr>
-          <tr class="slds-hint-parent">
-            <th data-label="Opportunity Name" scope="row">
-              <div class="slds-truncate" title="Cloudhub + Anypoint Connectors">
-                <a href="#" tabindex="-1">February</a>
-              </div>
-            </th>
-            <td data-label="Account Name">
-              <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
-            </td>
-            <td data-label="Close Date">
-              <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
-            </td>    
-          </tr>
-          <tr class="slds-hint-parent">
-            <th data-label="Opportunity Name" scope="row">
-              <div class="slds-truncate" title="Cloudhub">
-                <a href="#" tabindex="-1">March</a>
-              </div>
-            </th>
-            <td data-label="Account Name">
-              <div class="slds-truncate" title="Cloudhub">Cloudhub</div>
-            </td>
-            <td data-label="Close Date">
-              <div class="slds-truncate" title="4/14/2015">4/14/2015</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    -->
-    
-    
-    
-     <!--
-      <template if:true={tabs}>
-        <lightning-datatable
-                                       key-field="Id"
-                                       data={tabs}
-                                       columns={columnsForTab}
-                                      
-                                       hide-checkbox-column>
-        </lightning-datatable>
-    </template>-->
-    </template>
+      <lightning-input type="date" style="width:240px" name="IncomeDate" label="IncomeDate"
+      placeholder="12 May 2016"   onchange={handleIncomeDateInput}
+       >
+      </lightning-input>
+      
+    </div>
+          <footer class="slds-modal__footer">
+              <button class="slds-button slds-button_neutral" onclick={closeIncomeModal} title="Cancel">Cancel</button>
+              <button class="slds-button slds-button_brand" onclick={handleSaveIncome} title="save">Save</button>
+          </footer>
+      </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+   </template>
+</template>

@@ -26,4 +26,35 @@ public with sharing class LoginController {
             throw new AuraHandledException(e.getMessage());
         }
       }
+      public static Contact getContact(String login, String password){
+        try {
+          List<Contact> con_List=[Select Id,Email,Password__c,Admin__c,Office__c from Contact where Email =: login
+          AND Password__c = :password Limit 1];
+          return con_List[0];
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+      }
+    
+    
+          @AuraEnabled(cacheable = true)
+      public static string getOffice(String login, String password){
+          try {
+            Contact con = getContact(login,password);
+            String office = con.Office__c;
+            return office;
+          } catch (Exception e) {
+              throw new AuraHandledException(e.getMessage());
+          }
+       }
+       @AuraEnabled(cacheable = true)
+      public static Id getId(String login, String password){
+          try {
+            Contact con = getContact(login,password);
+            Id keeperId = con.Id;
+            return keeperId;
+          } catch (Exception e) {
+              throw new AuraHandledException(e.getMessage());
+          }
+       }
     }

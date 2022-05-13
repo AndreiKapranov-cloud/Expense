@@ -32,7 +32,7 @@ public with sharing class EmployeeController {
 
             Date previousYear = Date.newInstance(year, firstMonth, firstDay) - 1;
             Date nextYear = Date.newInstance(year, lastMonth, lastDay) + 1;
-           List <MonthlyExpense__c> me = [select Balance__c,Keeper__r.Email,monthDate__c,Name from MonthlyExpense__c
+           List <MonthlyExpense__c> me = [select Balance__c,SpentAmount__c,Keeper__r.Email,monthDate__c,Name from MonthlyExpense__c
             where monthDate__c > :previousYear AND monthDate__c < :nextYear ];
             return me;
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public with sharing class EmployeeController {
             date lastDay = dToday.toStartOfMonth().addMonths(1).addDays(-1);  
          
 
-            while (currentDay < lastday) {
+            while (currentDay <= lastday) {
                 allDays.add(currentDay);
                 currentDay = currentDay.addDays(1);
             } 
@@ -114,42 +114,51 @@ public with sharing class EmployeeController {
           
             List<Table__c>listForTable = new List<Table__c>();
            
-            List<String>monthList = new List<String>{'January ','February ','March    ','April         ','May      ',
-            'June     ','July     ','August   ','September','October  ','November ','December '};
-            
+            List<String>monthList = new List<String>{'January       ','February      ','March         ','April         ','May           ',
+            'June          ','July          ','August        ','September     ','October       ','November      ','December      '};
+         
+            Map<String, Table__c> tabMap = new Map<String, Table__c>();
+           
                for(String month : monthList){
                 Table__c tab = new Table__c(Month__c = month,Year__c = Decimal.valueOf(year));
-                listForTable.add(tab);   
+                listForTable.add(tab); 
+                tabMap.put(tab.Month__c,tab);
             }
 
             Map<Integer,String> monthNames = new Map<Integer,String>{
-                1 => 'January  ',
-                2 => 'February ',
-                3 => 'March    ',
+                1 => 'January       ',
+                2 => 'February      ',
+                3 => 'March         ',
                 4 => 'April         ',
-                5 => 'May      ',
-                6 => 'June     ',
-                7 => 'July     ',
-                8 => 'August   ',
-                9 => 'September',
-                10 => 'October ',
-                11 => 'November',
-                12 => 'December'
+                5 => 'May           ',
+                6 => 'June          ',
+                7 => 'July          ',
+                8 => 'August        ',
+                9 => 'September     ',
+                10 => 'October       ',
+                11 => 'November      ',
+                12 => 'December      '
             };
+           
           for(MonthlyExpense__c mon : monExList){
-              for(Table__c tab : listForTable){
-  
-   if(tab.Month__c == monthNames.get(mon.MonthDate__c.month())){
-    tab.Amount__c =  mon.Balance__c;
-    tab.Income__c = mon.Balance__c;
-   }
-               /*  String monthName = lookupMonthName(mon.MonthDate__c);
-                  if(monthName == tab.Month__c){
-                    tab.Amount__c =  mon.Balance__c;
-                    tab.Income__c = mon.Balance__c;*/
-          
+         
 
-                }
+
+            Table__c tab = tabMap.get(monthNames.get(mon.MonthDate__c.month()));
+            tab.Amount__c =  mon.SpentAmount__c;
+            tab.Income__c =  mon.Balance__c + mon.SpentAmount__c;
+           
+        
+          
+          
+//             for(Table__c tab : listForTable){
+  
+//    if(tab.Month__c == monthNames.get(mon.MonthDate__c.month())){
+//     tab.Amount__c =  mon.SpentAmount__c;
+//     tab.Income__c =  mon.Balance__c + mon.SpentAmount__c;
+//    }
+              
+      //          }
              }
           List<Table__c> oldList = [select Id from Table__c];
           delete oldList;
@@ -186,7 +195,7 @@ public with sharing class EmployeeController {
     @AuraEnabled(cacheable=true)
     public static List<Date> populateDates(Integer year,Integer month){
         try {
-
+       
         List<Date>dateList = new List<Date>();
     
         Date monthBeginning = Date.newInstance(year, month, 1);
@@ -199,6 +208,28 @@ public with sharing class EmployeeController {
       
       return dateList;
         } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled(cacheable = true)
+    public static Integer getAmountTotal(){
+        try {
+    Integer amountTotal = 0;
+    List <MonthlyExpense__c> monExList = getMonthlyExpense(getYear());
+    
+    for(MonthlyExpense__c mE : monExList){
+    amountTotal = amountTotal + Integer.valueOf(mE.SpentAmount__c);
+  }
+    return amountTotal;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled(cacheable=true)
+    public static Integer getYearIncome(){
+        try {
+       return getAmountTotal() + getYearBalance();
+      } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
@@ -223,15 +254,28 @@ public static List<Accord__c> getAccords(Integer year,Integer month){
 
 
 
+@AuraEnabled(cacheable = true)
+public static Integer getYearBalance(){
+    try {
+        List <MonthlyExpense__c> monExList = getMonthlyExpense(getYear());
 
+        Integer yearBalance = 0;
+        for(MonthlyExpense__c mE : monExList){
+            yearBalance = yearBalance + Integer.valueOf(mE.Balance__c);
+        }
+        return yearBalance;
+    } catch (Exception e) {
+        throw new AuraHandledException(e.getMessage());
+    }
+}
 
 
 @AuraEnabled(cacheable=true)
 public static List<Accord__c> getAccords(){
     try {
-        Integer maxDaysInAMonth = 31;
+        
         List<Accord__c> acdList = [select CardDate__c,ExpenseCard__c,Name from Accord__c
-        Limit :maxDaysInAMonth];
+     ];
         return acdList;
     } catch (Exception e) {
         throw new AuraHandledException(e.getMessage());
@@ -249,8 +293,22 @@ public static List<Accord__c> getAccords(){
           acdList.add(acd);
       }
       List <ExpenseCard__c> exCards = [select CardDate__c,Description__c,Amount__c from ExpenseCard__c];
+      Map<Date, ExpenseCard__c> exCardsMap = new Map<Date, ExpenseCard__c>();
+     
+      for(ExpenseCard__c eC : exCards){
+       
+        exCardsMap.put(eC.CardDate__c,eC);
+    }
+
+
       for(Accord__c acd : acdList){
-          for(ExpenseCard__c exc : exCards){
+     
+       
+      
+      //  ExpenseCard__c card = exCardsMap.get(acd.CardDate__c);
+      //  acd.ExpenseCard__c = card.Id;
+
+        for(ExpenseCard__c exc : exCards){
               if(exc.CardDate__c == acd.CardDate__c){
                 acd.ExpenseCard__c = exc.Id;
               }
@@ -263,5 +321,38 @@ public static List<Accord__c> getAccords(){
        } catch (Exception e) {
            throw new AuraHandledException(e.getMessage());
        }
+    }
+    
+    @AuraEnabled
+    public static void saveExpenseCard(Integer Amount,Date cardDate,String Description,
+    Id cardKeeperId){
+        try {
+         ExpenseCard__c exCard = new ExpenseCard__c(Amount__c = Amount,CardDate__c =
+         cardDate,Description__c = Description,CardKeeper__c = cardKeeperId);
+         insert exCard; 
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled
+    public static void saveIncomeInput(Integer income,Date incomeDate,Id keeper){
+        try {
+         Date monthBeginning = incomeDate.toStartOfMonth();
+         Date monthEnd = date.newInstance(incomeDate.year(), incomeDate.month()+1,1)-1;
+         List<MonthlyExpense__c> mEList = [select Id,Balance__c from MonthlyExpense__c
+         where Monthdate__c  < :monthEnd AND Monthdate__c > :monthBeginning];
+         if(mEList.size() > 0){
+         mEList[0].Balance__c = mEList[0].Balance__c + income;
+         update mEList;
+         }else{
+            MonthlyExpense__c newMExpense = new  MonthlyExpense__c(
+                MonthDate__c = incomeDate,Keeper__c = keeper,Balance__c = income
+            );
+         insert newMExpense;
+         }
+         
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 }

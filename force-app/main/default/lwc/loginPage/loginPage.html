@@ -1,4 +1,5 @@
 <template>
+    
     <template if:false={selector}>
     <lightning-card>
     <div class="slds-align_absolute-center">
@@ -40,21 +41,16 @@
 
    
     <template if:true={isEmployee}>
-        <div class="slds-clearfix">
-            <div class="slds-float_left">
-              <p>Expenses office 3</p>
-            </div>
-            <div class="slds-float_right">
-                <p>Balance:$195</p>
-              </div>
-            <div class="slds-align_absolute-center">bla bla</div>
-            
-          </div>  
+       
+       
     
     <c-employee 
-     
+    office={office}
+    keeper-id={keeperId}
      ></c-employee>
+       
     </template>
 </lightning-card>
 </template>
+
 </template>

@@ -13,3 +13,8 @@
     pointer-events: none;
 
 }
+.modal{
+  --slds-c-modal-shadow:var(--slds-c-button-brand-color-background);
+  
+--slds-c-backdrop-color-background:var(--slds-c-button-brand-color-background-onclick);
+}

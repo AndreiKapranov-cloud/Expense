@@ -7,6 +7,13 @@ import getCardList from '@salesforce/apex/EmployeeController.getCardList';
 import getAccords from '@salesforce/apex/EmployeeController.getAccords';
 import getAccordWithExCards from '@salesforce/apex/EmployeeController.getAccordWithExCards';
 import getYear from '@salesforce/apex/EmployeeController.getYear';
+import getAmountTotal from '@salesforce/apex/EmployeeController.getAmountTotal';
+import getYearIncome from '@salesforce/apex/EmployeeController.getYearIncome';
+import getYearBalance from '@salesforce/apex/EmployeeController.getYearBalance';
+import getOffice from '@salesforce/apex/LoginController.getOffice';
+import saveExpenseCard from '@salesforce/apex/EmployeeController.saveExpenseCard';
+import saveIncomeInput from '@salesforce/apex/EmployeeController.saveIncomeInput';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 const columnsForAc = [
 {
     label: 'Description',
@@ -49,19 +56,30 @@ export default class Employee extends LightningElement {
 @track columnsForMonths = columnsForMonths;
 @track columns = columns; 
 
+@track year;  
+@track amountTotal;
+@track month; 
+@track yearIncome;   
+@track yearBalance; 
+office = 'Office 5';//@api office
+keeperId = '0035i000004hujfAAA';//@keeperId
 
 
-lol;
-year;  
-@track month;      
-@api login;
-@api password;
+dateInput;
+amountInput;
+descInput;
 cardDay;
+
+incomeDateInput;
+incomeInput;
+
 @track dateList = [];
 @track helpList = [];
 @track tabs = [];
 @track years = [];
 @track months = [];
+@track isModalOpen = false;
+@track isIncomeModalOpen = false;
 
 @wire(getTables)
 tables({ error, data }) {
@@ -82,6 +100,7 @@ year({ error, data }) {
         this.year = data;
         console.log(this.year);
         this.error = undefined;
+       
     } else if (error) {
         this.error = error;
         this.year = undefined; 
@@ -89,19 +108,57 @@ year({ error, data }) {
         console.error('e.message => ' + e.message );
     }
 }
-
-@wire(getAccords)
-accords({ error, data }) {
+@wire(getAmountTotal)
+total({ error, data }) {
     if (data) {
-        this.dateList = data;
+        this.amountTotal = data;
+        console.log(this.year);
         this.error = undefined;
     } else if (error) {
         this.error = error;
-        this.dateList = undefined; 
+        this.amountTotal = undefined; 
         console.log('Something went wrong:', error);
         console.error('e.message => ' + e.message );
     }
 }
+@wire(getYearIncome)
+income({ error, data }) {
+    if (data) {
+        this.yearIncome = data;
+        console.log(this.year);
+        this.error = undefined;
+    } else if (error) {
+        this.error = error;
+        this.yearIncome = undefined; 
+        console.log('Something went wrong:', error);
+        console.error('e.message => ' + e.message );
+    }
+}
+@wire(getYearBalance)
+balance({ error, data }) {
+    if (data) {
+        this.yearBalance = data;
+        console.log(this.year);
+        this.error = undefined;
+    } else if (error) {
+        this.error = error;
+        this.yearBalance = undefined; 
+        console.log('Something went wrong:', error);
+        console.error('e.message => ' + e.message );
+    }
+}
+// @wire(getAccords)
+// accords({ error, data }) {
+//     if (data) {
+//         this.dateList = data;
+//         this.error = undefined;
+//     } else if (error) {
+//         this.error = error;
+//         this.dateList = undefined; 
+//         console.log('Something went wrong:', error);
+//         console.error('e.message => ' + e.message );
+//     }
+// }
     @wire(getYearForTab)
     getYears({ error, data }) {
     if (data) {
@@ -120,8 +177,6 @@ accords({ error, data }) {
     
     this.year = this.years[itemIndex];
     
-    this.lol = this.year;
-
     console.log(this.year);
       try {
          this.helpList = await populateMonths({year:this.year}); 
@@ -164,4 +219,111 @@ accords({ error, data }) {
               console.error('e.message => ' + e.message );
           }
      }
+     handleNewExpenseClick(){
+       
+            this.isModalOpen = true;
+     }
+     closeModal(){
+       
+            this.isModalOpen = false;
+        
+     }
+     handleDescInput(event) {
+        let element = event.target.name;
+        let value = event.target.value;
+        if(element === 'Description') {
+            this.descInput = value;
+        }
+    }
+    handleDateInput(event) {
+        let element = event.target.name;
+        let value = event.target.value;
+        if(element === 'Date') {
+            this.dateInput = value;
+        }
+    }
+    handleAmountInput(event) {
+        let element = event.target.name;
+        let value = event.target.value;
+        if(element === 'Amount') {
+            this.amountInput = value;
+        }
+    }
+    handleSaveExpenseCard(event){
+        saveExpenseCard({Amount:this.amountInput,cardDate:this.dateInput,
+            Description:this.descInput,
+            cardKeeperId:this.keeperId})
+            .then(res => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Success',
+                        message: 'Expense Card Saved Successfully!!',
+                        variant: 'success'
+                    })
+                );
+              
+                return this.refresh();
+            })
+            .catch((error) => {
+                this.error = error;
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error',
+                        message: 'Expense Card Not Saved!!',
+                        variant: 'error'
+                    })
+                );
+            });
+    
+    }
+    handleIncomeClick(){
+       
+        this.isIncomeModalOpen = true;
+    }
+    closeIncomeModal(){
+       
+    this.isIncomeModalOpen = false;
+
+    }
+    handleIncomeInput(event) {
+        let element = event.target.name;
+        let value = event.target.value;
+        if(element === 'Income') {
+            this.incomeInput = value;
+        }
+    }
+    handleIncomeDateInput(event) {
+        let element = event.target.name;
+        let value = event.target.value;
+        if(element === 'IncomeDate') {
+            this.incomeDate = value;
+        }
+    }
+    handleSaveIncome(event) {
+        saveIncomeInput({income:this.incomeInput,incomeDate:this.incomeDate,
+           keeper:this.keeperId})
+           .then(res => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Income Saved Successfully!!',
+                    variant: 'success'
+                })
+            );
+          
+            return this.refresh();
+        })
+        .catch((error) => {
+            this.error = error;
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error',
+                    message: 'Income Not Saved!!',
+                    variant: 'error'
+                })
+            );
+        });
+
+    }
+    
 }
