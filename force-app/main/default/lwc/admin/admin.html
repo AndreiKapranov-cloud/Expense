@@ -1,31 +1,487 @@
-<template>
-    <lightning-card class="slds-card_boundary" icon-name="custom:custom13">
+
+    <template>
+        <table  class="slds-table  slds-table_bordered ">
+
+           
+            <thead>
+              
+                <tr >
+                   
+                    <td colspan="2" class="two-half">
+                   
+                        <div class="slds-truncate " title="First Name">Regional Expenses 2019</div>
+                   
+                   </td>
+                     <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                   
+                        <div class="slds-truncate " title="First Name" >{office.value}</div>
+                    
+                   </td>
+                </template>
+                   <!-- <td>
+                   
+                    <div class="slds-truncate " title="First Name">Office 1</div>
+                
+               </td>
+               <td>
+                   
+                <div class="slds-truncate " title="First Name">Office 1</div>
+            
+           </td> -->
+
+           <td  class="summ">
+                   
+            <div class="slds-truncate " title="Summ">
+               
+            </div>
         
-       <div class="slds-card__body slds-card__body_inner">
-            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-var-m-bottom_large"> 
-                <thead>
-                    <tr class="slds-text-title_caps">
-                        <template for:each={columns} for:item="column">
-                            <th key={column.apiName}><div class="slds-truncate">{column.label}</div></th>
+       </td>
+                       
+                </tr>
+            </thead>
+
+            <!--Body of the table-->
+            <tbody>
+                <!-- <template for:each={contactList} for:item="item" for:index="indexVar"> -->
+                
+                    <tr>
+                        <td rowspan="2" class="first-half month">
+                            <div>
+                                <p class="slds-text-heading_medium " ><b>Month</b></p>
+                            </div>  
+                        </td>
+                        <td class = "bal-now">
+                            <div >
+                            <p class="slds-text-color_error slds-text-heading_medium "><b>Balance now:</b></p>
+                            </div>
+                        </td>
+                        <template for:each={officePicklist} for:item="office" for:index="index">  
+                            <td key = {office.Id} class = "bal-now">
+                       
+                            <div>
+                            <b>{officeBalanceNow}</b>
+                            </div>
+                        </td>
                         </template>
+                        <!-- <td class = "bal-now">
+                            <div>
+                            <b>{officeBalanceNow}</b>
+                            </div>
+                        </td>
+                        <td class = "bal-now">
+                            <div>
+                             <b>{officeBalanceNow}</b>
+                            </div>
+                        </td> -->
+                        <td rowspan="2" class="summ">
+                            <div>
+                                <p class="slds-text-color_error slds-text-heading_medium " ><b>Sum:</b></p>
+                            </div>  
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <template for:each={rows} for:item="row" for:index="index">
-                        <tr class="inputRows" key={row.uuid}>
-                            <template for:each={columns} for:item="column">
-                                <td key={column.apiName}>
-                                  <c-input-pick-list-cell class="fields" field-type={column.fieldType} record={row} field={column.apiName} object-name={column.objectName}></c-input-pick-list-cell>
-                                  <c-input-table-cell class="fields" field-type={column.fieldType} record={row} field={column.apiName} ></c-input-table-cell> 
-                                </td>
-                            </template>
-                            <td>
-                                <lightning-button-icon icon-name="utility:delete" value={index} variant="bare" onclick={removeRow}></lightning-button-icon>
-                            </td>
-                        </tr>
+
+                    <tr  class = "mon-av">
+                        <td >
+                            <div >
+                            <p class="slds-text-color_error slds-text-heading_small "><b>Monthly average</b></p>
+                            </div>
+                        </td>
+                        <template for:each={officePicklist} for:item="office" for:index="index">  
+                            <td key = {office.Id} >
+   
+                        <div >
+                            {monthlyAverage}
+                        </div>
+                    </td>
                     </template>
-                </tbody>
-            </table>
-        </div>
-    </lightning-card>
+                    <!-- <td >
+                        <div >
+                            {monthlyAverage}
+                        </div>
+                    </td>
+                    <td >
+                        <div>
+                            {monthlyAverage}
+                        </div>
+                    </td> -->
+                </tr>
+           <tr>
+            <td >
+                <div>
+                    <p>January</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+
+             <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+         
+             <td  class="summ" >
+            
+                <div>
+                    <p>{january}</p>
+                </div>
+            </td>
+            
+           </tr>
+         
+         
+         
+           <tr>
+            <td >
+                <div>
+                    <p>February</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{february}</p>
+                </div>
+            </td>
+           </tr>
+          
+          
+          
+           <tr>
+            <td >
+                <div>
+                    <p>March</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{march}</p>
+                </div>
+            </td>
+           </tr>
+        
+        
+        
+        
+        
+           <tr>
+            <td >
+                <div>
+                    <p>April</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{april}</p>
+                </div>
+            </td>
+           </tr>
+        
+        
+        
+        
+           <tr>
+            <td >
+                <div>
+                    <p>May</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{may}</p>
+                </div>
+            </td>
+           </tr>
+      
+      
+      
+      
+      
+           <tr>
+            <td >
+                <div>
+                    <p>June</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{june}</p>
+                </div>
+            </td>
+           </tr>
+       
+       
+       
+       
+       
+           <tr>
+            <td >
+                <div>
+                    <p>July</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{july}</p>
+                </div>
+            </td>
+           </tr>
+          
+          
+          
+          
+          
+           <tr>
+            <td >
+                <div>
+                    <p>August</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{august}</p>
+                </div>
+            </td>
+           </tr>
+        
+        
+        
+        
+           <tr>
+            <td >
+                <div>
+                    <p>September</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{september}</p>
+                </div>
+            </td>
+           </tr>
+       
+       
+       
+       
+       
+       
+           <tr>
+            <td >
+                <div>
+                    <p>October</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{october}</p>
+                </div>
+            </td>
+           </tr>
+           <tr>
+            <td >
+                <div>
+                    <p>November</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{november}</p>
+                </div>
+            </td>
+           </tr>
+      
+      
+      
+      
+      
+      
+           <tr>
+            <td >
+                <div>
+                    <p>December</p>
+                </div>
+            </td>
+            <td >
+                <div>
+                    <p></p>
+                </div>
+            </td>
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >
+                <div>
+                    <p>777</p>
+                </div>
+            </td>
+            </template>
+            <td  class="summ" >
+            
+                <div>
+                    <p>{december}</p>
+                </div>
+            </td>
+           </tr>
+                <!-- </template> -->
+            </tbody>
+        </table>
+   
+
+        
+           
+           
+              
+           
+         
+    <template if:true={officeMonthlyExpense}>
+        <lightning-card  >
+         
+                <lightning-datatable class="slds-table  slds-table_cell-buffer slds-table_striped"
+                                     key-field="Id"
+                                     data={officeMonthlyExpense}
+                                     columns={columns}
+                                    
+                                   
+                                    
+                                     hide-table-header="" 
+                                     hide-checkbox-column>
+        </lightning-datatable>
+      
+    </lightning-card  >
   </template>
+  <button class="slds-button slds-button_neutral" onclick={handleYearClick} data-index={index}>Boom</button>
+  
+</template>

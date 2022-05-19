@@ -292,7 +292,11 @@ public static List<Accord__c> getAccords(){
           Accord__c acd = new Accord__c(CardDate__c = dt);
           acdList.add(acd);
       }
-      List <ExpenseCard__c> exCards = [select CardDate__c,Description__c,Amount__c from ExpenseCard__c];
+      Date beginningOfMonth = dates[0];
+      Date endOfMonth = dates.get(dates.size() - 1);
+      
+      List <ExpenseCard__c> exCards = [select CardDate__c,Description__c,Amount__c from ExpenseCard__c
+      where CardDate__c >= :beginningOfMonth AND CardDate__c<= :endOfMonth ];
       Map<Date, ExpenseCard__c> exCardsMap = new Map<Date, ExpenseCard__c>();
      
       for(ExpenseCard__c eC : exCards){

@@ -13,8 +13,8 @@ export default class LoginPage extends LightningElement {
  password;
  error;
  result;
- isAdmin = false;
- isEmployee = true;
+ isAdmin = true;
+ isEmployee = false;
  selector = true;
  
 
