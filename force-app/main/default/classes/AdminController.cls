@@ -1,14 +1,14 @@
 
 public with sharing class AdminController {
     @AuraEnabled(cacheable = true)
-    public static List <MonthlyExpense__c> getOfficeMonthlyExpense(Integer year,String office){
+    public static List <MonthlyExpense__c> getOfficeMonthlyExpenses(Integer year,String office){
         try {
-            List<MonthlyExpense__c> officeMonExList = new List<MonthlyExpense__c>();
+            List<MonthlyExpense__c>officeMonExList = new List<MonthlyExpense__c>();
             Date yearBeginning = Date.newInstance(year, 1, 1);
             Date yearEnd = Date.newInstance( year + 1, 1, 1) - 1;
             List<Contact> keepers = [select 
             (select SpentAmount__c,MonthDate__c,Balance__c from MonthlyExpenses__r WHERE
-            MonthDate__c > :yearBeginning AND MonthDate__c < :yearEnd)
+            MonthDate__c >= :yearBeginning AND MonthDate__c <= :yearEnd)
             from Contact WHERE Office__c = :office];  
 
            
@@ -21,7 +21,28 @@ public with sharing class AdminController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-   
+   @AuraEnabled(cacheable = true)
+   public static Decimal getOfficeMonthlySpentAmount(Integer year,Integer month,String office){
+       try {
+        Date monthBeginning = Date.newInstance(year, month, 1);
+        Date monthEnd = Date.newInstance( year, month + 1, 1) - 1;
+      
+        Decimal monthlySpentAmount = 0;
+        List<MonthlyExpense__c>officeMonExList = new List<MonthlyExpense__c>();
+        List<Contact> keepers = [select 
+        (select SpentAmount__c,MonthDate__c,Balance__c from MonthlyExpenses__r WHERE
+        MonthDate__c >= :monthBeginning AND MonthDate__c <= :monthEnd)
+        from Contact WHERE Office__c = :office];
+        for(Contact con : keepers){
+            officeMonExList.addAll(con.MonthlyExpenses__r); 
+            }
+        for(MonthlyExpense__c monEx : officeMonExList)
+        monthlySpentAmount += monex.SpentAmount__c;
+        return monthlySpentAmount;
+       } catch (Exception e) {
+           throw new AuraHandledException(e.getMessage());
+       }
+   }
     @AuraEnabled(cacheable = true)
     public static List <MonthlyExpense__c> getOfficeMonthlyExpenseForList(Integer year,List<String> offices){
         try {
@@ -45,7 +66,7 @@ public with sharing class AdminController {
     @AuraEnabled
     public static List<AdminTable__c>  populateMonths(Integer year,String office){
         try {
-            List <MonthlyExpense__c> monExList =  getOfficeMonthlyExpense(year,office);
+            List <MonthlyExpense__c> monExList =  getOfficeMonthlyExpenses(year,office);
           
             List<AdminTable__c> adTabList = new List <AdminTable__c>();
             List<String>monthList = new List<String>{'January       ','February      ','March         ','April         ','May           ',
@@ -93,14 +114,12 @@ public with sharing class AdminController {
       @AuraEnabled(cacheable = true)
       public static List<Decimal> getSumList(Integer year){
           try {
-            Date yearBeginning = Date.newInstance(year, 1, 1);
-            Date yearEnd = Date.newInstance(year + 1, 1, 1) - 1;
             List<Decimal> sumList = new List<Decimal>{0,0,0,0,0,0,0,0,0,0,0,0};
-            List <MonthlyExpense__c> monExList = [select SpentAmount__c,MonthDate__c from 
-            MonthlyExpense__c where MonthDate__c >= :yearBeginning AND MonthDate__c <= :yearEnd];
+           
+            List <MonthlyExpense__c> monExList = getYearMonthlyExpense(year);
            
             for(MonthlyExpense__c mon : monExList){
-                sumList[mon.MonthDate__c.month()] += mon.SpentAmount__c;
+                sumList[mon.MonthDate__c.month()-1] += mon.SpentAmount__c;
             }
             return sumList;
             } catch (Exception e) {
@@ -110,8 +129,8 @@ public with sharing class AdminController {
       @AuraEnabled(cacheable = true)
       public static Decimal getOfficeBalanceNow(String office){
           try {
-            List <MonthlyExpense__c> monExList =  getOfficeMonthlyExpense((Date.today()).year(),office);
-            List <MonthlyExpense__c> previousYearMonExList = getOfficeMonthlyExpense((Date.today()).year()-1,office);
+            List <MonthlyExpense__c> monExList =  getOfficeMonthlyExpenses((Date.today()).year(),office);
+            List <MonthlyExpense__c> previousYearMonExList = getOfficeMonthlyExpenses((Date.today()).year()-1,office);
 
             Decimal yearBalance = 0;
             for(MonthlyExpense__c pEME : previousYearMonExList){
@@ -133,7 +152,7 @@ public with sharing class AdminController {
           try {
             Decimal officeMonthlyAverage = 0; 
             Integer counter = 0; 
-            List <MonthlyExpense__c> monExList =  getOfficeMonthlyExpense(year,office);
+            List <MonthlyExpense__c> monExList =  getOfficeMonthlyExpenses(year,office);
             for(MonthlyExpense__c mon : monExList){
                
                 if(mon.SpentAmount__c > 0){
@@ -141,14 +160,53 @@ public with sharing class AdminController {
                     officeMonthlyAverage += mon.SpentAmount__c;
                }
             }
+            if(counter > 0){
             officeMonthlyAverage = officeMonthlyAverage/counter;
+        }
             return officeMonthlyAverage;
           } catch (Exception e) {
               throw new AuraHandledException(e.getMessage());
           }
       }
-    
-    
+    @AuraEnabled(cacheAble = true)
+    public static Decimal getYearSum(Integer year){
+        try {
+            Decimal yearSum = 0; 
+            
+            List <MonthlyExpense__c> monExList = getYearMonthlyExpense(year);
+            for(MonthlyExpense__c mE : monExList){
+            yearSum += mE.SpentAmount__c;
+            }
+            return yearSum;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+       @AuraEnabled(cacheable = true)
+       public static List <MonthlyExpense__c> getYearMonthlyExpense(Integer year){
+           try {
+            Date yearBeginning = Date.newInstance(year, 1, 1);
+            Date yearEnd = Date.newInstance(year + 1, 1, 1) - 1;
+            List <MonthlyExpense__c> monExList = [select SpentAmount__c,MonthDate__c from 
+            MonthlyExpense__c where MonthDate__c >= :yearBeginning AND MonthDate__c <= :yearEnd];
+            return monExList;
+        } catch (Exception e) {
+               throw new AuraHandledException(e.getMessage());
+           }
+       }
+    @AuraEnabled(cacheable = true)
+    public static Decimal getOfficeYearExpenseSum(Integer year,String office){
+        try {
+            Decimal officeYearSum = 0;
+            List <MonthlyExpense__c> monExList = getOfficeMonthlyExpenses(year,office);
+            for(MonthlyExpense__c mE : monExList){
+                officeYearSum += mE.SpentAmount__c;
+            }
+            return officeYearSum;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     }
     
     

@@ -1,11 +1,12 @@
-import { LightningElement, wire,track} from 'lwc';
-import getOfficeMonthlyExpense from '@salesforce/apex/AdminController.getOfficeMonthlyExpense';
+import { LightningElement, wire,track,api} from 'lwc';
+import getOfficeMonthlyExpense from '@salesforce/apex/AdminController.getOfficeMonthlyExpenses';
 import populateMonths from '@salesforce/apex/AdminController.populateMonths';
 import getOfficeMonthlyExpenseForList from '@salesforce/apex/AdminController.getOfficeMonthlyExpenseForList';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import getOfficeBalanceNow from '@salesforce/apex/AdminController.getOfficeBalanceNow';
 import getMonthlyAverage from '@salesforce/apex/AdminController.getMonthlyAverage';
 import getSumList from '@salesforce/apex/AdminController.getSumList';
+import getYearSum from '@salesforce/apex/AdminController.getYearSum';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 import CONTACT_OBJECT from '@salesforce/schema/Contact';
@@ -90,6 +91,8 @@ export default class Admin extends LightningElement {
     @track officeBalanceNow;
     @track monthlyAverage;
     @track sumList = [];
+    @track yearExpenseSum;
+  
     @track january;
     @track february;
     @track march;
@@ -106,7 +109,8 @@ export default class Admin extends LightningElement {
     helper = ['Office 1','Office 2','Office 3','Office 4' ];
     officePicklist = [];
     contactMetadata = [];
-    office;
+    office = 'Office 1';
+    @api year = 2023;//@api year;
     llll = [];
   
     @wire(getObjectInfo, { objectApiName: CONTACT_OBJECT })
@@ -218,7 +222,7 @@ if (data) {
     console.error('e.message => ' + e.message );
   }
  }
- @wire(getMonthlyAverage,{year:2023,office:'$office'})
+@wire(getMonthlyAverage,{year:2023,office:'$office'})
 getMonAv({ error, data }) {
 if (data) {
     this.monthlyAverage = data;
@@ -237,19 +241,19 @@ if (data) {
  
 
 
-  @wire(getOfficeMonthlyExpense,{year:2022,office:'$office'})
-  getOfMonEx({ error, data }) {
-    if (data) {
-        this.officeMonthlyExpense = data;
-        console.log(this.officeMonthlyExpense);
-        this.error = undefined;
-    } else if (error) {
-        this.error = error;
-        this.officeMonthlyExpense = undefined; 
-        console.log('Something went wrong:', error);
-        console.error('e.message => ' + e.message );
-      }
-     }
+//   @wire(getOfficeMonthlyExpenses,{year:2022,office:'$office'})
+//   getOfMonEx({ error, data }) {
+//     if (data) {
+//         this.officeMonthlyExpense = data;
+//         console.log(this.officeMonthlyExpense);
+//         this.error = undefined;
+//     } else if (error) {
+//         this.error = error;
+//         this.officeMonthlyExpense = undefined; 
+//         console.log('Something went wrong:', error);
+//         console.error('e.message => ' + e.message );
+//       }
+//      }
      @wire(getSumList,{year:2023})
      getSumList({ error, data }) {
        if (data) {
@@ -276,21 +280,18 @@ if (data) {
          }
         }
  
- 
-//   pop({result}) {
-//  if (result.data) {
-//    // let oofficeMonthlyExpense = data; 
-//    // this.officeMonthlyExpense = [...oofficeMonthlyExpense];
-//    let oofficeMonthlyExpense = result.data.values;
-//    this.officeMonthlyExpense = [...oofficeMonthlyExpense];
-    
-//      console.log(this.officeMonthlyExpense);
-//     this.error = undefined;
-// } else if (error) {
-//     this.error = error;
-//     this.officeMonthlyExpense = undefined; 
-//     console.log('Something went wrong:', error);
-//     console.error('e.message => ' + e.message );
-//   }
-//  }
+        @wire(getYearSum,{year:2023})
+        getYME({ error, data }) {
+        if (data) {
+            this.yearExpenseSum = data;
+            console.log(this.officeBalanceNow);
+            this.error = undefined;
+        } else if (error) {
+            this.error = error;
+            this.yearExpenseSum = undefined; 
+            console.log('Something went wrong:', error);
+            console.error('e.message => ' + e.message );
+          }
+         }
+
 }

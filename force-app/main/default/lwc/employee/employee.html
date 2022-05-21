@@ -30,8 +30,21 @@
         <li class="slds-nav-vertical__item" key={tab.Id} onclick={handleMonthClick} data-index={index}>
           <a href="#" class="slds-nav-vertical__action" aria-current="true" aria-selected = "true">
           
-            {tab.Month__c}<span class="slds-badge" if:true={tab.Amount__c}> {tab.Amount__c}</span>
+          
+            
+          <template if:true={tab.Amount__c}>
+            
+            {tab.Month__c}<span class="slds-badge"> {tab.Amount__c}</span>
                         <span class="slds-badge" if:true={tab.Income__c}>{tab.Income__c}</span>
+         
+          </template>
+          <template if:false={tab.Amount__c}>
+           
+            
+            {tab.Month__c}                <span class="slds-badge" if:true={tab.Income__c}>{tab.Income__c}</span>
+           
+          </template>
+          
           </a>
         </li>
        </template>

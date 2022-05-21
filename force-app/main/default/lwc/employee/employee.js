@@ -62,7 +62,7 @@ export default class Employee extends LightningElement {
 @track yearIncome;   
 @track yearBalance; 
 office = 'Office 5';//@api office
-keeperId = '0035i000004hujfAAA';//@keeperId
+keeperId = '0035i000004hujfAAA';//@api keeperId
 
 
 dateInput;
@@ -250,8 +250,8 @@ balance({ error, data }) {
         }
     }
     handleSaveExpenseCard(event){
-        saveExpenseCard({Amount:this.amountInput,cardDate:this.dateInput,
-            Description:this.descInput,
+        saveExpenseCard({amount:this.amountInput,cardDate:this.dateInput,
+            description:this.descInput,
             cardKeeperId:this.keeperId})
             .then(res => {
                 this.dispatchEvent(

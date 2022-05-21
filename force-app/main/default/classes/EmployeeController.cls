@@ -41,70 +41,7 @@ public with sharing class EmployeeController {
     }
     
 
-    @AuraEnabled(cacheable=true)
-    public static  List<Date> getDates(){
-        try {
-            List<Date> allDays = new list<Date>(); 
-            Date dToday = system.today();
-
-            date currentDay  = dToday.toStartOfMonth(); 
-             
-            date lastDay = dToday.toStartOfMonth().addMonths(1).addDays(-1);  
-         
-
-            while (currentDay <= lastday) {
-                allDays.add(currentDay);
-                currentDay = currentDay.addDays(1);
-            } 
-            return allDays; 
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-    private static String lookupMonthName(Date d) {
-        Map<Integer,String> monthNames = new Map<Integer,String>{
-            1 => 'January',
-            2 => 'February',
-            3 => 'March',
-            4 => 'April',
-            5 => 'May',
-            6 => 'June',
-            7 => 'July',
-            8 => 'August',
-            9 => 'September',
-            10 => 'October',
-            11 => 'November',
-            12 => 'December'
-        };
-        try {
-            return monthNames.get(d.month());
-        } catch(NullPointerException e) {
-            return NULL;
-        }
-    }
-    @AuraEnabled
-    public static List<Table__c> getListForTab(){
-        List<string>months = new List<String>();
-        try {
-        Integer quantityOfMonthsInYear = 12;
-        Integer randomYear = 2030;
-        Integer randomDay = 1;
-        for(Integer i = 1;i <= quantityOfMonthsInYear;i ++){
-        date myDate = date.newInstance(randomYear, i, randomDay); 
-        String monthName = lookupMonthName(myDate);
-        months.add(monthName);
-            }    
-        List<Table__c>listForTable = new List<Table__c>();
-        for(String mo : months){
-        Table__c tab = new Table__c(Month__c = mo);  
-        listForTable.add(tab);
-        }
-        upsert listForTable;
-               return listForTable;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
+  
     @AuraEnabled
     public static List<Table__c>  populateMonths(Integer year){
         try {
@@ -142,23 +79,10 @@ public with sharing class EmployeeController {
            
           for(MonthlyExpense__c mon : monExList){
          
-
-
             Table__c tab = tabMap.get(monthNames.get(mon.MonthDate__c.month()));
             tab.Amount__c =  mon.SpentAmount__c;
             tab.Income__c =  mon.Balance__c + mon.SpentAmount__c;
-           
-        
-          
-          
-//             for(Table__c tab : listForTable){
-  
-//    if(tab.Month__c == monthNames.get(mon.MonthDate__c.month())){
-//     tab.Amount__c =  mon.SpentAmount__c;
-//     tab.Income__c =  mon.Balance__c + mon.SpentAmount__c;
-//    }
-              
-      //          }
+
              }
           List<Table__c> oldList = [select Id from Table__c];
           delete oldList;
@@ -328,11 +252,11 @@ public static List<Accord__c> getAccords(){
     }
     
     @AuraEnabled
-    public static void saveExpenseCard(Integer Amount,Date cardDate,String Description,
+    public static void saveExpenseCard(Integer amount,Date cardDate,String description,
     Id cardKeeperId){
         try {
-         ExpenseCard__c exCard = new ExpenseCard__c(Amount__c = Amount,CardDate__c =
-         cardDate,Description__c = Description,CardKeeper__c = cardKeeperId);
+         ExpenseCard__c exCard = new ExpenseCard__c(Amount__c = amount,CardDate__c =
+         cardDate,Description__c = description,CardKeeper__c = cardKeeperId);
          insert exCard; 
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
