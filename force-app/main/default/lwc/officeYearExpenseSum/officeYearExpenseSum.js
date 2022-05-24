@@ -1,14 +1,14 @@
-import { LightningElement,api,wire } from 'lwc';
+import { LightningElement,api,wire,track } from 'lwc';
 import getOfficeYearExpenseSum from '@salesforce/apex/AdminController.getOfficeYearExpenseSum';
 export default class OfficeYearExpenseSum extends LightningElement {
     @api office;
     @api year;
-    officeYearExpenseSum = 0;
+    @track officeYearExpenseSum = 0;
 
-    @wire(getOfficeYearExpenseSum,{year:2023,office:'$office'})
+    @wire(getOfficeYearExpenseSum,{year:'$year',office:'$office'})
     getOYE({ error, data }) {
     if (data) {
-        this.officeYearExpenseSum = data;
+        this.officeYearExpenseSum = data[0];
         this.error = undefined;
     } else if (error) {
         this.error = error;

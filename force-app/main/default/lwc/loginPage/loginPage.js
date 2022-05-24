@@ -9,12 +9,12 @@ export default class LoginPage extends LightningElement {
  keeperId;
  expPict = EXPENSES;
  office;
- login;
- password;
+ login = 'gggggg@mail.ru';
+ password = 'fff';
  error;
  result;
- isAdmin = true;
- isEmployee = false;
+ isAdmin = false;
+ isEmployee = true;
  selector = true;
  
 

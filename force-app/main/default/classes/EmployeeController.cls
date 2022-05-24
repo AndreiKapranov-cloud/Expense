@@ -23,7 +23,7 @@ public with sharing class EmployeeController {
         }
     }
     @AuraEnabled(cacheable=true)
-    public static List<MonthlyExpense__c> getMonthlyExpense(Integer year){
+    public static List<MonthlyExpense__c> getMonthlyExpense(Integer year,String login,String password){
         try {
             Integer firstMonth = 1;
             Integer firstDay = 1;
@@ -32,8 +32,8 @@ public with sharing class EmployeeController {
 
             Date previousYear = Date.newInstance(year, firstMonth, firstDay) - 1;
             Date nextYear = Date.newInstance(year, lastMonth, lastDay) + 1;
-           List <MonthlyExpense__c> me = [select Balance__c,SpentAmount__c,Keeper__r.Email,monthDate__c,Name from MonthlyExpense__c
-            where monthDate__c > :previousYear AND monthDate__c < :nextYear ];
+            List <MonthlyExpense__c> me = [select Balance__c,SpentAmount__c,Keeper__r.Email,monthDate__c,Name from MonthlyExpense__c
+            where monthDate__c > :previousYear AND monthDate__c < :nextYear AND Keeper__r.Email = :login AND Keeper__r.Password__c =:password];
             return me;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -43,9 +43,9 @@ public with sharing class EmployeeController {
 
   
     @AuraEnabled
-    public static List<Table__c>  populateMonths(Integer year){
+    public static List<Table__c>  populateMonths(Integer year,String login,String password){
         try {
-            List <MonthlyExpense__c> monExList = getMonthlyExpense(year);
+            List <MonthlyExpense__c> monExList = getMonthlyExpense(year,login,password);
             
           
           
@@ -136,10 +136,10 @@ public with sharing class EmployeeController {
         }
     }
     @AuraEnabled(cacheable = true)
-    public static Integer getAmountTotal(){
+    public static Integer getAmountTotal(String login,String password){
         try {
     Integer amountTotal = 0;
-    List <MonthlyExpense__c> monExList = getMonthlyExpense(getYear());
+    List <MonthlyExpense__c> monExList = getMonthlyExpense(getYear(),login,password);
     
     for(MonthlyExpense__c mE : monExList){
     amountTotal = amountTotal + Integer.valueOf(mE.SpentAmount__c);
@@ -150,9 +150,9 @@ public with sharing class EmployeeController {
         }
     }
     @AuraEnabled(cacheable=true)
-    public static Integer getYearIncome(){
+    public static Integer getYearIncome(String login,String password){
         try {
-       return getAmountTotal() + getYearBalance();
+       return getAmountTotal(login,password) + getYearBalance(login,password);
       } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -179,9 +179,9 @@ public static List<Accord__c> getAccords(Integer year,Integer month){
 
 
 @AuraEnabled(cacheable = true)
-public static Integer getYearBalance(){
+public static Integer getYearBalance(String login,String password){
     try {
-        List <MonthlyExpense__c> monExList = getMonthlyExpense(getYear());
+        List <MonthlyExpense__c> monExList = getMonthlyExpense(getYear(),login,password);
 
         Integer yearBalance = 0;
         for(MonthlyExpense__c mE : monExList){

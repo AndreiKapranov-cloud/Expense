@@ -64,6 +64,8 @@ export default class Employee extends LightningElement {
 office = 'Office 5';//@api office
 keeperId = '0035i000004hujfAAA';//@api keeperId
 
+@api login = 'gggggg@mail.ru';
+@api password = 'fff';
 
 dateInput;
 amountInput;
@@ -108,7 +110,7 @@ year({ error, data }) {
         console.error('e.message => ' + e.message );
     }
 }
-@wire(getAmountTotal)
+@wire(getAmountTotal,{login:'$login',password:'$password'})
 total({ error, data }) {
     if (data) {
         this.amountTotal = data;
@@ -121,7 +123,7 @@ total({ error, data }) {
         console.error('e.message => ' + e.message );
     }
 }
-@wire(getYearIncome)
+@wire(getYearIncome,{login:'$login',password:'$password'})
 income({ error, data }) {
     if (data) {
         this.yearIncome = data;
@@ -134,7 +136,7 @@ income({ error, data }) {
         console.error('e.message => ' + e.message );
     }
 }
-@wire(getYearBalance)
+@wire(getYearBalance,{login:'$login',password:'$password'})
 balance({ error, data }) {
     if (data) {
         this.yearBalance = data;
@@ -179,7 +181,7 @@ balance({ error, data }) {
     
     console.log(this.year);
       try {
-         this.helpList = await populateMonths({year:this.year}); 
+         this.helpList = await populateMonths({year:this.year,login:this.login,password:this.password}); 
          let delayInMilliseconds = 2000; 
 
          setTimeout(function() {

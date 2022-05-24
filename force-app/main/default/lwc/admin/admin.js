@@ -8,90 +8,24 @@ import getMonthlyAverage from '@salesforce/apex/AdminController.getMonthlyAverag
 import getSumList from '@salesforce/apex/AdminController.getSumList';
 import getYearSum from '@salesforce/apex/AdminController.getYearSum';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import getYearForTab from '@salesforce/apex/EmployeeController.getYearForTab';
+import getOfficeMonthlySpentAmount from '@salesforce/apex/AdminController.getOfficeMonthlySpentAmount';
 
 import CONTACT_OBJECT from '@salesforce/schema/Contact';
 
 
 import OFFICE_FIELD from '@salesforce/schema/Contact.Office__c';
-const picColumns = [
-    {
-        
-                label: 'Month',
-                fieldName: 'MonthlyAverage__c',
-                type: 'string',
-                editable: false,
-                
-            
-    }, {
-        
-        label: 'Month',
-        fieldName: 'BalanceNow__c',
-        type: 'string',
-        editable: false,
-        
-    
-}, {
-        
-    label: 'Month',
-    fieldName: 'MonthName__c',
-    type: 'string',
-    editable: false,
-    
 
-}, {
-        
-    label: 'Month',
-    fieldName: 'MonthName__c',
-    type: 'string',
-    editable: false,
-    
-
-}
-];
-
-const columns=[
-    // { "label" : "Name", "apiName" : "Name" ,"fieldType":"text","objectName":"Account"}, 
-    // { "label" : "Phone", "apiName" : "Phone" ,"fieldType":"text","type":"phone","objectName":"Account"},
-    // { "label" : "Account Source", "apiName" : "AccountSource","fieldType":"picklist","objectName":"Account" }
-
-    // {
-    //     label: 'Month',
-    //     fieldName: 'MonthName__c',
-    //     type: 'string',
-    //     editable: false,
-    //     cellAttributes: { class: { fieldName: 'MonthlyAmount__c'}}
-    // },
-    // {
-    //     label: 'Office 1',
-    //     fieldName: 'MonthlyAmount__c',
-    //     type: 'currency',
-    //     editable: false,
-     
-    // },
-    // {
-    //     label: 'Office 2',
-    //     fieldName: 'MonthlyAmount__c',
-    //     type: 'currency',
-    //     editable: false,
-     
-    // }, 
-    {
-        label: 'Office 3',
-        fieldName: 'SpentAmount__c',
-        type: 'currency',
-        editable: false,
-       
-    }
-];
 export default class Admin extends LightningElement {
-    @track columns = columns; 
-    @track picColumns = picColumns;
+     
+   
     @track officeMonthlyExpense = [];
     @track ddd;
     @track officeBalanceNow;
     @track monthlyAverage;
     @track sumList = [];
     @track yearExpenseSum;
+    @track officeMonthlySpentAmount = [];
   
     @track january;
     @track february;
@@ -106,11 +40,44 @@ export default class Admin extends LightningElement {
     @track november;
     @track december;
     
+    @api maneTable = false;
+    modalOfficeName;
+    label = 'Regional Expenses ' + this.year;
+    
+
+    years = [];
+    year = this.years[2];
+    get options() {
+        return [
+            { label: 'Regional Expenses ' + this.years[0], value: this.years[0] },
+            { label: 'Regional Expenses ' + this.years[1], value: this.years[1] },
+            { label: 'Regional Expenses ' + this.years[2], value: this.years[2] },
+            { label: 'Regional Expenses ' + this.years[3], value: this.years[3] }
+        ];
+    }
+
+    handleChange(event) {
+        this.year = event.detail.value;
+        this.label = 'Regional Expenses ' + this.year;
+    }
+    @wire(getYearForTab)
+    getYears({ error, data }) {
+    if (data) {
+        this.years = data;
+        this.error = undefined;
+    } else if (error) {
+        this.error = error;
+        this.years = undefined; 
+        console.log('Something went wrong:', error);
+        console.error('e.message => ' + e.message );
+    }
+  }
+   
     helper = ['Office 1','Office 2','Office 3','Office 4' ];
     officePicklist = [];
     contactMetadata = [];
-    office = 'Office 1';
-    @api year = 2023;//@api year;
+    office;
+   // @api year = 2023;//@api year;
     llll = [];
   
     @wire(getObjectInfo, { objectApiName: CONTACT_OBJECT })
@@ -124,7 +91,7 @@ export default class Admin extends LightningElement {
             fieldApiName: OFFICE_FIELD
         }
     )
-getPickList(result){
+  getPickList(result){
     if(result.data){
        let oofficePicklist = result.data.values;
        this.officePicklist = [...oofficePicklist];
@@ -136,79 +103,6 @@ getPickList(result){
     
 }
 
-    async handleYearClick(event){
-       
-          try {
-
-           
-            let oofficeMonthlyExpense = await populateMonths({year:2022,office:'Office 1'}); 
-           
-            
-            
-             console.log(this.officeMonthlyExpense);
-            } catch (error) {
-              console.error(error);
-              this.error = error;
-              console.error('e.message => ' + e.message );
-          }
-        }
-  
-  
-//         @wire(getOfficeMonthlyExpenseForList,{year:2022,office: '$officePicklist'})
-//     getME({ error, data }) {
-//     if (data) {
-//         this.officeMonthlyExpense = data;
-//         console.log(this.officeMonthlyExpense);
-//         this.error = undefined;
-//     } else if (error) {
-//         this.error = error;
-//         this.officeMonthlyExpense = undefined; 
-//         console.log('Something went wrong:', error);
-//         console.error('e.message => ' + e.message );
-//     }
-//   }
-
-
-
-
-  
-
-
-
-
-// @wire(getOfficeMonthlyExpense,{year:2022,office:'$office'})
-//      getME({ error, data }) {
-//         if (data) {
-//           this.llll = data;
-//             let ddd = JSON.parse(JSON.stringify(this.llll));
-//                 this.officeMonthlyExpense = JSON.parse(JSON.stringify(this.llll));
-//              console.log(this.officeMonthlyExpense);
-//             this.error = undefined;
-//     } else if (error) {
-//         this.error = error;
-//         this.officeMonthlyExpense = undefined; 
-//         console.log('Something went wrong:', error);
-//         console.error('e.message => ' + e.message );
-//     }
-//    }
-  
-
-
-
-// @wire(getOfficeMonthlyExpense,{year:2022,office:'Office 1'})
-//      getME({ error, data }) {
-//         if (data) {
-        
-//                 this.officeMonthlyExpense = data;
-//              console.log(this.officeMonthlyExpense);
-//             this.error = undefined;
-//     } else if (error) {
-//         this.error = error;
-//         this.officeMonthlyExpense = undefined; 
-//         console.log('Something went wrong:', error);
-//         console.error('e.message => ' + e.message );
-//     }
-//    }
 @wire(getOfficeBalanceNow,{office:'$office'})
 getOfBal({ error, data }) {
 if (data) {
@@ -222,10 +116,10 @@ if (data) {
     console.error('e.message => ' + e.message );
   }
  }
-@wire(getMonthlyAverage,{year:2023,office:'$office'})
+@wire(getMonthlyAverage,{year:'$year',office:'$office'})
 getMonAv({ error, data }) {
 if (data) {
-    this.monthlyAverage = data;
+    this.monthlyAverage = data[0];
     console.log(this.monthlyAverage );
     this.error = undefined;
 } else if (error) {
@@ -236,25 +130,7 @@ if (data) {
   }
  }
 
-
-
- 
-
-
-//   @wire(getOfficeMonthlyExpenses,{year:2022,office:'$office'})
-//   getOfMonEx({ error, data }) {
-//     if (data) {
-//         this.officeMonthlyExpense = data;
-//         console.log(this.officeMonthlyExpense);
-//         this.error = undefined;
-//     } else if (error) {
-//         this.error = error;
-//         this.officeMonthlyExpense = undefined; 
-//         console.log('Something went wrong:', error);
-//         console.error('e.message => ' + e.message );
-//       }
-//      }
-     @wire(getSumList,{year:2023})
+     @wire(getSumList,{year:'$year'})
      getSumList({ error, data }) {
        if (data) {
            this.sumList = data;
@@ -280,7 +156,7 @@ if (data) {
          }
         }
  
-        @wire(getYearSum,{year:2023})
+        @wire(getYearSum,{year:'$year'})
         getYME({ error, data }) {
         if (data) {
             this.yearExpenseSum = data;
@@ -293,5 +169,44 @@ if (data) {
             console.error('e.message => ' + e.message );
           }
          }
-
+        //  @wire(getOfficeMonthlySpentAmount,{year:'$year',office:'$office'})
+        //  getMonAv({ error, data }) {
+        //  if (data) {
+        //      this.officeMonthlySpentAmount = data;
+        //      this.januarySpentAmount = data[0];
+        //      this.februarySpentAmount = data[1];
+        //      this.marchSpentAmount = data[2];
+        //      this.aprilSpentAmount = data[3];
+        //      this.maySpentAmount = data[4];
+        //      this.juneSpentAmount = data[5];
+        //      this.julySpentAmount = data[6];
+        //      this.augustSpentAmount = data[7];
+        //      this.septemberSpentAmount = data[8];
+        //      this.octoberSpentAmount = data[9];
+        //      this.novemberSpentAmount = data[10];
+        //      this.decemberSpentAmount = data[11];
+            
+        //      this.error = undefined;
+        //  } else if (error) {
+        //      this.error = error;
+        //      this.officeMonthlySpentAmount = undefined; 
+        //      console.log('Something went wrong:', error);
+        //      console.error('e.message => ' + e.message );
+        //    }
+        //   }
+        
+        officeClickHandler(event) {
+            this.maneTable = true;
+            this.modalOfficeName = event.target.title;
+            this.office = event.target.title;
+            //    let value = event.target.value;
+       //     if(element === 'Amount') {
+       //         this.amountInput = value;
+            }
+            closeModal(){
+       
+                this.isModalOpen = false;     
+         }
+       
+        
 }

@@ -1,17 +1,17 @@
 import { LightningElement,api,track,wire } from 'lwc';
 import getOfficeMonthlySpentAmount from '@salesforce/apex/AdminController.getOfficeMonthlySpentAmount';
 export default class adminTab extends LightningElement {
-  @api year;//@api year;
-  @api month;//@api month;
-  @api office;//@api office;
+  @api year;
+  @api month;
+  @api office;
+  
+  @track officeMonthlySpentAmount = 0;
 
- @track officeMonthlySpentAmount = 0;
-
- @wire(getOfficeMonthlySpentAmount,{year:'$year',month:'$month',office:'$office'})//year:2023,month:2,office:'Office 1'
- //year:this.year,month:this.month,office:this.office
+  @wire(getOfficeMonthlySpentAmount,{year:'$year',month:'$month',office:'$office'})
+ 
     getOMSA({ error, data }) {
     if (data) {
-        this.officeMonthlySpentAmount = data;
+        this.officeMonthlySpentAmount = data[0];
         console.log(this.officeMonthlySpentAmount );
         this.error = undefined;
     } else if (error) {

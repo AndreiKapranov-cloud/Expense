@@ -5,7 +5,7 @@ export default class OfficeMonthlyAverage extends LightningElement {
     @api year;
     monthlyAverage = 0;
     
-    @wire(getMonthlyAverage,{year:2023,office:'$office'})
+    @wire(getMonthlyAverage,{year:'$year',office:'$office'})
     getMonAv({ error, data }) {
     if (data) {
         this.monthlyAverage = data;

@@ -1,36 +1,34 @@
 
     <template>
-        <table  class="slds-table  slds-table_bordered ">
+        <template if:false={maneTable}>
+        <table  border="1" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
 
            
             <thead>
               
                 <tr >
                   
-                    <td colspan="2" width="28%">
+                    <td colspan="2" width="23%" class = "dark-blue slds-text-align_center">
                    
-                        <div class="slds-truncate " title="Regional Expenses">Regional Expenses 2019</div>
-                   
+                        <div title="Regional Expenses" class = "slds-text-align_center"><b>                         
+                            <lightning-combobox
+                            name="progress"
+                            value={year}
+                            placeholder={label}
+                            options={options}
+                            onchange={handleChange}></lightning-combobox>
+                        </b></div>
                    </td>
                  
                      <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} >
+                   <td key = {office.Id} class = "dark-blue">
                    
-                        <div class="slds-truncate " title="Office" >{office.value}</div>
+                        <div class="slds-truncate office slds-text-heading_medium slds-text-align_center pointer" 
+                        title={office.value} onclick = {officeClickHandler}>{office.value}</div>
                     
                    </td>
                 </template>
-                   <!-- <td>
-                   
-                    <div class="slds-truncate " title="First Name">Office 1</div>
-                
-               </td>
-               <td>
-                   
-                <div class="slds-truncate " title="First Name">Office 1</div>
-            
-           </td> -->
-
+                  
            <td  class="summ" width="15%">
                    
             <div class="slds-truncate " title="Summ">
@@ -42,25 +40,25 @@
                 </tr>
             </thead>
 
-            <!--Body of the table-->
+           
             <tbody>
-                <!-- <template for:each={contactList} for:item="item" for:index="indexVar"> -->
+               
                 
                     <tr>
-                        <td rowspan="2" class="first-half month">
+                        <td rowspan="2" class="month">
                             <div>
-                                <p class="slds-text-heading_medium " ><b>Month</b></p>
+                                <p class="slds-text-heading_medium" ><b>Month</b></p>
                             </div>  
                         </td>
                         <td class = "bal-now">
                             <div >
-                            <p class="slds-text-color_error slds-text-heading_medium "><b>Balance now:</b></p>
+                            <p class="slds-text-color_error slds-text-heading_medium slds-text-align_center"><b>Balance now:</b></p>
                             </div>
                         </td>
                         <template for:each={officePicklist} for:item="office" for:index="index">  
                             <td key = {office.Id} class = "bal-now">
                        
-                            <div>
+                            <div class ="slds-text-heading_medium slds-text-align_center">
                             <b>
                             <c-office-balance-now
                             office={office.value}>
@@ -69,16 +67,7 @@
                             </div>
                         </td>
                         </template>
-                        <!-- <td class = "bal-now">
-                            <div>
-                            <b>{officeBalanceNow}</b>
-                            </div>
-                        </td>
-                        <td class = "bal-now">
-                            <div>
-                             <b>{officeBalanceNow}</b>
-                            </div>
-                        </td> -->
+                      
                         <td rowspan="2" class="summ">
                             <div>
                                 <p class="slds-text-color_error slds-text-heading_medium " ><b>Sum:</b></p>
@@ -89,32 +78,23 @@
                     <tr  class = "mon-av">
                         <td >
                             <div >
-                            <p class="slds-text-color_error slds-text-heading_small "><b>Monthly average</b></p>
+                            <p class="slds-text-color_error slds-text-heading_small slds-text-align_center"><b>Monthly average</b></p>
                             </div>
                         </td>
                         <template for:each={officePicklist} for:item="office" for:index="index">  
                             <td key = {office.Id} >
    
-                        <div >
+                        <div class = "slds-text-align_center">
                             <b>
                                 <c-office-monthly-average year={year} office={office.value}></c-office-monthly-average>
                             </b>
                         </div>
                     </td>
                     </template>
-                    <!-- <td >
-                        <div >
-                            {monthlyAverage}
-                        </div>
-                    </td>
-                    <td >
-                        <div>
-                            {monthlyAverage}
-                        </div>
-                    </td> -->
+                  
                 </tr>
            <tr>
-            <td >
+            <td class = "mon-td">
                 <div>
                     <p>January</p>
                 </div>
@@ -130,7 +110,7 @@
                       
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="1" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="1" office={office.value}></c-admin-tab>                           
                     </p>
                 </div>
             </td>
@@ -139,7 +119,7 @@
              <td  class="summ" >
             
                 <div>
-                    <p>{january}</p>
+                    <p><b>{january}</b></p>
                 </div>
             </td>
             
@@ -147,22 +127,22 @@
          
          
          
-           <tr>
-            <td >
+           <tr class = "blue">
+            <td class = "mon-td">
                 <div>
                     <p>February</p>
                 </div>
             </td>
-            <td >
+            <td class = "blue">
                 <div>
                     <p></p>
                 </div>
             </td>
             <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} >
+                   <td key = {office.Id} class = "blue">
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="2" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="2" office={office.value}></c-admin-tab>                         
                     </p>
                 </div>
             </td>
@@ -170,7 +150,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{february}</p>
+                    <p><b>{february}</b></p>
                 </div>
             </td>
            </tr>
@@ -178,7 +158,7 @@
           
           
            <tr>
-            <td >
+            <td class = "mon-td">
                 <div>
                     <p>March</p>
                 </div>
@@ -192,7 +172,7 @@
                    <td key = {office.Id} >
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="3" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="3" office={office.value}></c-admin-tab>                           
                     </p>
                 </div>
             </td>
@@ -200,7 +180,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{march}</p>
+                    <p><b>{march}</b></p>
                 </div>
             </td>
            </tr>
@@ -209,22 +189,22 @@
         
         
         
-           <tr>
-            <td >
+           <tr class = "blue">
+            <td class = "mon-td">
                 <div>
                     <p>April</p>
                 </div>
             </td>
-            <td >
+            <td class = "blue">
                 <div>
                     <p></p>
                 </div>
             </td>
             <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} >
+                   <td key = {office.Id} class = "blue">
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="4" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="4" office={office.value}></c-admin-tab>                        
                     </p>
                 </div>
             </td>
@@ -232,7 +212,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{april}</p>
+                    <p><b>{april}</b></p>
                 </div>
             </td>
            </tr>
@@ -241,7 +221,7 @@
         
         
            <tr>
-            <td >
+            <td class = "mon-td">
                 <div>
                     <p>May</p>
                 </div>
@@ -255,7 +235,7 @@
                    <td key = {office.Id} >
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="5" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="5" office={office.value}></c-admin-tab>                            
                     </p>
                 </div>
             </td>
@@ -263,7 +243,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{may}</p>
+                    <p><b>{may}</b></p>
                 </div>
             </td>
            </tr>
@@ -272,22 +252,22 @@
       
       
       
-           <tr>
-            <td >
-                <div>
+           <tr class = "blue">
+            <td class = "mon-td">
+                <div >
                     <p>June</p>
                 </div>
             </td>
-            <td >
+            <td class = "blue">
                 <div>
                     <p></p>
                 </div>
             </td>
             <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} >
+                   <td key = {office.Id} class = "blue">
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="6" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="6" office={office.value}></c-admin-tab>                              
                     </p>
                 </div>
             </td>
@@ -295,7 +275,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{june}</p>
+                    <p><b>{june}</b></p>
                 </div>
             </td>
            </tr>
@@ -305,7 +285,7 @@
        
        
            <tr>
-            <td >
+            <td class = "mon-td">
                 <div>
                     <p>July</p>
                 </div>
@@ -319,7 +299,7 @@
                    <td key = {office.Id} >
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="7" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="7" office={office.value}></c-admin-tab>                               
                     </p>
                 </div>
             </td>
@@ -327,7 +307,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{july}</p>
+                    <p><b>{july}</b></p>
                 </div>
             </td>
            </tr>
@@ -336,22 +316,22 @@
           
           
           
-           <tr>
-            <td >
+           <tr class = "blue">
+            <td class = "mon-td">
                 <div>
                     <p>August</p>
                 </div>
             </td>
-            <td >
+            <td class = "blue">
                 <div>
                     <p></p>
                 </div>
             </td>
             <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} >
+                   <td key = {office.Id} class = "blue">
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="8" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="8" office={office.value}></c-admin-tab>                       
                     </p>
                 </div>
             </td>
@@ -359,7 +339,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{august}</p>
+                    <p><b>{august}</b></p>
                 </div>
             </td>
            </tr>
@@ -368,7 +348,7 @@
         
         
            <tr>
-            <td >
+            <td class = "mon-td">
                 <div>
                     <p>September</p>
                 </div>
@@ -390,7 +370,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{september}</p>
+                    <p><b>{september}</b></p>
                 </div>
             </td>
            </tr>
@@ -400,22 +380,22 @@
        
        
        
-           <tr>
-            <td >
+           <tr class = "blue">
+            <td class = "mon-td">
                 <div>
                     <p>October</p>
                 </div>
             </td>
-            <td >
+            <td class = "blue">
                 <div>
                     <p></p>
                 </div>
             </td>
             <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} >
+                   <td key = {office.Id} class = "blue">
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="10" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="10" office={office.value}></c-admin-tab>                              
                     </p>
                 </div>
             </td>
@@ -423,12 +403,13 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{october}</p>
+                    <p><b>{october}</b></p>
                 </div>
             </td>
            </tr>
+         
            <tr>
-            <td >
+            <td class = "mon-td">
                 <div>
                     <p>November</p>
                 </div>
@@ -442,7 +423,7 @@
                    <td key = {office.Id} >
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="11" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="11" office={office.value}></c-admin-tab>                              
                     </p>
                 </div>
             </td>
@@ -450,7 +431,7 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{november}</p>
+                    <p><b>{november}</b></p>
                 </div>
             </td>
            </tr>
@@ -460,22 +441,22 @@
       
       
       
-           <tr>
-            <td >
+           <tr class = "blue">
+            <td class = "mon-td">
                 <div>
                     <p>December</p>
                 </div>
             </td>
-            <td >
+            <td class = "blue">
                 <div>
                     <p></p>
                 </div>
             </td>
             <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} >
+                   <td key = {office.Id} class = "blue">
                 <div>
                     <p>
-                        <c-admin-tab key = {office.Id} year={year} month="12" office={office.value}></c-admin-tab>             
+                        <c-admin-tab key = {office.Id} year={year} month="12" office={office.value}></c-admin-tab>                         
                     </p>
                 </div>
             </td>
@@ -483,14 +464,15 @@
             <td  class="summ" >
             
                 <div>
-                    <p>{december}</p>
+                    <p><b>{december}</b></p>
                 </div>
             </td>
            </tr>
+           
            <tr class = "grey">
-            <td >
+            <td class = "mon-td">
                 <div>
-                    <p><b>Total</b></p>
+                    <p><b>Total:</b></p>
                 </div>
             </td>
             <td >
@@ -500,7 +482,7 @@
             </td>
             <template for:each={officePicklist} for:item="office" for:index="index">  
                    <td key = {office.Id} >
-                <div>
+                <div class = "slds-text-align_center">
                     <b>
                         <c-office-year-expense-sum year={year} office={office.value}></c-office-year-expense-sum>             
                     </b>
@@ -509,13 +491,18 @@
             </template>
             <td  class="grey" >
             
-                <div>
-                    <p>{yearExpenseSum}</p>
+                <div class = "slds-text-align_center">
+                    <p><b>{yearExpenseSum}</b></p>
                 </div>
             </td>
            </tr>
                
             </tbody>
         </table>
-
-</template>
+    </template>
+       <template if:true={maneTable}>
+                    <c-modal-employee-tab year={year} office={office}></c-modal-employee-tab>
+                    
+                 
+                </template>
+</template> 
