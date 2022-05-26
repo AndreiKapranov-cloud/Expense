@@ -246,11 +246,16 @@ public with sharing class AdminController {
             Date monthEnd = Date.newInstance(year, month + 1, 1)-1;
             List <MonthlyExpense__c> monExList = [select SpentAmount__c from MonthlyExpense__c WHERE
             MonthDate__c >= :monthBeginning AND MonthDate__c <= :monthEnd AND Keeper__c =: employeeId];
-            MonthlyExpense__c ofEmpMonEx = monExList[0];
-            Decimal ofEmpMonExAmount = ofEmpMonEx.SpentAmount__c;
+            Decimal ofEmpMonExAmount = 0;
+            MonthlyExpense__c ofEmpMonEx = new MonthlyExpense__c();
+            if(monExList != null && monExList.size() > 0) {
+
+                ofEmpMonEx = monExList[0];
+                ofEmpMonExAmount = ofEmpMonEx.SpentAmount__c;
+                }
+        
             List<Decimal>resultList = new List<Decimal>();
             resultList.add(ofEmpMonExAmount);
-            
             return resultList;
         } catch (Exception e) {
               throw new AuraHandledException(e.getMessage());

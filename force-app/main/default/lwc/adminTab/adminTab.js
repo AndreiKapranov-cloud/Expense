@@ -12,7 +12,7 @@ export default class adminTab extends LightningElement {
     getOMSA({ error, data }) {
     if (data) {
         this.officeMonthlySpentAmount = data[0];
-        console.log(this.officeMonthlySpentAmount );
+        console.log(this.officeMonthlySpentAmount);
         this.error = undefined;
     } else if (error) {
         this.error = error;

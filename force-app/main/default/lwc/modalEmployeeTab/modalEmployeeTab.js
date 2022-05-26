@@ -7,6 +7,7 @@ export default class ModalEmployeeTab extends LightningElement {
     @api office;
     @api year;
     maneTable = true;
+    label;
     
     @wire(getOfficeEmployees,{office:'$office'})
     getOE({ error, data }) {
@@ -22,8 +23,9 @@ export default class ModalEmployeeTab extends LightningElement {
    }
    
    handleBackClick(){
-       
+    this.label = 'Regional Expenses ' + this.year;
     this.maneTable = false;
+    
   }
  
 }

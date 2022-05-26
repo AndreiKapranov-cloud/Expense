@@ -57,10 +57,10 @@ export default class Employee extends LightningElement {
 @track columns = columns; 
 
 year;  
-@track amountTotal;
+amountTotal = 0;
 month; 
-@track yearIncome;   
-@track yearBalance; 
+yearIncome = 0;   
+yearBalance = 0; 
 @api office;//@api office
 @api keeperId;// = '0035i000004hujfAAA';//@api keeperId
 
@@ -114,7 +114,9 @@ year({ error, data }) {
 @wire(getAmountTotal,{year:'$year',login:'$login',password:'$password'})
 total({ error, data }) {
     if (data) {
-        this.amountTotal = data;
+      
+        this.amountTotal = data[0];
+       
         console.log(this.year);
         this.error = undefined;
     } else if (error) {
@@ -127,7 +129,9 @@ total({ error, data }) {
 @wire(getYearIncome,{year:'$year',login:'$login',password:'$password'})
 income({ error, data }) {
     if (data) {
-        this.yearIncome = data;
+       
+        this.yearIncome = data[0];
+        
         console.log(this.year);
         this.error = undefined;
     } else if (error) {
@@ -140,7 +144,9 @@ income({ error, data }) {
 @wire(getYearBalance,{year:'$year',login:'$login',password:'$password'})
 balance({ error, data }) {
     if (data) {
-        this.yearBalance = data;
+        
+        this.yearBalance = data[0];
+    
         console.log(this.year);
         this.error = undefined;
     } else if (error) {

@@ -5,14 +5,16 @@ export default class OfficeEmployeeMonEx extends LightningElement {
     @api employeeId;
     @api year;
     @api month;
-    @track officeEmployeeMonthlyExpense = 0;
+    officeEmployeeMonthlyExpense = 0;
     
     
     @wire(getOfEmpMonEx,{employeeId:'$employeeId',year:'$year',month:'$month'})
     getOfBal({ error, data }) {
     if (data) {
+        if(data[0]){
         this.officeEmployeeMonthlyExpense = data[0];
-       console.log('Alliluya'+this.officeEmployeeMonthlyExpense)
+        }
+      
         this.error = undefined;
     } else if (error) {
         this.error = error;

@@ -198,7 +198,7 @@ public with sharing class EmployeeController {
         }
     }
     @AuraEnabled(cacheable = true)
-    public static Integer getAmountTotal(Integer year,String login,String password){
+    public static List<Integer> getAmountTotal(Integer year,String login,String password){
         try {
     Integer amountTotal = 0;
     List <MonthlyExpense__c> monExList = getMonthlyExpense(year,login,password);
@@ -206,16 +206,22 @@ public with sharing class EmployeeController {
     for(MonthlyExpense__c mE : monExList){
     amountTotal = amountTotal + Integer.valueOf(mE.SpentAmount__c);
     }
-    return amountTotal;
+    List<Integer>amountTotalList = new list<Integer>();
+    amountTotalList.add(amountTotal);
+    return amountTotalList;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
     @AuraEnabled(cacheable=true)
-    public static Integer getYearIncome(Integer year,String login,String password){
+    public static List<Integer> getYearIncome(Integer year,String login,String password){
         try {
-       return getAmountTotal(year,login,password) + getYearBalance(year,login,password);
-      } catch (Exception e) {
+      
+       List<Integer> yearIncomeList = new List<Integer>();
+       Integer yearIncome = getAmountTotal(year,login,password)[0] + getYearBalance(year,login,password)[0];
+       yearIncomeList.add(yearIncome);
+       return yearIncomeList;
+    } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
@@ -241,7 +247,7 @@ public static List<Accord__c> getAccords(Integer year,Integer month){
 
 
 @AuraEnabled(cacheable = true)
-public static Integer getYearBalance(Integer year,String login,String password){
+public static List<Integer> getYearBalance(Integer year,String login,String password){
     try {
         List <MonthlyExpense__c> monExList = getMonthlyExpense(year,login,password);
 
@@ -249,7 +255,9 @@ public static Integer getYearBalance(Integer year,String login,String password){
         for(MonthlyExpense__c mE : monExList){
             yearBalance = yearBalance + Integer.valueOf(mE.Balance__c);
         }
-        return yearBalance;
+        List<Integer>yearBalanceList = new List<Integer>();
+        yearBalanceList.add(yearBalance);
+        return yearBalanceList;
     } catch (Exception e) {
         throw new AuraHandledException(e.getMessage());
     }

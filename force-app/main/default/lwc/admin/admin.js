@@ -42,11 +42,11 @@ export default class Admin extends LightningElement {
     
     @api maneTable = false;
     modalOfficeName;
-    label = 'Regional Expenses ' + this.year;
+    @api label ='Regional Expenses year...';
     
 
     years = [];
-    year = this.years[2];
+    @api year;
     get options() {
         return [
             { label: 'Regional Expenses ' + this.years[0], value: this.years[0] },
