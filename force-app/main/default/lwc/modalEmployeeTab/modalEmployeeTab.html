@@ -3,167 +3,120 @@
     <template if:true={maneTable}>
        <b> {office} Expenses {year}</b>
     <lightning-button label="Back" title="Non-primary action" onclick={handleBackClick} class="slds-m-left_x-small"></lightning-button>
-                    <table  border="1" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
-
-       
-                        <thead>
-                          
-                            <tr >
-                              
-                                <td  class = "light-blue slds-text-align_center">
-                               
-                                    <div title="Regional Expenses" class = "slds-text-align_center"><b>                         
-                                      Employee
-                                    </b></div>
-                               </td>
-                             
-                                
-                               <td  class = "dark-blue">
-                               
-                                 
-                                  
-                                    Jan
-
-                                   
-                                
-                               </td>
-                               <td>Feb</td>
-                               <td>Mar</td>
-                               <td>Apr</td>
-                               <td>May</td>
-                               <td>Jun</td>
-                               <td>Jul</td>
-                               <td>Aug</td>
-                               <td>Sep</td>
-                               <td>Oct</td>
-                               <td>Nov</td>
-                               <td>Dec</td>
-                    
-                               
-
-
-
-                              
-                       <td  class="summ" width="15%">
-                               
-                        <div class="slds-truncate " title="Summ">
+          <table  border="1" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"> 
+             <thead>          
+             <tr >                      
+             <td  class = "light-blue slds-text-align_center">        
+            <div title="Regional Expenses" class = "slds-text-align_center"><b>                         
+                Employee
+            </b></div>
+           </td>                   
+                        
+            <td>Jan </td>      
+            <td>Feb</td>
+            <td>Mar</td>
+            <td>Apr</td>
+            <td>May</td>
+            <td>Jun</td>
+            <td>Jul</td>
+            <td>Aug</td>
+            <td>Sep</td>
+            <td>Oct</td>
+            <td>Nov</td>
+            <td>Dec</td>        
+           <td  class="summ" width="15%">                              
+           <div class="slds-truncate " title="Summ">
                           Summ 
-                        </div>
-                    
-                   </td>
-                                   
-                            </tr>
-                        </thead>
-            
-                       
-                        <tbody>
-                           
-                              
-                                <template for:each={officeEmployees} for:item="officeEmployee" for:index="index">  
-                                      
-                                    <tr class = "blue" key = {officeEmployee.Id}>
-                                       
-                                        <td class = "mon-td">
-                                            <div>
-                                                {officeEmployee.Name}
-                                            </div>
-                                        </td>
-                                        <td key = {officeEmployee.Id} class = "blue">
-                                    <div>
-                                        <p>
-                                            <c-office-employee-mon-ex year={year} month="1" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-                                        </p>
-                                    </div>
-                                </td>
-                               
-                                <td  class="summ" >
-                                
-                                    <p>
-                                        <c-office-employee-mon-ex year={year} month="2" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-                                    </p>
-                            </td>
-                            <td  class="summ" >
-                                
-                                <p>
-                                    <c-office-employee-mon-ex year={year} month="3" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-                                </p>
-                        </td>
-                        <td  class="summ" >
-                                
-                            <p>
-                                <c-office-employee-mon-ex year={year} month="4" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-                            </p>
-                    </td>
-                    <td  class="summ" >
-                                
-                        <p>
-                            <c-office-employee-mon-ex year={year} month="5" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-                        </p>
+                        </div>                  
+                   </td>                  
+                  </tr>
+        </thead>            
+         <tbody>                    
+           <template for:each={officeEmployees} for:item="officeEmployee" for:index="index">                                   
+            <tr class = "blue" key = {officeEmployee.Id}>  
+                <td class = "mon-td">
+                    <div>
+                        {officeEmployee.Name}
+                    </div>
                 </td>
-                <td  class="summ" >
-                                
-                    <p>
-                        <c-office-employee-mon-ex year={year} month="6" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-                    </p>
-            </td>
-            <td  class="summ" >
-                                
+                <td key = {officeEmployee.Id} class = "blue">
+                <div>
+                <p>
+                    <c-office-employee-mon-ex year={year} month="1" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>
+                    </div>
+                </td>  
+                <td  class="summ" >  
+                 <p>
+                <c-office-employee-mon-ex year={year} month="2" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>
+                </td>
+                <td  class="summ" >   
+                <p>
+                    <c-office-employee-mon-ex year={year} month="3" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>
+                </td>
+                <td  class="summ" >                        
+                <p>
+                    <c-office-employee-mon-ex year={year} month="4" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>
+                </td>
+                <td  class="summ" >                 
+                <p>
+                    <c-office-employee-mon-ex year={year} month="5" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>
+                </td>
+                <td  class="summ" >                               
+                <p>
+                    <c-office-employee-mon-ex year={year} month="6" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>
+                </td>
+                <td  class="summ" >                                   
                 <p>
                     <c-office-employee-mon-ex year={year} month="7" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
                 </p>
-        </td>
-        <td  class="summ" >
-                                
-            <p>
-                <c-office-employee-mon-ex year={year} month="8" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-            </p>
-    </td>
-    <td  class="summ" >
-                                
-        <p>
-            <c-office-employee-mon-ex year={year} month="9" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-        </p>
-</td>
-<td  class="summ" >
-                                
-    <p>
-        <c-office-employee-mon-ex year={year} month="10" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-    </p>
-</td>
-<td  class="summ" >
-                                
-    <p>
-        <c-office-employee-mon-ex year={year} month="11" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-    </p>
-</td>
-<td  class="summ" >
-                                
-    <p>
-        <c-office-employee-mon-ex year={year} month="12" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-    </p>
-</td>
-<td  class="summ" >
-                                
-    <p>
-        <c-employee-year-expense year={year} employee-id={officeEmployee.Id}></c-employee-year-expense>                         
-    </p>
-</td>
-                        </tr>
-         </template>
-
-
-
-
-
+                </td>
+                <td  class="summ" >                                      
+                <p>
+                    <c-office-employee-mon-ex year={year} month="8" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>
+                </td>
+                <td  class="summ" >                                  
+                <p>
+                    <c-office-employee-mon-ex year={year} month="9" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>
+                </td>
+                <td  class="summ" >
+                                                
+                    <p>
+                        <c-office-employee-mon-ex year={year} month="10" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                    </p>
+                </td>
+                <td  class="summ" >
+                                                
+                    <p>
+                        <c-office-employee-mon-ex year={year} month="11" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                    </p>
+                </td>
+                <td  class="summ" >
+                                                
+                    <p>
+                        <c-office-employee-mon-ex year={year} month="12" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                    </p>
+                </td>
+                <td  class="summ" >
+                                                
+                    <p>
+                        <c-employee-year-expense year={year} employee-id={officeEmployee.Id}></c-employee-year-expense>                         
+                    </p>
+                </td>
+                                        </tr>
+                        </template>
         </tbody>
-     </table>
-         
-           
-            
-                </template> 
-            </lightning-card> 
-                <template if:false={maneTable}>
-                    <c-admin year={year} label={label}></c-admin>
-                </template>
-          
+     </table>      
+        </template> 
+        </lightning-card> 
+        <template if:false={maneTable}>
+            <c-admin year={year} label={label}></c-admin>
+        </template>      
 </template>

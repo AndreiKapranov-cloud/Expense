@@ -1,7 +1,4 @@
 import { LightningElement, wire,track,api} from 'lwc';
-import getOfficeMonthlyExpense from '@salesforce/apex/AdminController.getOfficeMonthlyExpenses';
-import populateMonths from '@salesforce/apex/AdminController.populateMonths';
-import getOfficeMonthlyExpenseForList from '@salesforce/apex/AdminController.getOfficeMonthlyExpenseForList';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import getOfficeBalanceNow from '@salesforce/apex/AdminController.getOfficeBalanceNow';
 import getMonthlyAverage from '@salesforce/apex/AdminController.getMonthlyAverage';
@@ -9,11 +6,7 @@ import getSumList from '@salesforce/apex/AdminController.getSumList';
 import getYearSum from '@salesforce/apex/AdminController.getYearSum';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import getYearForTab from '@salesforce/apex/EmployeeController.getYearForTab';
-import getOfficeMonthlySpentAmount from '@salesforce/apex/AdminController.getOfficeMonthlySpentAmount';
-
 import CONTACT_OBJECT from '@salesforce/schema/Contact';
-
-
 import OFFICE_FIELD from '@salesforce/schema/Contact.Office__c';
 
 export default class Admin extends LightningElement {
@@ -77,7 +70,7 @@ export default class Admin extends LightningElement {
     officePicklist = [];
     contactMetadata = [];
     office;
-   // @api year = 2023;//@api year;
+   
     llll = [];
   
     @wire(getObjectInfo, { objectApiName: CONTACT_OBJECT })
@@ -91,7 +84,7 @@ export default class Admin extends LightningElement {
             fieldApiName: OFFICE_FIELD
         }
     )
-  getPickList(result){
+    getPickList(result){
     if(result.data){
        let oofficePicklist = result.data.values;
        this.officePicklist = [...oofficePicklist];
@@ -103,32 +96,32 @@ export default class Admin extends LightningElement {
     
 }
 
-@wire(getOfficeBalanceNow,{office:'$office'})
-getOfBal({ error, data }) {
-if (data) {
-    this.officeBalanceNow = data;
-    console.log(this.officeBalanceNow);
-    this.error = undefined;
-} else if (error) {
-    this.error = error;
-    this.officeBalanceNow = undefined; 
-    console.log('Something went wrong:', error);
-    console.error('e.message => ' + e.message );
-  }
- }
-@wire(getMonthlyAverage,{year:'$year',office:'$office'})
-getMonAv({ error, data }) {
-if (data) {
-    this.monthlyAverage = data[0];
-    console.log(this.monthlyAverage );
-    this.error = undefined;
-} else if (error) {
-    this.error = error;
-    this.monthlyAverage = undefined; 
-    console.log('Something went wrong:', error);
-    console.error('e.message => ' + e.message );
-  }
- }
+        @wire(getOfficeBalanceNow,{office:'$office'})
+        getOfBal({ error, data }) {
+        if (data) {
+            this.officeBalanceNow = data;
+            console.log(this.officeBalanceNow);
+            this.error = undefined;
+        } else if (error) {
+            this.error = error;
+            this.officeBalanceNow = undefined; 
+            console.log('Something went wrong:', error);
+            console.error('e.message => ' + e.message );
+        }
+        }
+        @wire(getMonthlyAverage,{year:'$year',office:'$office'})
+        getMonAv({ error, data }) {
+        if (data) {
+            this.monthlyAverage = data[0];
+            console.log(this.monthlyAverage );
+            this.error = undefined;
+        } else if (error) {
+            this.error = error;
+            this.monthlyAverage = undefined; 
+            console.log('Something went wrong:', error);
+            console.error('e.message => ' + e.message );
+        }
+        }
 
      @wire(getSumList,{year:'$year'})
      getSumList({ error, data }) {
@@ -169,44 +162,15 @@ if (data) {
             console.error('e.message => ' + e.message );
           }
          }
-        //  @wire(getOfficeMonthlySpentAmount,{year:'$year',office:'$office'})
-        //  getMonAv({ error, data }) {
-        //  if (data) {
-        //      this.officeMonthlySpentAmount = data;
-        //      this.januarySpentAmount = data[0];
-        //      this.februarySpentAmount = data[1];
-        //      this.marchSpentAmount = data[2];
-        //      this.aprilSpentAmount = data[3];
-        //      this.maySpentAmount = data[4];
-        //      this.juneSpentAmount = data[5];
-        //      this.julySpentAmount = data[6];
-        //      this.augustSpentAmount = data[7];
-        //      this.septemberSpentAmount = data[8];
-        //      this.octoberSpentAmount = data[9];
-        //      this.novemberSpentAmount = data[10];
-        //      this.decemberSpentAmount = data[11];
-            
-        //      this.error = undefined;
-        //  } else if (error) {
-        //      this.error = error;
-        //      this.officeMonthlySpentAmount = undefined; 
-        //      console.log('Something went wrong:', error);
-        //      console.error('e.message => ' + e.message );
-        //    }
-        //   }
-        
+      
         officeClickHandler(event) {
             this.maneTable = true;
             this.modalOfficeName = event.target.title;
             this.office = event.target.title;
-            //    let value = event.target.value;
-       //     if(element === 'Amount') {
-       //         this.amountInput = value;
+         
             }
             closeModal(){
        
                 this.isModalOpen = false;     
-         }
-       
-        
+         }     
 }

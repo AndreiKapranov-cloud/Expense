@@ -94,28 +94,16 @@ export default class AccordTable extends LightningElement {
             );
         });
     }
-//    if (actionName === 'soldProducts') {
-  
-//         this.isModalOpen = true;
- 
-//     }
-  
 
-    // let delayInMilliseconds = 1000;
-
-    // setTimeout(function() {
-    //    window.location.reload();
- 
-    // }, delayInMilliseconds);
   }
-  handleSave(event) {
-    this.saveDraftValues = event.detail.draftValues;
-    const recordInputs = this.saveDraftValues.slice().map(draft => {
-        const fields = Object.assign({}, draft);
-        return { fields };
-    });
+    handleSave(event) {
+        this.saveDraftValues = event.detail.draftValues;
+        const recordInputs = this.saveDraftValues.slice().map(draft => {
+            const fields = Object.assign({}, draft);
+            return { fields };
+        });
 
-    // Updateing the records using the UiRecordAPi
+   
     const promises = recordInputs.map(recordInput => updateRecord(recordInput));
     Promise.all(promises).then(res => {
         this.dispatchEvent(
@@ -140,7 +128,6 @@ export default class AccordTable extends LightningElement {
     });
 }
 
-// This function is used to refresh the table once data updated
 async refresh() {
     await refreshApex(this.cardList);
  }

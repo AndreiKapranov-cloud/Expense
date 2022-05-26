@@ -22,7 +22,7 @@ export default class ModalEmployeeTab extends LightningElement {
       }
    }
    
-   handleBackClick(){
+    handleBackClick(){
     this.label = 'Regional Expenses ' + this.year;
     this.maneTable = false;
     

@@ -146,10 +146,10 @@ public with sharing class EmployeeController {
             tab.Income__c =  mon.Balance__c + mon.SpentAmount__c;
 
              }
-          List<Table__c> oldList = [select Id from Table__c];
-          delete oldList;
-          insert listForTable;
-          return listForTable;
+            List<Table__c> oldList = [select Id from Table__c];
+            delete oldList;
+            insert listForTable;
+            return listForTable;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -184,14 +184,13 @@ public with sharing class EmployeeController {
        
         List<Date>dateList = new List<Date>();
     
-        Date monthBeginning = Date.newInstance(year, month, 1);
-        Date monthEnd = Date.newInstance(year, month+1, 1) - 1;
-        while(monthBeginning <= monthEnd) {
+            Date monthBeginning = Date.newInstance(year, month, 1);
+            Date monthEnd = Date.newInstance(year, month+1, 1) - 1;
+            while(monthBeginning <= monthEnd) {
             dateList.add(monthBeginning);
             monthBeginning = monthBeginning.addDays(1);
         }
         
-      
       return dateList;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -225,26 +224,6 @@ public with sharing class EmployeeController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-/*@AuraEnabled(cacheable=true)
-public static List<Accord__c> getAccords(Integer year,Integer month){
-    try {
-        Date monthBeginning = Date.newInstance(year, month, 1);
-        Date monthEnd = Date.newInstance(year, month + 1, 1) - 1;
-        List<Accord__c> acdList = [select CardDate__c,ExpenseCard__c,Name from Accord__c
-        where CardDate__c >= :monthBeginning AND CardDate__c <= :monthEnd];
-        return acdList;
-    } catch (Exception e) {
-        throw new AuraHandledException(e.getMessage());
-    }
-}*/
-
-
-
-
-
-
-
-
 
 @AuraEnabled(cacheable = true)
 public static List<Integer> getYearBalance(Integer year,String login,String password){
@@ -275,73 +254,11 @@ public static List<Accord__c> getAccords(){
         throw new AuraHandledException(e.getMessage());
     }
 }
-//    @AuraEnabled
-//    public static List<Accord__c> getAccordWithExCards(Integer month){
-//        try {
-//       List<Table__c> tabList = [select Year__c from Table__c];   
-//       Integer year = Integer.valueOf(tabList[0].Year__c);
-//       List<Accord__c> acdList = new List<Accord__c>();
-//       List<Date> dates = populateDates(year,month + 1);
-//       for(Date dt : dates){
-//           Accord__c acd = new Accord__c(CardDate__c = dt);
-//           acdList.add(acd);
-//       }
-//       Date beginningOfMonth = dates[0];
-//       Date endOfMonth = dates.get(dates.size() - 1);
-      
-//       List <ExpenseCard__c> exCards = [select CardDate__c,Description__c,Amount__c from ExpenseCard__c
-//       where CardDate__c >= :beginningOfMonth AND CardDate__c<= :endOfMonth ];
-//       Map<Date, ExpenseCard__c> exCardsMap = new Map<Date, ExpenseCard__c>();
-     
-//       for(ExpenseCard__c eC : exCards){
-       
-//         exCardsMap.put(eC.CardDate__c,eC);
-//     }
 
-
-//       for(Accord__c acd : acdList){
-     
-       
-      
-//       //  ExpenseCard__c card = exCardsMap.get(acd.CardDate__c);
-//       //  acd.ExpenseCard__c = card.Id;
-
-//         for(ExpenseCard__c exc : exCards){
-//               if(exc.CardDate__c == acd.CardDate__c){
-//                 acd.ExpenseCard__c = exc.Id;
-//               }
-//           }
-//       }
-//     List<Accord__c> oldAccords = [select Id from Accord__c];
-//     delete oldAccords;
-//     insert acdList; 
-//     return acdList;
-//        } catch (Exception e) {
-//            throw new AuraHandledException(e.getMessage());
-//        }
-//     }
     @AuraEnabled(cacheable = true)
     public static List<ExpenseCard__c> getExCards(Integer month,Integer year,String login,String password){
         try {
-     //  List<Table__c> tabList = [select Year__c from Table__c];   
-     //  Integer year = Integer.valueOf(tabList[0].Year__c);
-    //   List<Accord__c> acdList = new List<Accord__c>();
     
-    
-    //List<Date> dates = populateDates(year,month + 1);
-  
-  
-  
-       //    for(Date dt : dates){
-    //     //   Accord__c acd = new Accord__c(CardDate__c = dt);
-    //      //  acdList.add(acd);
-    //    }
-
-
-
-    //    Date beginningOfMonth = dates[0];
-    //    Date endOfMonth = dates.get(dates.size() - 1);
-       
     Date monthBeginning = Date.newInstance(year, month, 1);
     Date monthEnd = Date.newInstance(year, month + 1, 1) - 1;
     
@@ -350,28 +267,7 @@ public static List<Accord__c> getAccords(){
        AND CardKeeper__r.Email = :login AND CardKeeper__r.Password__c =:password ];
        Map<Date, ExpenseCard__c> exCardsMap = new Map<Date, ExpenseCard__c>();
       
-    //    for(ExpenseCard__c eC : exCards){
-        
-    //      exCardsMap.put(eC.CardDate__c,eC);
-    //  }
- 
- 
-    //    for(Accord__c acd : acdList){
-      
-        
-       
-    //    //  ExpenseCard__c card = exCardsMap.get(acd.CardDate__c);
-    //    //  acd.ExpenseCard__c = card.Id;
- 
-    //      for(ExpenseCard__c exc : exCards){
-    //            if(exc.CardDate__c == acd.CardDate__c){
-    //              acd.ExpenseCard__c = exc.Id;
-    //            }
-    //        }
-    //    }
-    //  List<Accord__c> oldAccords = [select Id from Accord__c];
-    //  delete oldAccords;
-    //  insert acdList; 
+    
      return exCards;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());

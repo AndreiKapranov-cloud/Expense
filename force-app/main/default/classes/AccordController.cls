@@ -2,7 +2,7 @@ public with sharing class AccordController {
     public AccordController() {
 
     }
-    @AuraEnabled(cacheable=true)
+@AuraEnabled(cacheable=true)
 public static List<Accord__c> getAccords(){
     try {
         Integer maxDaysInAMonth = 31;
@@ -17,17 +17,11 @@ public static List<Accord__c> getAccords(){
 @AuraEnabled(cacheable=true)
 public static List<ExpenseCard__c> getExpenseCards(Date cardDate,String login,String password){
     try {
-        // List<Contact> con_List=[Select Id,Email,Password__c,Admin__c from Contact where Email =: login AND
-        // Password__c =: password Limit 1];
-
-
+       
         return [Select Description__c,Amount__c,CardDate__c from ExpenseCard__c
-         where CardDate__c =: cardDate AND CardKeeper__r.Password__c =: password 
-         AND CardKeeper__r.Email =: login ];
-      
-
+        where CardDate__c =: cardDate AND CardKeeper__r.Password__c =: password 
+        AND CardKeeper__r.Email =: login ];
         
-
     } catch (Exception e) {
         throw new AuraHandledException(e.getMessage());
     }

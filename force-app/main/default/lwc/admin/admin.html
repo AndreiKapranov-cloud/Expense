@@ -1,15 +1,10 @@
 
     <template>
         <template if:false={maneTable}>
-        <table  border="1" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
-
-           
-            <thead>
-              
-                <tr >
-                  
+        <table  border="1" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">       
+            <thead>     
+                <tr > 
                     <td colspan="2" width="23%" class = "dark-blue slds-text-align_center">
-                   
                         <div title="Regional Expenses" class = "slds-text-align_center"><b>                         
                             <lightning-combobox
                             name="progress"
@@ -18,82 +13,70 @@
                             options={options}
                             onchange={handleChange}></lightning-combobox>
                         </b></div>
-                   </td>
-                 
+                   </td>           
                      <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} class = "dark-blue">
-                   
-                        <div class="slds-truncate office slds-text-heading_medium slds-text-align_center pointer" 
-                        title={office.value} onclick = {officeClickHandler}>{office.value}</div>
-                    
+                   <td key = {office.Id} class = "dark-blue">    
+                   <div class="slds-truncate office slds-text-heading_medium slds-text-align_center pointer" 
+                   title={office.value} onclick = {officeClickHandler}>{office.value}</div>               
                    </td>
-                </template>
-                  
-           <td  class="summ" width="15%">
-                   
-            <div class="slds-truncate " title="Summ">
-               
-            </div>
-        
-       </td>
-                       
+                </template>       
+                    <td  class="summ" width="15%">              
+                    <div class="slds-truncate " title="Summ">          
+                    </div>  
+                </td>            
                 </tr>
             </thead>
-
-           
-            <tbody>
-               
+       
+            <tbody>        
+              <tr>
+               <td rowspan="2" class="month">
+                <div>
+                    <p class="slds-text-heading_medium" ><b>Month</b></p>
+                </div>  
+                </td>
+                <td class = "bal-now">
+                    <div >
+                    <p class="slds-text-color_error slds-text-heading_medium slds-text-align_center"><b>Balance now:</b></p>
+                    </div>
+                </td>
+                <template for:each={officePicklist} for:item="office" for:index="index">  
+                    <td key = {office.Id} class = "bal-now">
                 
-                    <tr>
-                        <td rowspan="2" class="month">
-                            <div>
-                                <p class="slds-text-heading_medium" ><b>Month</b></p>
-                            </div>  
-                        </td>
-                        <td class = "bal-now">
-                            <div >
-                            <p class="slds-text-color_error slds-text-heading_medium slds-text-align_center"><b>Balance now:</b></p>
-                            </div>
-                        </td>
-                        <template for:each={officePicklist} for:item="office" for:index="index">  
-                            <td key = {office.Id} class = "bal-now">
-                       
-                            <div class ="slds-text-heading_medium slds-text-align_center">
-                            <b>
-                            <c-office-balance-now
-                            office={office.value}>
-                            </c-office-balance-now>
-                            </b>
-                            </div>
-                        </td>
-                        </template>
+                    <div class ="slds-text-heading_medium slds-text-align_center">
+                    <b>
+                    <c-office-balance-now
+                    office={office.value}>
+                    </c-office-balance-now>
+                    </b>
+                    </div>
+                </td>
+                </template>
                       
-                        <td rowspan="2" class="summ">
-                            <div>
-                                <p class="slds-text-color_error slds-text-heading_medium " ><b>Sum:</b></p>
-                            </div>  
-                        </td>
-                    </tr>
+                <td rowspan="2" class="summ">
+                    <div>
+                        <p class="slds-text-color_error slds-text-heading_medium " ><b>Sum:</b></p>
+                    </div>  
+                </td>
+            </tr>
 
-                    <tr  class = "mon-av">
-                        <td >
-                            <div >
-                            <p class="slds-text-color_error slds-text-heading_small slds-text-align_center"><b>Monthly average</b></p>
-                            </div>
-                        </td>
-                        <template for:each={officePicklist} for:item="office" for:index="index">  
-                            <td key = {office.Id} >
-   
-                        <div class = "slds-text-align_center">
-                            <b>
-                                <c-office-monthly-average year={year} office={office.value}></c-office-monthly-average>
-                            </b>
-                        </div>
-                    </td>
-                    </template>
-                  
-                </tr>
-           <tr>
+            <tr  class = "mon-av">
+                <td >
+                    <div >
+                    <p class="slds-text-color_error slds-text-heading_small slds-text-align_center"><b>Monthly average</b></p>
+                    </div>
+                </td>
+                <template for:each={officePicklist} for:item="office" for:index="index">  
+                    <td key = {office.Id} >
+
+                <div class = "slds-text-align_center">
+                    <b>
+                        <c-office-monthly-average year={year} office={office.value}></c-office-monthly-average>
+                    </b>
+                </div>
+            </td>
+            </template>
+            </tr>
+            <tr>
             <td class = "mon-td">
                 <div>
                     <p>January</p>
@@ -104,29 +87,22 @@
                     <p></p>
                 </div>
             </td>
-
-             <template for:each={officePicklist} for:item="office" for:index="index">  
-                   <td key = {office.Id} >
-                      
+            <template for:each={officePicklist} for:item="office" for:index="index">  
+                   <td key = {office.Id} >                   
                 <div>
                     <p>
                         <c-admin-tab key = {office.Id} year={year} month="1" office={office.value}></c-admin-tab>                           
                     </p>
                 </div>
             </td>
-            </template>
-         
-             <td  class="summ" >
+            </template>    
+            <td  class="summ" >
             
                 <div>
                     <p><b>{january}</b></p>
                 </div>
-            </td>
-            
+            </td>        
            </tr>
-         
-         
-         
            <tr class = "blue">
             <td class = "mon-td">
                 <div>
@@ -147,16 +123,13 @@
                 </div>
             </td>
             </template>
-            <td  class="summ" >
-            
-                <div>
+            <td  class="summ" >      
+            <div>
                     <p><b>{february}</b></p>
                 </div>
             </td>
            </tr>
-          
-          
-          
+           
            <tr>
             <td class = "mon-td">
                 <div>
@@ -177,18 +150,12 @@
                 </div>
             </td>
             </template>
-            <td  class="summ" >
-            
+            <td  class="summ" >           
                 <div>
                     <p><b>{march}</b></p>
                 </div>
             </td>
-           </tr>
-        
-        
-        
-        
-        
+           </tr>    
            <tr class = "blue">
             <td class = "mon-td">
                 <div>
@@ -216,10 +183,7 @@
                 </div>
             </td>
            </tr>
-        
-        
-        
-        
+            
            <tr>
             <td class = "mon-td">
                 <div>
@@ -247,11 +211,7 @@
                 </div>
             </td>
            </tr>
-      
-      
-      
-      
-      
+       
            <tr class = "blue">
             <td class = "mon-td">
                 <div >
@@ -279,11 +239,7 @@
                 </div>
             </td>
            </tr>
-       
-       
-       
-       
-       
+         
            <tr>
             <td class = "mon-td">
                 <div>
@@ -311,11 +267,7 @@
                 </div>
             </td>
            </tr>
-          
-          
-          
-          
-          
+               
            <tr class = "blue">
             <td class = "mon-td">
                 <div>
@@ -343,10 +295,7 @@
                 </div>
             </td>
            </tr>
-        
-        
-        
-        
+      
            <tr>
             <td class = "mon-td">
                 <div>
@@ -374,12 +323,7 @@
                 </div>
             </td>
            </tr>
-       
-       
-       
-       
-       
-       
+         
            <tr class = "blue">
             <td class = "mon-td">
                 <div>
@@ -435,12 +379,6 @@
                 </div>
             </td>
            </tr>
-      
-      
-      
-      
-      
-      
            <tr class = "blue">
             <td class = "mon-td">
                 <div>
@@ -467,8 +405,7 @@
                     <p><b>{december}</b></p>
                 </div>
             </td>
-           </tr>
-           
+           </tr>       
            <tr class = "grey">
             <td class = "mon-td">
                 <div>
@@ -489,20 +426,16 @@
                 </div>
             </td>
             </template>
-            <td  class="grey" >
-            
+            <td  class="grey" >         
                 <div class = "slds-text-align_center">
                     <p><b>{yearExpenseSum}</b></p>
                 </div>
             </td>
-           </tr>
-               
-            </tbody>
+           </tr>             
+          </tbody>
         </table>
     </template>
        <template if:true={maneTable}>
-                    <c-modal-employee-tab year={year} office={office}></c-modal-employee-tab>
-                    
-                 
+                    <c-modal-employee-tab year={year} office={office}></c-modal-employee-tab>              
                 </template>
 </template> 

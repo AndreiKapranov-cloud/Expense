@@ -225,7 +225,7 @@ public with sharing class AdminController {
             List <Decimal> officeYearSumList = new List<Decimal>();
             officeYearSumList.add(officeYearSum);
             return officeYearSumList;
-        } catch (Exception e) {
+         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
       }

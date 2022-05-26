@@ -1,96 +1,65 @@
 <template> 
   
  <div class="slds-m-top_none">
- <div class="slds-page-header">
-            
+ <div class="slds-page-header">     
             <div class="slds-float_left">
               <p>{office}</p>
             </div>
             <div class="slds-float_right">
               <lightning-button label="&#8595; Income" title="Income" onclick={handleIncomeClick} class="slds-m-left_x-small"></lightning-button>
               <lightning-button label="New Expense" title="New Expense" onclick={handleNewExpenseClick} class="slds-m-left_x-small"></lightning-button>
-
               </div>
             <div class="slds-align_absolute-center slds-text-heading_medium">Balance:    <b>${yearBalance}</b></div>
            </div>
        <br>
-
-
-<div class="slds-p-horizontal_x-small">
-<div class="slds-grid slds-gutters">
-  <div class="slds-col ">
+    <div class="slds-p-horizontal_x-small">
+    <div class="slds-grid slds-gutters">
+      <div class="slds-col ">
   
-<template if:true = {monthList} >
-  <div class="slds-border_right">
-  <nav class="slds-nav-vertical" aria-label="Sub page">
+     <template if:true = {monthList} >
+    <div class="slds-border_right">
+    <nav class="slds-nav-vertical" aria-label="Sub page">
     <div class="slds-nav-vertical__section">
       <p id="entity-header">         MONTHS    Amount  Income</p>
-     
-     
-      <!-- <template for:each={tabs} for:item="tab" for:index="index">
- 
-        <li class="slds-nav-vertical__item" key={tab.Id} onclick={handleMonthClick} data-index={index}>
-          <a href="#" class="slds-nav-vertical__action" aria-current="true" aria-selected = "true">
+      
+    <template for:each={monthList} for:item="month" for:index="index">
+
+      <li class="slds-nav-vertical__item" key={month.Id} onclick={handleMonthClick} data-index={index}>
+        <a href="#" class="slds-nav-vertical__action" aria-current="true" aria-selected = "true">
         
-         -->
-        
-            <template for:each={monthList} for:item="month" for:index="index">
- 
-              <li class="slds-nav-vertical__item" key={month.Id} onclick={handleMonthClick} data-index={index}>
-                <a href="#" class="slds-nav-vertical__action" aria-current="true" aria-selected = "true">
-                
-          
-            <c-nav-vertical year={year} month={month} login={login} password={password}>
-              
-            </c-nav-vertical>
-          <!-- <template if:true={tab.Amount__c}>
-            
-            {tab.Month__c}<span class="slds-badge"> {tab.Amount__c}</span>
-                        <span class="slds-badge" if:true={tab.Income__c}>{tab.Income__c}</span>
-         
-          </template>
-          <template if:false={tab.Amount__c}>
-           
-            
-            {tab.Month__c}                <span class="slds-badge" if:true={tab.Income__c}>{tab.Income__c}</span>
-           
-          </template> -->
-          
-          </a>
+  
+    <c-nav-vertical year={year} month={month} login={login} password={password}>
+      
+    </c-nav-vertical>      
+        </a>
         </li>
        </template>
-     
     </div>
     <div style="background:#afb1b4"><b>         Total:           {amountTotal}   {yearIncome}</b></div>
-  </nav>
- 
- 
-  
-  years
-</div>
-</template>
-<div class="slds-button-group" role="group" style = "width:6rem" >
-   
-  <template if:true={years}>
-  <template for:each={years} for:item="year" for:index="index">
-  <button class="slds-button slds-button_neutral" key = {year.Id} onclick={handleYearClick} data-index={index}>{year}</button>
-  </template>
-  </template>  
-</div>
-</div>
-<div class="slds-col ">
-  
-  <c-accord year={year} month={month} login={login} password={password}>
+    </nav>
+     years
+      </div>
+      </template>
+      <div class="slds-button-group" role="group" style = "width:6rem" >
+        
+        <template if:true={years}>
+        <template for:each={years} for:item="year" for:index="index">
+        <button class="slds-button slds-button_neutral" key = {year.Id} onclick={handleYearClick} data-index={index}>{year}</button>
+        </template>
+        </template>  
+      </div>
+      </div>
+      <div class="slds-col ">
+        
+      <c-accord year={year} month={month} login={login} password={password}>
 
-  </c-accord>
- 
-  
-  </div>
-</div>
-  </div>
-  </div>
-  <template if:true={isModalOpen}>
-    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal slds-modal slds-fade-in-open">
+      </c-accord>    
+      </div>
+      </div>
+        </div>
+        </div>
+     <template if:true={isModalOpen}>
+       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal slds-modal slds-fade-in-open">
         <div class="slds-modal__container ">
             <header class="slds-modal__header">
                 <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
@@ -122,15 +91,13 @@
                 <button class="slds-button slds-button_brand" onclick={handleSaveExpenseCard} title="save">Save</button>
             </footer>
         </div>
-    </section>
-    <div class="slds-backdrop slds-backdrop_open"></div>
-</template>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
 
-
-
-<template if:true={isIncomeModalOpen}>
-  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal slds-modal slds-fade-in-open">
-      <div class="slds-modal__container ">
+        <template if:true={isIncomeModalOpen}>
+          <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal slds-modal slds-fade-in-open">
+          <div class="slds-modal__container ">
           <header class="slds-modal__header">
               <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeIncomeModal}>
                   <lightning-icon icon-name="utility:close"
@@ -147,12 +114,12 @@
            >
           </lightning-input>
    
-      <lightning-input type="date" style="width:240px" name="IncomeDate" label="IncomeDate"
-      placeholder="12 May 2016"   onchange={handleIncomeDateInput}
-       >
-      </lightning-input>
-      
-    </div>
+        <lightning-input type="date" style="width:240px" name="IncomeDate" label="IncomeDate"
+        placeholder="12 May 2016"   onchange={handleIncomeDateInput}
+        >
+        </lightning-input>
+        
+        </div>
           <footer class="slds-modal__footer">
               <button class="slds-button slds-button_neutral" onclick={closeIncomeModal} title="Cancel">Cancel</button>
               <button class="slds-button slds-button_brand" onclick={handleSaveIncome} title="save">Save</button>
