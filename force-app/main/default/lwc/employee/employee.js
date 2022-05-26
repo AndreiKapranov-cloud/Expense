@@ -5,7 +5,7 @@ import getYearForTab from '@salesforce/apex/EmployeeController.getYearForTab';
 import populateDates from '@salesforce/apex/EmployeeController.populateDates';
 import getCardList from '@salesforce/apex/EmployeeController.getCardList';
 import getAccords from '@salesforce/apex/EmployeeController.getAccords';
-import getAccordWithExCards from '@salesforce/apex/EmployeeController.getAccordWithExCards';
+import getExCards from '@salesforce/apex/EmployeeController.getExCards';
 import getYear from '@salesforce/apex/EmployeeController.getYear';
 import getAmountTotal from '@salesforce/apex/EmployeeController.getAmountTotal';
 import getYearIncome from '@salesforce/apex/EmployeeController.getYearIncome';
@@ -56,16 +56,16 @@ export default class Employee extends LightningElement {
 @track columnsForMonths = columnsForMonths;
 @track columns = columns; 
 
-@track year;  
+year;  
 @track amountTotal;
-@track month; 
+month; 
 @track yearIncome;   
 @track yearBalance; 
-office = 'Office 5';//@api office
-keeperId = '0035i000004hujfAAA';//@api keeperId
+@api office;//@api office
+@api keeperId;// = '0035i000004hujfAAA';//@api keeperId
 
-@api login = 'gggggg@mail.ru';
-@api password = 'fff';
+@api login;// = 'gggggg@mail.ru';
+@api password;// = 'fff';
 
 dateInput;
 amountInput;
@@ -83,6 +83,7 @@ incomeInput;
 @track isModalOpen = false;
 @track isIncomeModalOpen = false;
 
+monthList = [1,2,3,4,5,6,7,8,9,10,11,12];
 @wire(getTables)
 tables({ error, data }) {
     if (data) {
@@ -110,7 +111,7 @@ year({ error, data }) {
         console.error('e.message => ' + e.message );
     }
 }
-@wire(getAmountTotal,{login:'$login',password:'$password'})
+@wire(getAmountTotal,{year:'$year',login:'$login',password:'$password'})
 total({ error, data }) {
     if (data) {
         this.amountTotal = data;
@@ -123,7 +124,7 @@ total({ error, data }) {
         console.error('e.message => ' + e.message );
     }
 }
-@wire(getYearIncome,{login:'$login',password:'$password'})
+@wire(getYearIncome,{year:'$year',login:'$login',password:'$password'})
 income({ error, data }) {
     if (data) {
         this.yearIncome = data;
@@ -136,7 +137,7 @@ income({ error, data }) {
         console.error('e.message => ' + e.message );
     }
 }
-@wire(getYearBalance,{login:'$login',password:'$password'})
+@wire(getYearBalance,{year:'$year',login:'$login',password:'$password'})
 balance({ error, data }) {
     if (data) {
         this.yearBalance = data;
@@ -181,12 +182,12 @@ balance({ error, data }) {
     
     console.log(this.year);
       try {
-         this.helpList = await populateMonths({year:this.year,login:this.login,password:this.password}); 
-         let delayInMilliseconds = 2000; 
+        //  this.helpList = await populateMonths({year:this.year,login:this.login,password:this.password}); 
+        //  let delayInMilliseconds = 2000; 
 
-         setTimeout(function() {
-            window.location.reload();
-         }, delayInMilliseconds);
+        //  setTimeout(function() {
+        //     window.location.reload();
+        //  }, delayInMilliseconds);
 
         } catch (error) {
           console.error(error);
@@ -196,23 +197,25 @@ balance({ error, data }) {
     }
 
     async handleMonthClick(event){
+        try {
         this.error = '';
         const itemIndexx = event.currentTarget.dataset.index;
         
-        this.month = itemIndexx;
+        this.month = this.monthList[itemIndexx];
         
         console.log(this.month);
         console.log(this.year);
-          try {
-            this.dateList = await getAccordWithExCards({month:this.month});
+        //  try {
+            // this.dateList = await getExCards({year:2023,month:2,
+            // login:'$login',password:'$password'});
             
           //  this.dateList = await populateDates({year:2022,month:this.month}); 
-          let delayInMilliseconds = 2000; //1 second
+        //   let delayInMilliseconds = 2000; //1 second
 
-          setTimeout(function() {
-             window.location.reload();
-       
-          }, delayInMilliseconds);
+        //   setTimeout(function() {
+        //      window.location.reload();
+             
+        //   }, delayInMilliseconds);
   
           console.log(this.dateList);
             } catch (error) {
@@ -221,6 +224,18 @@ balance({ error, data }) {
               console.error('e.message => ' + e.message );
           }
      }
+//      @wire(getExCards,{year:2023,month:2,login:'$login',password:'$password'})
+//      getDL({ error, data }) {
+//      if (data) {
+//          this.dateList = data;
+//          this.error = undefined;
+//      } else if (error) {
+//          this.error = error;
+//          this.dateList = undefined; 
+//          console.log('Something went wrong:', error);
+//          console.error('e.message => ' + e.message );
+//      }
+//    }
      handleNewExpenseClick(){
        
             this.isModalOpen = true;
@@ -264,7 +279,7 @@ balance({ error, data }) {
                     })
                 );
               
-                return this.refresh();
+             //   return this.refresh();
             })
             .catch((error) => {
                 this.error = error;
@@ -303,7 +318,7 @@ balance({ error, data }) {
     }
     handleSaveIncome(event) {
         saveIncomeInput({income:this.incomeInput,incomeDate:this.incomeDate,
-           keeper:this.keeperId})
+           keeperId:this.keeperId})
            .then(res => {
             this.dispatchEvent(
                 new ShowToastEvent({
@@ -313,7 +328,7 @@ balance({ error, data }) {
                 })
             );
           
-            return this.refresh();
+       //     return this.refresh();
         })
         .catch((error) => {
             this.error = error;

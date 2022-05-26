@@ -1,0 +1,55 @@
+<template>
+  <table >
+
+       
+    <thead>
+
+    </thead>
+    <tbody>
+      <tr >
+        <td>
+       
+
+       <template if:true={monthlyExpenseSpentAmount}>
+      
+        {monthName}<span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span>
+     
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>
+       
+        
+        {monthName}                <span class="slds-badge" if:true={monExIncome}>{monExIncome}</span>
+      </template>
+      </td>
+      
+       <!-- <td>
+        <span class="slds-badge" if:true={monthlyExpenseSpentAmount}>{monthlyExpenseSpentAmount}</span>
+       </td> 
+       <td>
+          <span class="slds-badge" if:true={monExIncome}>{monExIncome}</span>
+       </td> -->
+      
+       
+      
+      
+      
+       
+       </tr>
+    </tbody>
+      
+
+      </table>
+
+    <!-- <template if:true={monthlyExpenseSpentAmount}>
+      
+        {monthName}<span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span>
+     
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>
+       
+        
+        {monthName}                <span class="slds-badge" if:true={monExIncome}>{monExIncome}</span>
+       
+      </template> -->
+
+</template>

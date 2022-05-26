@@ -36,7 +36,7 @@
     <lightning-card>
     <template if:true={isAdmin}>
        
-        <c-admin>      
+        <c-admin >      
         </c-admin>
         
     </template>
@@ -46,9 +46,7 @@
        
        
     
-    <c-employee 
-    office={office}
-    keeper-id={keeperId}
+    <c-employee office={office} keeper-id={keeperId} login={login} password={password}
      ></c-employee>
        
     </template>

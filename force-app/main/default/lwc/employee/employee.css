@@ -5,3 +5,9 @@
   
 --slds-c-backdrop-color-background:var(--slds-c-button-brand-color-background-onclick);
 }
+.col{
+  width: 30%;
+}
+.accord{
+  width: 70%;
+}

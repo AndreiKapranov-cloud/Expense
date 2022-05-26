@@ -3,8 +3,8 @@
         <template if:true={dateList}>
           <lightning-accordion allow-multiple-sections-open>
           <template for:each={dateList} for:item="dat" for:index="indexVar">
-              <lightning-accordion-section key={dat.CardDate__c} name={dat.CardDate__c} label={dat.CardDate__c}>
-             <c-accord-table card-date = {dat.CardDate__c}>
+              <lightning-accordion-section key={dat} name={dat} label={dat}>
+             <c-accord-table card-date = {dat} login={login} password={password}>
              </c-accord-table>            
               </lightning-accordion-section>  
           </template> 

@@ -9,13 +9,13 @@ export default class LoginPage extends LightningElement {
  keeperId;
  expPict = EXPENSES;
  office;
- login = 'gggggg@mail.ru';
- password = 'fff';
+ @track login;
+ @track password;
  error;
  result;
  isAdmin = false;
- isEmployee = true;
- selector = true;
+ isEmployee = false;
+ selector = false;
  
 
  handleLoginInput(event) {

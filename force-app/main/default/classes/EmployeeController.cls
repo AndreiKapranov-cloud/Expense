@@ -22,6 +22,68 @@ public with sharing class EmployeeController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    @AuraEnabled(cacheable =true)
+    public static MonthlyExpense__c getMonEx(Integer year,Integer month,String login,String password){
+        try {
+            Date monthBeginning = Date.newInstance(year, month, 1);
+            Date monthEnd = Date.newInstance(year, month + 1, 1) - 1;
+          
+        
+            List<MonthlyExpense__c> meList = [select Balance__c,SpentAmount__c,Keeper__r.Email,monthDate__c,Name from MonthlyExpense__c
+            where monthDate__c >= :monthBeginning AND monthDate__c <= :monthEnd AND Keeper__r.Email = :login AND Keeper__r.Password__c =:password];
+           
+            MonthlyExpense__c me = (meList != null && meList.size()>0) ? meList[0] : null;
+             
+            return me;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled(cacheable=true)
+    public static List<Decimal> getMonExSpentAm(Integer year,Integer month,String login,String password){
+        try {
+            MonthlyExpense__c me = getMonEx(year,month,login,password);
+           
+            Decimal spentAmount = 0;
+            if (me != null) {
+            spentAmount = me.SpentAmount__c;
+            }
+            List<Decimal>spEmList = new List<Decimal>();
+            spEmList.add(spentAmount);
+            return spEmList;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled(cacheable = true)
+    public static List<Decimal> getMonExIncome(Integer year,Integer month,String login,String password){
+      try {
+       Decimal spentAmount = getMonExSpentAm(year,month,login,password)[0];
+       Decimal balance = getMonExBalance(year,month,login,password)[0];
+       
+       Decimal income = balance + spentAmount;
+       List<Decimal>incomeList = new List<Decimal>();
+       incomeList.add(income);
+       return incomeList;
+      } catch (Exception e) {
+          throw new AuraHandledException(e.getMessage());
+      }
+  }
+    @AuraEnabled(cacheable = true)
+    public static List<Decimal> getMonExBalance(Integer year,Integer month,String login,String password){
+        try {
+            MonthlyExpense__c me = getMonEx(year,month,login,password);
+            Decimal balance = 0;
+            if (me != null) {
+            balance = me.Balance__c;
+            }
+            List<Decimal>balanceList = new List<Decimal>();
+            balanceList.add(balance);
+            return balanceList;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
     @AuraEnabled(cacheable=true)
     public static List<MonthlyExpense__c> getMonthlyExpense(Integer year,String login,String password){
         try {
@@ -136,23 +198,23 @@ public with sharing class EmployeeController {
         }
     }
     @AuraEnabled(cacheable = true)
-    public static Integer getAmountTotal(String login,String password){
+    public static Integer getAmountTotal(Integer year,String login,String password){
         try {
     Integer amountTotal = 0;
-    List <MonthlyExpense__c> monExList = getMonthlyExpense(getYear(),login,password);
+    List <MonthlyExpense__c> monExList = getMonthlyExpense(year,login,password);
     
     for(MonthlyExpense__c mE : monExList){
     amountTotal = amountTotal + Integer.valueOf(mE.SpentAmount__c);
-  }
+    }
     return amountTotal;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
     @AuraEnabled(cacheable=true)
-    public static Integer getYearIncome(String login,String password){
+    public static Integer getYearIncome(Integer year,String login,String password){
         try {
-       return getAmountTotal(login,password) + getYearBalance(login,password);
+       return getAmountTotal(year,login,password) + getYearBalance(year,login,password);
       } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -179,9 +241,9 @@ public static List<Accord__c> getAccords(Integer year,Integer month){
 
 
 @AuraEnabled(cacheable = true)
-public static Integer getYearBalance(String login,String password){
+public static Integer getYearBalance(Integer year,String login,String password){
     try {
-        List <MonthlyExpense__c> monExList = getMonthlyExpense(getYear(),login,password);
+        List <MonthlyExpense__c> monExList = getMonthlyExpense(year,login,password);
 
         Integer yearBalance = 0;
         for(MonthlyExpense__c mE : monExList){
@@ -205,52 +267,109 @@ public static List<Accord__c> getAccords(){
         throw new AuraHandledException(e.getMessage());
     }
 }
-   @AuraEnabled
-   public static List<Accord__c> getAccordWithExCards(Integer month){
-       try {
-      List<Table__c> tabList = [select Year__c from Table__c];   
-      Integer year = Integer.valueOf(tabList[0].Year__c);
-      List<Accord__c> acdList = new List<Accord__c>();
-      List<Date> dates = populateDates(year,month + 1);
-      for(Date dt : dates){
-          Accord__c acd = new Accord__c(CardDate__c = dt);
-          acdList.add(acd);
-      }
-      Date beginningOfMonth = dates[0];
-      Date endOfMonth = dates.get(dates.size() - 1);
+//    @AuraEnabled
+//    public static List<Accord__c> getAccordWithExCards(Integer month){
+//        try {
+//       List<Table__c> tabList = [select Year__c from Table__c];   
+//       Integer year = Integer.valueOf(tabList[0].Year__c);
+//       List<Accord__c> acdList = new List<Accord__c>();
+//       List<Date> dates = populateDates(year,month + 1);
+//       for(Date dt : dates){
+//           Accord__c acd = new Accord__c(CardDate__c = dt);
+//           acdList.add(acd);
+//       }
+//       Date beginningOfMonth = dates[0];
+//       Date endOfMonth = dates.get(dates.size() - 1);
       
-      List <ExpenseCard__c> exCards = [select CardDate__c,Description__c,Amount__c from ExpenseCard__c
-      where CardDate__c >= :beginningOfMonth AND CardDate__c<= :endOfMonth ];
-      Map<Date, ExpenseCard__c> exCardsMap = new Map<Date, ExpenseCard__c>();
+//       List <ExpenseCard__c> exCards = [select CardDate__c,Description__c,Amount__c from ExpenseCard__c
+//       where CardDate__c >= :beginningOfMonth AND CardDate__c<= :endOfMonth ];
+//       Map<Date, ExpenseCard__c> exCardsMap = new Map<Date, ExpenseCard__c>();
      
-      for(ExpenseCard__c eC : exCards){
+//       for(ExpenseCard__c eC : exCards){
        
-        exCardsMap.put(eC.CardDate__c,eC);
-    }
+//         exCardsMap.put(eC.CardDate__c,eC);
+//     }
 
 
-      for(Accord__c acd : acdList){
+//       for(Accord__c acd : acdList){
      
        
       
-      //  ExpenseCard__c card = exCardsMap.get(acd.CardDate__c);
-      //  acd.ExpenseCard__c = card.Id;
+//       //  ExpenseCard__c card = exCardsMap.get(acd.CardDate__c);
+//       //  acd.ExpenseCard__c = card.Id;
 
-        for(ExpenseCard__c exc : exCards){
-              if(exc.CardDate__c == acd.CardDate__c){
-                acd.ExpenseCard__c = exc.Id;
-              }
-          }
-      }
-    List<Accord__c> oldAccords = [select Id from Accord__c];
-    delete oldAccords;
-    insert acdList; 
-    return acdList;
-       } catch (Exception e) {
-           throw new AuraHandledException(e.getMessage());
-       }
-    }
+//         for(ExpenseCard__c exc : exCards){
+//               if(exc.CardDate__c == acd.CardDate__c){
+//                 acd.ExpenseCard__c = exc.Id;
+//               }
+//           }
+//       }
+//     List<Accord__c> oldAccords = [select Id from Accord__c];
+//     delete oldAccords;
+//     insert acdList; 
+//     return acdList;
+//        } catch (Exception e) {
+//            throw new AuraHandledException(e.getMessage());
+//        }
+//     }
+    @AuraEnabled(cacheable = true)
+    public static List<ExpenseCard__c> getExCards(Integer month,Integer year,String login,String password){
+        try {
+     //  List<Table__c> tabList = [select Year__c from Table__c];   
+     //  Integer year = Integer.valueOf(tabList[0].Year__c);
+    //   List<Accord__c> acdList = new List<Accord__c>();
     
+    
+    //List<Date> dates = populateDates(year,month + 1);
+  
+  
+  
+       //    for(Date dt : dates){
+    //     //   Accord__c acd = new Accord__c(CardDate__c = dt);
+    //      //  acdList.add(acd);
+    //    }
+
+
+
+    //    Date beginningOfMonth = dates[0];
+    //    Date endOfMonth = dates.get(dates.size() - 1);
+       
+    Date monthBeginning = Date.newInstance(year, month, 1);
+    Date monthEnd = Date.newInstance(year, month + 1, 1) - 1;
+    
+       List <ExpenseCard__c> exCards = [select CardDate__c,Description__c,Amount__c from ExpenseCard__c
+       where CardDate__c >= :monthBeginning AND CardDate__c<= :monthEnd
+       AND CardKeeper__r.Email = :login AND CardKeeper__r.Password__c =:password ];
+       Map<Date, ExpenseCard__c> exCardsMap = new Map<Date, ExpenseCard__c>();
+      
+    //    for(ExpenseCard__c eC : exCards){
+        
+    //      exCardsMap.put(eC.CardDate__c,eC);
+    //  }
+ 
+ 
+    //    for(Accord__c acd : acdList){
+      
+        
+       
+    //    //  ExpenseCard__c card = exCardsMap.get(acd.CardDate__c);
+    //    //  acd.ExpenseCard__c = card.Id;
+ 
+    //      for(ExpenseCard__c exc : exCards){
+    //            if(exc.CardDate__c == acd.CardDate__c){
+    //              acd.ExpenseCard__c = exc.Id;
+    //            }
+    //        }
+    //    }
+    //  List<Accord__c> oldAccords = [select Id from Accord__c];
+    //  delete oldAccords;
+    //  insert acdList; 
+     return exCards;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+     }
+     
     @AuraEnabled
     public static void saveExpenseCard(Integer amount,Date cardDate,String description,
     Id cardKeeperId){
@@ -263,22 +382,37 @@ public static List<Accord__c> getAccords(){
         }
     }
     @AuraEnabled
-    public static void saveIncomeInput(Integer income,Date incomeDate,Id keeper){
+    public static void saveIncomeInput(Integer income,Date incomeDate,Id keeperId){
         try {
          Date monthBeginning = incomeDate.toStartOfMonth();
-         Date monthEnd = date.newInstance(incomeDate.year(), incomeDate.month()+1,1)-1;
+         Date monthEnd = date.newInstance(incomeDate.year(),incomeDate.month()+1,1)-1;
          List<MonthlyExpense__c> mEList = [select Id,Balance__c from MonthlyExpense__c
-         where Monthdate__c  < :monthEnd AND Monthdate__c > :monthBeginning];
+         where Monthdate__c  <= :monthEnd AND Monthdate__c >= :monthBeginning
+         AND Keeper__c =:keeperId];
          if(mEList.size() > 0){
          mEList[0].Balance__c = mEList[0].Balance__c + income;
          update mEList;
          }else{
             MonthlyExpense__c newMExpense = new  MonthlyExpense__c(
-                MonthDate__c = incomeDate,Keeper__c = keeper,Balance__c = income
+                MonthDate__c = incomeDate,Keeper__c = keeperId,Balance__c = income
             );
          insert newMExpense;
          }
          
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled(cacheable = true)
+    public static List<string> getMonthNameFromNum(Integer num){
+        try {
+            List<String>monthList = new List<String>{'January       ','February      ','March         ','April         ','May           ',
+            'June          ','July          ','August        ','September     ','October       ','November      ','December      '};
+         
+            String monthName = monthList[num-1];
+            List<String>mNList = new List<String>();
+            mNList.add(monthName);
+            return mNList;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

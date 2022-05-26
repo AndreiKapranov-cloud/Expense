@@ -38,7 +38,11 @@ export default class AccordTable extends LightningElement {
     @api cardDate;
     @track cardList;
     @track sum;
-    @wire(getExpenseCards,{cardDate:'$cardDate'})
+    @api login;
+    @api password;
+
+
+    @wire(getExpenseCards,{cardDate:'$cardDate',login:'$login',password:'$password'})
     cards({ error, data }) {
     if (data) {
         this.cardList = data;
@@ -50,7 +54,7 @@ export default class AccordTable extends LightningElement {
         console.error('e.message => ' + e.message );
     }
   }
-  @wire (getSum,{cardDate:'$cardDate'})
+  @wire (getSum,{cardDate:'$cardDate',login:'$login',password:'$password'})
   sum({ error, data }) {
     if (data) {
         this.sum = data;
