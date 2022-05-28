@@ -17,7 +17,7 @@ export default class Admin extends LightningElement {
     @track officeBalanceNow;
     @track monthlyAverage;
     @track sumList = [];
-    @track yearExpenseSum;
+    yearExpenseSum = 0;
     @track officeMonthlySpentAmount = [];
   
     @track january;
@@ -36,7 +36,7 @@ export default class Admin extends LightningElement {
     @api maneTable = false;
     modalOfficeName;
     @api label ='Regional Expenses year...';
-    
+    zero = 0;
 
     years = [];
     @api year;
@@ -152,7 +152,7 @@ export default class Admin extends LightningElement {
         @wire(getYearSum,{year:'$year'})
         getYME({ error, data }) {
         if (data) {
-            this.yearExpenseSum = data;
+            this.yearExpenseSum = data[0];
             console.log(this.officeBalanceNow);
             this.error = undefined;
         } else if (error) {

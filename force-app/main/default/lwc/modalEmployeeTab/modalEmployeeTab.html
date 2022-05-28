@@ -3,29 +3,30 @@
     <template if:true={maneTable}>
        <b> {office} Expenses {year}</b>
     <lightning-button label="Back" title="Non-primary action" onclick={handleBackClick} class="slds-m-left_x-small"></lightning-button>
-          <table  border="1" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered"> 
-             <thead>          
+          <!-- <table  border="1" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">  -->
+          <table class = "slds-table_bordered slds-table_col-bordered">
+            <thead>          
              <tr >                      
-             <td  class = "light-blue slds-text-align_center">        
-            <div title="Regional Expenses" class = "slds-text-align_center"><b>                         
+            <td >        
+            <div class = "overflow pink"><b>                         
                 Employee
             </b></div>
            </td>                   
                         
-            <td>Jan </td>      
-            <td>Feb</td>
-            <td>Mar</td>
-            <td>Apr</td>
-            <td>May</td>
-            <td>Jun</td>
-            <td>Jul</td>
-            <td>Aug</td>
-            <td>Sep</td>
-            <td>Oct</td>
-            <td>Nov</td>
-            <td>Dec</td>        
+            <td class = "blue">Jan </td>      
+            <td class = "blue">Feb</td>
+            <td class = "blue">Mar</td>
+            <td class = "blue">Apr</td>
+            <td class = "blue">May</td>
+            <td class = "blue">Jun</td>
+            <td class = "blue">Jul</td>
+            <td class = "blue">Aug</td>
+            <td class = "blue">Sep</td>
+            <td class = "blue">Oct</td>
+            <td class = "blue">Nov</td>
+            <td class = "blue">Dec</td>        
            <td  class="summ" width="15%">                              
-           <div class="slds-truncate " title="Summ">
+           <div class="slds-truncate yellow" title="Summ">
                           Summ 
                         </div>                  
                    </td>                  
@@ -33,18 +34,14 @@
         </thead>            
          <tbody>                    
            <template for:each={officeEmployees} for:item="officeEmployee" for:index="index">                                   
-            <tr class = "blue" key = {officeEmployee.Id}>  
-                <td class = "mon-td">
-                    <div>
-                        {officeEmployee.Name}
-                    </div>
+            <tr key = {officeEmployee.Id}>  
+                <td class = "overflow pink" >               
+                        {officeEmployee.Name}    
                 </td>
-                <td key = {officeEmployee.Id} class = "blue">
-                <div>
+                <td class="summ">
                 <p>
-                    <c-office-employee-mon-ex year={year} month="1" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
-                </p>
-                    </div>
+                 <c-office-employee-mon-ex year={year} month="1" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
+                </p>    
                 </td>  
                 <td  class="summ" >  
                  <p>
@@ -104,7 +101,7 @@
                         <c-office-employee-mon-ex year={year} month="12" employee-id={officeEmployee.Id}></c-office-employee-mon-ex>                         
                     </p>
                 </td>
-                <td  class="summ" >
+                <td  class="overflow yellow" >
                                                 
                     <p>
                         <c-employee-year-expense year={year} employee-id={officeEmployee.Id}></c-employee-year-expense>                         

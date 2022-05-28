@@ -4,6 +4,7 @@ export default class adminTab extends LightningElement {
   @api year;
   @api month;
   @api office;
+  zero = 0;
   
   @track officeMonthlySpentAmount = 0;
 

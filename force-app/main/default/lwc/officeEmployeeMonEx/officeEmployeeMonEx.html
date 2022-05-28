@@ -1,3 +1,10 @@
 <template>
-    {officeEmployeeMonthlyExpense}
+        <template if:true={officeEmployeeMonthlyExpense}>
+        <div class = "overflow"> 
+           <lightning-formatted-number value={officeEmployeeMonthlyExpense} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number>
+        </div>
+        </template>
+        <template if:false={officeEmployeeMonthlyExpense}>
+            {zero}
+        </template> 
 </template>

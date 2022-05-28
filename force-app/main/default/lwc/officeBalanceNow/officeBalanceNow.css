@@ -1,8 +1,5 @@
-:host {
-    display: table-cell;
-  }
-  .overflow{
-    
+.overflow{
+    text-align: center;
     width: 80px;
     text-overflow: ellipsis;
     word-break: break-all;
@@ -14,3 +11,4 @@
     white-space: normal;
     height:auto; 
   }
+    

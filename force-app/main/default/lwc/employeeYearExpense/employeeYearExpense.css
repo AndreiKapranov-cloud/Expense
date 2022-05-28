@@ -1,9 +1,6 @@
-:host {
-    display: table-cell;
-  }
-  .overflow{
+.overflow{
     
-    width: 80px;
+    width: 30px;
     text-overflow: ellipsis;
     word-break: break-all;
     overflow:hidden;

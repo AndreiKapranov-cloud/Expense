@@ -1,0 +1,14 @@
+.overflow{
+        text-align: center;
+        width: 80px;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        overflow:hidden;
+        white-space: nowrap;
+      }
+  .overflow:hover{
+        overflow: visible; 
+        white-space: normal;
+        height:auto; 
+      }
+        

@@ -3,7 +3,7 @@
  <div class="slds-m-top_none">
  <div class="slds-page-header">     
             <div class="slds-float_left">
-              <p>{office}</p>
+              <p class ="slds-text-heading_small">Expenses {office}</p>
             </div>
             <div class="slds-float_right">
               <lightning-button label="&#8595; Income" title="Income" onclick={handleIncomeClick} class="slds-m-left_x-small"></lightning-button>
@@ -20,8 +20,24 @@
     <div class="slds-border_right">
     <nav class="slds-nav-vertical" aria-label="Sub page">
     <div class="slds-nav-vertical__section">
-      <p id="entity-header">         MONTHS    Amount  Income</p>
-      
+      <!-- <p id="entity-header">         MONTHS    Amount  Income</p> -->
+    
+      <table >    
+        <thead>     
+          <tr > 
+              <td  width="53px" style="text-align: end;" >MONTHS           
+              </td>                 
+              <td  width="33px" style="text-align:center">Amount                 
+              </td>             
+              <td  width="33px" style="text-align:center">Income             
+              </td>            
+          </tr>
+         </thead>
+         <tbody>     
+       </tbody>
+     </table>
+
+
     <template for:each={monthList} for:item="month" for:index="index">
 
       <li class="slds-nav-vertical__item" key={month.Id} onclick={handleMonthClick} data-index={index}>
@@ -35,7 +51,23 @@
         </li>
        </template>
     </div>
-    <div style="background:#afb1b4"><b>         Total:           {amountTotal}   {yearIncome}</b></div>
+  
+  <div  style="background:#afb1b4">
+    <table >    
+      <thead>     
+        <tr> 
+            <td  width="60px" style="text-align:center" ><b>Total: </b>       
+            </td>                 
+            <td  width="33px" style="text-align:center"><b>{amountTotal}</b>               
+            </td>             
+            <td  width="33px" style="text-align:center"><b>{yearIncome}</b>           
+            </td>            
+          </tr>
+        </thead>
+        <tbody>     
+      </tbody>
+    </table>
+    </div>
     </nav>
      years
       </div>

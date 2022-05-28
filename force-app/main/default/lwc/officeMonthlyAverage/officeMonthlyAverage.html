@@ -1,3 +1,10 @@
 <template>
-    {monthlyAverage}
+        <template if:true={monthlyAverage}>
+        <div class = "overflow"> 
+            <b><lightning-formatted-number value={monthlyAverage} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+        </div>
+        </template>
+        <template if:false={monthlyAverage}>
+            <b>{zero}</b>
+        </template> 
 </template>

@@ -1,3 +1,11 @@
 <template>
-  {officeBalanceNow}  
+  <template if:true={officeBalanceNow}>
+    <div class = "overflow"> 
+        <b><lightning-formatted-number value={officeBalanceNow} format-style="decimal" minimum-fraction-digits="1"></lightning-formatted-number></b>
+    </div>
+    </template>
+    <template if:false={officeBalanceNow}>
+        <b>{zero}</b>
+    </template> 
+
 </template>

@@ -8,6 +8,7 @@ export default class ModalEmployeeTab extends LightningElement {
     @api year;
     maneTable = true;
     label;
+    zero = 0;
     
     @wire(getOfficeEmployees,{office:'$office'})
     getOE({ error, data }) {

@@ -1,17 +1,64 @@
 <template>
-  <!-- <table >    
-    <thead>
-    </thead>
-    <tbody>
+  <!-- <template if:true={monthlyExpenseSpentAmount}> 
+    {monthName}  <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+  </template>
+</td>
+<td>
+  <template if:false={monthlyExpenseSpentAmount}>    
+   {monthName}                  <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+  </template> -->
+
+
+
+  <table >    
+    <thead style='display:none;'>     
+      <tr > 
+          <td  width="33px" >            
+          </td>                 
+          <td  width="33px">                   
+          </td>             
+          <td  width="33px">              
+          </td>            
+      </tr>
+     </thead>
+     <tbody>
       <tr >
-        <td> -->
+        <td>
+          {monthName}
+        </td>
+        <td>
+          <template if:true={monthlyExpenseSpentAmount}> 
+            <span class="slds-badge">{monthlyExpenseSpentAmount}</span> 
+          </template>
+        </td>
+        <td>
+        <template if:true={monthlyExpenseSpentAmount}> 
+          <span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+        </template>
+        <template if:false={monthlyExpenseSpentAmount}>    
+          <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+            </template>
+        </td>
+
+      </tr>
+      </tbody>
+      </table>
 
 
 
 
 
 
-          
+
+
+
+
+
+
+
+
+
+<!--           
       <template if:true = {january}>    
       <template if:true={monthlyExpenseSpentAmount}> 
         {monthName}  <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
@@ -126,7 +173,7 @@
       <template if:false={monthlyExpenseSpentAmount}>    
        {monthName}                 <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
       </template>
-    </template>
+    </template> -->
 
       <!-- </td>   
       </tr>

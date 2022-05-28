@@ -11,3 +11,20 @@
 .accord{
   width: 70%;
 }
+table
+{
+    table-layout: fixed;
+    width: 190px;
+}
+
+td{
+  text-overflow: ellipsis;
+  word-break: break-all;
+  overflow:hidden;
+  white-space: nowrap;
+}
+td:hover{
+  overflow: visible; 
+  white-space: normal;
+  height:auto; 
+}

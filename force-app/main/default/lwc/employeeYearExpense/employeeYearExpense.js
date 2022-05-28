@@ -5,6 +5,7 @@ export default class EmployeeYearExpense extends LightningElement {
     @api year;
     @api employeeId;
     employeeYearExpenseSum = 0;
+    zero = 0;
    
     @wire(getEmployeeYearExpense,{employeeId:'$employeeId',year:'$year'})
     getOMSA({ error, data }) {

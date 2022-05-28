@@ -4,3 +4,30 @@
 --slds-c-badge-radius-border:0.2rem;
 --slds-c-badge-sizing-border:0.2rem;
 }
+table
+{
+    table-layout: fixed;
+    width: 170px;
+}
+td{
+    text-overflow: ellipsis;
+    word-break: break-all;
+    overflow:hidden;
+    white-space: nowrap;
+  }
+ td:hover{
+    overflow: visible; 
+    white-space: normal;
+    height:auto; 
+}
+span{
+    text-overflow: ellipsis;
+    word-break: break-all;
+    overflow:hidden;
+    white-space: nowrap;
+  }
+  span:hover{
+    overflow: visible; 
+    white-space: normal;
+    height:auto; 
+}

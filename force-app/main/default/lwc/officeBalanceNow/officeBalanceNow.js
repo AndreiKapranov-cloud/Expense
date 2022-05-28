@@ -4,6 +4,7 @@ import getOfficeBalanceNow from '@salesforce/apex/AdminController.getOfficeBalan
 export default class OfficeBalanceNow extends LightningElement {
 @api office;
 officeBalanceNow = 0;
+zero = 0;
 
 @wire(getOfficeBalanceNow,{office:'$office'})
 getOfBal({ error, data }) {

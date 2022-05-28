@@ -6,7 +6,7 @@ export default class OfficeEmployeeMonEx extends LightningElement {
     @api year;
     @api month;
     officeEmployeeMonthlyExpense = 0;
-    
+    zero = 0;
     
     @wire(getOfEmpMonEx,{employeeId:'$employeeId',year:'$year',month:'$month'})
     getOfBal({ error, data }) {

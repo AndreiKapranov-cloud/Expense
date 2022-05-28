@@ -40,7 +40,7 @@
                     </div>
                 </td>
                 <template for:each={officePicklist} for:item="office" for:index="index">  
-                    <td key = {office.Id} class = "bal-now">
+                 <td key = {office.Id} class = "bal-now">
                 
                     <div class ="slds-text-heading_medium slds-text-align_center">
                     <b>
@@ -49,7 +49,7 @@
                     </c-office-balance-now>
                     </b>
                     </div>
-                </td>
+                 </td>
                 </template>
                       
                 <td rowspan="2" class="summ">
@@ -96,11 +96,15 @@
                 </div>
             </td>
             </template>    
-            <td  class="summ" >
-            
-                <div>
-                    <p><b>{january}</b></p>
-                </div>
+            <td  class="summ" >       
+                    <template if:true={january}>
+                    <div class = "overflow"> 
+                        <b><lightning-formatted-number value={january} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    </div>
+                    </template>
+                    <template if:false={january}>
+                        <b>{zero}</b>
+                    </template>        
             </td>        
            </tr>
            <tr class = "blue">
@@ -124,9 +128,14 @@
             </td>
             </template>
             <td  class="summ" >      
-            <div>
-                    <p><b>{february}</b></p>
-                </div>
+                    <template if:true={february}>
+                    <div class = "overflow"> 
+                        <b><lightning-formatted-number value={february} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    </div>
+                    </template>
+                    <template if:false={february}>
+                        <b>{zero}</b>
+                    </template>   
             </td>
            </tr>
            
@@ -151,9 +160,14 @@
             </td>
             </template>
             <td  class="summ" >           
-                <div>
-                    <p><b>{march}</b></p>
+                <template if:true={march}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number value={march} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
+                </template>
+                <template if:false={march}>
+                    <b>{zero}</b>
+                </template> 
             </td>
            </tr>    
            <tr class = "blue">
@@ -177,10 +191,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{april}</b></p>
+                <template if:true={april}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number value={april} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
+                </template>
+                <template if:false={april}>
+                    <b>{zero}</b>
+                </template> 
             </td>
            </tr>
             
@@ -205,10 +223,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{may}</b></p>
-                </div>
+                    <template if:true={may}>
+                    <div class = "overflow"> 
+                        <b><lightning-formatted-number value={may} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    </div>
+                    </template>
+                    <template if:false={may}>
+                        <b>{zero}</b>
+                    </template> 
             </td>
            </tr>
        
@@ -233,10 +255,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{june}</b></p>
+                <template if:true={june}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number value={june} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
+                </template>
+                <template if:false={june}>
+                    <b>{zero}</b>
+                </template> 
             </td>
            </tr>
          
@@ -261,10 +287,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{july}</b></p>
+                <template if:true={july}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number value={july} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
+                </template>
+                <template if:false={july}>
+                    <b>{zero}</b>
+                </template> 
             </td>
            </tr>
                
@@ -289,10 +319,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{august}</b></p>
+                <template if:true={august}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number value={august} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
+                </template>
+                <template if:false={august}>
+                    <b>{zero}</b>
+                </template> 
             </td>
            </tr>
       
@@ -317,10 +351,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{september}</b></p>
-                </div>
+                    <template if:true={september}>
+                    <div class = "overflow"> 
+                        <b><lightning-formatted-number value={september} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    </div>
+                    </template>
+                    <template if:false={september}>
+                        <b>{zero}</b>
+                    </template> 
             </td>
            </tr>
          
@@ -345,10 +383,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{october}</b></p>
-                </div>
+                    <template if:true={october}>
+                    <div class = "overflow"> 
+                        <b><lightning-formatted-number value={october} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    </div>
+                    </template>
+                    <template if:false={october}>
+                        <b>{zero}</b>
+                    </template> 
             </td>
            </tr>
          
@@ -373,10 +415,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{november}</b></p>
+                <template if:true={november}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number value={november} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
+                </template>
+                <template if:false={november}>
+                    <b>{zero}</b>
+                </template> 
             </td>
            </tr>
            <tr class = "blue">
@@ -400,10 +446,14 @@
             </td>
             </template>
             <td  class="summ" >
-            
-                <div>
-                    <p><b>{december}</b></p>
+                <template if:true={december}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number value={december} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
+                </template>
+                <template if:false={december}>
+                    <b>{zero}</b>
+                </template> 
             </td>
            </tr>       
            <tr class = "grey">
@@ -428,7 +478,14 @@
             </template>
             <td  class="grey" >         
                 <div class = "slds-text-align_center">
-                    <p><b>{yearExpenseSum}</b></p>
+                    <template if:true={yearExpenseSum}>
+                    <div class = "overflow"> 
+                        <b><lightning-formatted-number value={yearExpenseSum}  format-style="decimal" minimum-fraction-digits="1"></lightning-formatted-number></b>
+                    </div>
+                    </template>
+                    <template if:false={yearExpenseSum}>
+                        <b>{zero}</b>
+                    </template>
                 </div>
             </td>
            </tr>             
@@ -436,6 +493,6 @@
         </table>
     </template>
        <template if:true={maneTable}>
-                    <c-modal-employee-tab year={year} office={office}></c-modal-employee-tab>              
-                </template>
+          <c-modal-employee-tab year={year} office={office}></c-modal-employee-tab>              
+       </template>
 </template> 
