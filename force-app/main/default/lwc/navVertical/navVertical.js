@@ -3,7 +3,21 @@ import getMonExSpentAm from '@salesforce/apex/EmployeeController.getMonExSpentAm
 import getMonExIncome from '@salesforce/apex/EmployeeController.getMonExIncome';
 import getMonthNameFromNum from '@salesforce/apex/EmployeeController.getMonthNameFromNum';
 export default class NavVertical extends LightningElement {
- 
+  january = 0;
+  february = 0;
+  march = 0;
+  april = 0;
+  may = 0;
+  june = 0;
+  july = 0;
+  august = 0;
+  september = 0;
+  october = 0;
+  november = 0;
+  december = 0;
+
+
+
   @api month;
   @api year;
   @api login;
@@ -49,6 +63,43 @@ export default class NavVertical extends LightningElement {
     if (data) {
      if(data[0]){
         this.monthName = data[0];
+      }
+      switch(this.monthName){
+        case 'January  ':
+          this.january = 1;
+          break;
+        case 'February ':
+          this.february = 1;
+          break;
+        case 'March    ':
+          this.march = 1;
+          break;
+        case 'April    ':
+          this.april = 1;
+          break;
+        case 'May      ':
+          this.may = 1;
+          break;
+        case 'June     ':
+          this.june = 1;
+          break;
+        case 'July     ':
+          this.july = 1;
+          break;
+        case 'August   ':
+          this.august = 1;
+          break;
+        case 'September':
+          this.september = 1;
+          break;
+        case 'October  ':
+          this.october = 1;
+          break;
+        case 'November ':
+          this.november = 1;
+          break;
+        case 'December ':
+          this.december = 1;
       }
         this.error = undefined;
     } else if (error) {

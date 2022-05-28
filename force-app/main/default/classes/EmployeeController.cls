@@ -310,8 +310,8 @@ public static List<Accord__c> getAccords(){
     @AuraEnabled(cacheable = true)
     public static List<string> getMonthNameFromNum(Integer num){
         try {
-            List<String>monthList = new List<String>{'January       ','February      ','March         ','April         ','May           ',
-            'June          ','July          ','August        ','September     ','October       ','November      ','December      '};
+            List<String>monthList = new List<String>{'January  ','February ','March    ','April    ','May      ',
+            'June     ','July     ','August   ','September','October  ','November ','December '};
          
             String monthName = monthList[num-1];
             List<String>mNList = new List<String>();

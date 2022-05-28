@@ -13,13 +13,13 @@
                             options={options}
                             onchange={handleChange}></lightning-combobox>
                         </b></div>
-                   </td>           
+                    </td>           
                      <template for:each={officePicklist} for:item="office" for:index="index">  
                    <td key = {office.Id} class = "dark-blue">    
                    <div class="slds-truncate office slds-text-heading_medium slds-text-align_center pointer" 
                    title={office.value} onclick = {officeClickHandler}>{office.value}</div>               
                    </td>
-                </template>       
+                    </template>       
                     <td  class="summ" width="15%">              
                     <div class="slds-truncate " title="Summ">          
                     </div>  

@@ -1,18 +1,135 @@
 <template>
-  <table >    
+  <!-- <table >    
     <thead>
     </thead>
     <tbody>
       <tr >
-        <td>
+        <td> -->
+
+
+
+
+
+
+          
+      <template if:true = {january}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName}  <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                  <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+
+    <template if:true = {february}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName} <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                 <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+
+    </template>
+    <template if:true = {march}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName}  <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                    <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+   
+    <template if:true = {april}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName}     <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                    <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+   
+   
+    <template if:true = {may}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName}    <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                      <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+   
+   
+    <template if:true = {june}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName}     <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                     <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+   
+   
+    <template if:true = {july}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName}      <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                     <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+   
+   
+    <template if:true = {august}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName}   <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                   <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+  
+  
+    <template if:true = {september}>    
       <template if:true={monthlyExpenseSpentAmount}> 
         {monthName}<span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
       </template>
       <template if:false={monthlyExpenseSpentAmount}>    
-       {monthName}                <span class="slds-badge" if:true={monExIncome}>{monExIncome}</span>
+       {monthName}                <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
       </template>
-      </td>   
+    </template>
+   
+   
+    <template if:true = {october}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName}   <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                  <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+  
+  
+    <template if:true = {november}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName} <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                 <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+  
+  
+    <template if:true = {december}>    
+      <template if:true={monthlyExpenseSpentAmount}> 
+        {monthName} <span class="slds-badge">{monthlyExpenseSpentAmount}</span><span class="slds-badge" if:true={monExIncome}>{monExIncome}</span> 
+      </template>
+      <template if:false={monthlyExpenseSpentAmount}>    
+       {monthName}                 <span class="slds-badge " if:true={monExIncome}>{monExIncome}</span>
+      </template>
+    </template>
+
+      <!-- </td>   
       </tr>
       </tbody>
-      </table>
+      </table> -->
 </template>

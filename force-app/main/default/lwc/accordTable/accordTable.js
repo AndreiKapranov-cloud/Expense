@@ -72,7 +72,7 @@ export default class AccordTable extends LightningElement {
     const actionName = event.detail.action.name;  
    if(actionName ===  'Delete'){
    deleteCard({ cardId: this.cardId })
-        .then(res => {
+       .then(res => {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Success',
