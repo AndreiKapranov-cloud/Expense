@@ -9,8 +9,16 @@
               <lightning-button label="&#8595; Income" title="Income" onclick={handleIncomeClick} class="slds-m-left_x-small"></lightning-button>
               <lightning-button label="New Expense" title="New Expense" onclick={handleNewExpenseClick} class="slds-m-left_x-small"></lightning-button>
               </div>
-            <div class="slds-align_absolute-center slds-text-heading_medium">Balance:    <b>${yearBalance}</b></div>
-           </div>
+            
+            <template if:true={yearBalance}>
+              <div class = "slds-align_absolute-center slds-text-heading_medium overflowBal"> 
+                  <b>Balance:    $<lightning-formatted-number value={yearBalance} maximum-fraction-digits="1" minimum-fraction-digits="1"></lightning-formatted-number></b>
+              </div>
+              </template>
+              <template if:false={yearBalance}>
+                <div class = "slds-align_absolute-center slds-text-heading_medium"><b>Balance:    ${zero}</b></div>
+             </template>    
+          </div>
        <br>
     <div class="slds-p-horizontal_x-small">
     <div class="slds-grid slds-gutters">
@@ -20,12 +28,11 @@
     <div class="slds-border_right">
     <nav class="slds-nav-vertical" aria-label="Sub page">
     <div class="slds-nav-vertical__section">
-      <!-- <p id="entity-header">         MONTHS    Amount  Income</p> -->
-    
+      
       <table >    
         <thead>     
           <tr > 
-              <td  width="53px" style="text-align: end;" >MONTHS           
+              <td  width="60px" style="text-align:center" >MONTHS           
               </td>                 
               <td  width="33px" style="text-align:center">Amount                 
               </td>             
@@ -58,9 +65,25 @@
         <tr> 
             <td  width="60px" style="text-align:center" ><b>Total: </b>       
             </td>                 
-            <td  width="33px" style="text-align:center"><b>{amountTotal}</b>               
-            </td>             
-            <td  width="33px" style="text-align:center"><b>{yearIncome}</b>           
+            <td  width="33px" style="text-align:center">
+              <template if:true={amountTotal}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number value={amountTotal} maximum-fraction-digits="1" minimum-fraction-digits="1"></lightning-formatted-number></b>
+                </div>
+                </template>
+                <template if:false={amountTotal}>
+                    <b>{zero}</b>
+                </template>   
+             </td>             
+            <td  width="33px" style="text-align:center">           
+              <template if:true={yearIncome}>
+                <div class = "overflow"> 
+                    <b><lightning-formatted-number maximum-fraction-digits="1"  minimum-fraction-digits="1" value={yearIncome} ></lightning-formatted-number></b>
+                </div>
+                </template>
+                <template if:false={yearIncome}>
+                    <b>{zero}</b>
+                </template>   
             </td>            
           </tr>
         </thead>

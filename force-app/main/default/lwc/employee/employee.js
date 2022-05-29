@@ -1,7 +1,5 @@
 import { LightningElement,api,track,wire} from 'lwc';
-import getTables from '@salesforce/apex/EmployeeController.getTables';
 import getYearForTab from '@salesforce/apex/EmployeeController.getYearForTab';
-import getYear from '@salesforce/apex/EmployeeController.getYear';
 import getAmountTotal from '@salesforce/apex/EmployeeController.getAmountTotal';
 import getYearIncome from '@salesforce/apex/EmployeeController.getYearIncome';
 import getYearBalance from '@salesforce/apex/EmployeeController.getYearBalance';
@@ -15,7 +13,8 @@ year;
 amountTotal = 0;
 month; 
 yearIncome = 0;   
-yearBalance = 0; 
+yearBalance = 0;
+zero = 0; 
 @api office;
 @api keeperId;
 
@@ -31,41 +30,13 @@ incomeDateInput;
 incomeInput;
 
 @track dateList = [];
-@track helpList = [];
-@track tabs = [];
 @track years = [];
 @track months = [];
 @track isModalOpen = false;
 @track isIncomeModalOpen = false;
 
 monthList = [1,2,3,4,5,6,7,8,9,10,11,12];
-@wire(getTables)
-tables({ error, data }) {
-    if (data) {
-        this.tabs = data;
-        this.error = undefined;
-    } else if (error) {
-        this.error = error;
-        this.tabs = undefined; 
-        console.log('Something went wrong:', error);
-        console.error('e.message => ' + e.message );
-    }
-}
 
-@wire(getYear)
-year({ error, data }) {
-    if (data) {
-        this.year = data;
-        console.log(this.year);
-        this.error = undefined;
-       
-    } else if (error) {
-        this.error = error;
-        this.year = undefined; 
-        console.log('Something went wrong:', error);
-        console.error('e.message => ' + e.message );
-    }
-}
 @wire(getAmountTotal,{year:'$year',login:'$login',password:'$password'})
 total({ error, data }) {
     if (data) {

@@ -1,6 +1,5 @@
 public with sharing class LoginController {
-    public LoginController() {     
-     }
+    
     @AuraEnabled
     public static String getDetails(String login, String password){ 
         try {
@@ -22,7 +21,7 @@ public with sharing class LoginController {
                  return 'Invalid password please try again!!!!';
              }
         }
-    } catch (Exception e) {
+      } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
       }

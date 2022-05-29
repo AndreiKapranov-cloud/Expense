@@ -99,7 +99,7 @@
             <td  class="summ" >       
                     <template if:true={january}>
                     <div class = "overflow"> 
-                        <b><lightning-formatted-number value={january} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                        <b><lightning-formatted-number value={january} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                     </div>
                     </template>
                     <template if:false={january}>
@@ -130,7 +130,7 @@
             <td  class="summ" >      
                     <template if:true={february}>
                     <div class = "overflow"> 
-                        <b><lightning-formatted-number value={february} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                        <b><lightning-formatted-number value={february} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                     </div>
                     </template>
                     <template if:false={february}>
@@ -162,7 +162,7 @@
             <td  class="summ" >           
                 <template if:true={march}>
                 <div class = "overflow"> 
-                    <b><lightning-formatted-number value={march} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    <b><lightning-formatted-number value={march} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
                 </template>
                 <template if:false={march}>
@@ -193,7 +193,7 @@
             <td  class="summ" >
                 <template if:true={april}>
                 <div class = "overflow"> 
-                    <b><lightning-formatted-number value={april} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    <b><lightning-formatted-number value={april} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
                 </template>
                 <template if:false={april}>
@@ -225,7 +225,7 @@
             <td  class="summ" >
                     <template if:true={may}>
                     <div class = "overflow"> 
-                        <b><lightning-formatted-number value={may} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                        <b><lightning-formatted-number value={may} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                     </div>
                     </template>
                     <template if:false={may}>
@@ -257,7 +257,7 @@
             <td  class="summ" >
                 <template if:true={june}>
                 <div class = "overflow"> 
-                    <b><lightning-formatted-number value={june} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    <b><lightning-formatted-number value={june} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
                 </template>
                 <template if:false={june}>
@@ -289,7 +289,7 @@
             <td  class="summ" >
                 <template if:true={july}>
                 <div class = "overflow"> 
-                    <b><lightning-formatted-number value={july} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    <b><lightning-formatted-number value={july} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
                 </template>
                 <template if:false={july}>
@@ -321,7 +321,7 @@
             <td  class="summ" >
                 <template if:true={august}>
                 <div class = "overflow"> 
-                    <b><lightning-formatted-number value={august} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    <b><lightning-formatted-number value={august} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
                 </template>
                 <template if:false={august}>
@@ -353,7 +353,7 @@
             <td  class="summ" >
                     <template if:true={september}>
                     <div class = "overflow"> 
-                        <b><lightning-formatted-number value={september} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                        <b><lightning-formatted-number value={september} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                     </div>
                     </template>
                     <template if:false={september}>
@@ -385,7 +385,7 @@
             <td  class="summ" >
                     <template if:true={october}>
                     <div class = "overflow"> 
-                        <b><lightning-formatted-number value={october} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                        <b><lightning-formatted-number value={october} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                     </div>
                     </template>
                     <template if:false={october}>
@@ -417,7 +417,7 @@
             <td  class="summ" >
                 <template if:true={november}>
                 <div class = "overflow"> 
-                    <b><lightning-formatted-number value={november} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    <b><lightning-formatted-number value={november} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
                 </template>
                 <template if:false={november}>
@@ -448,7 +448,7 @@
             <td  class="summ" >
                 <template if:true={december}>
                 <div class = "overflow"> 
-                    <b><lightning-formatted-number value={december} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number></b>
+                    <b><lightning-formatted-number value={december} maximum-fraction-digits="2" minimum-fraction-digits="2"></lightning-formatted-number></b>
                 </div>
                 </template>
                 <template if:false={december}>
@@ -480,7 +480,7 @@
                 <div class = "slds-text-align_center">
                     <template if:true={yearExpenseSum}>
                     <div class = "overflow"> 
-                        <b><lightning-formatted-number value={yearExpenseSum}  format-style="decimal" minimum-fraction-digits="1"></lightning-formatted-number></b>
+                        <b><lightning-formatted-number value={yearExpenseSum} maximum-fraction-digits="1" minimum-fraction-digits="1"></lightning-formatted-number></b>
                     </div>
                     </template>
                     <template if:false={yearExpenseSum}>

@@ -28,3 +28,16 @@ td:hover{
   white-space: normal;
   height:auto; 
 }
+.overflowBal{
+    
+  width: 200px;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  overflow:hidden;
+  white-space: nowrap;
+}
+.overflowBal:hover{
+  overflow: visible; 
+  white-space: normal;
+  height:auto; 
+}

@@ -1,7 +1,7 @@
 <template>
   <template if:true={officeBalanceNow}>
     <div class = "overflow"> 
-        <b><lightning-formatted-number value={officeBalanceNow} format-style="decimal" minimum-fraction-digits="1"></lightning-formatted-number></b>
+        <b><lightning-formatted-number value={officeBalanceNow} maximum-fraction-digits="1" minimum-fraction-digits="1"></lightning-formatted-number></b>
     </div>
     </template>
     <template if:false={officeBalanceNow}>

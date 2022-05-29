@@ -13,7 +13,6 @@ export default class Admin extends LightningElement {
      
    
     @track officeMonthlyExpense = [];
-    @track ddd;
     @track officeBalanceNow;
     @track monthlyAverage;
     @track sumList = [];
@@ -66,13 +65,10 @@ export default class Admin extends LightningElement {
     }
   }
    
-    helper = ['Office 1','Office 2','Office 3','Office 4' ];
     officePicklist = [];
     contactMetadata = [];
     office;
    
-    llll = [];
-  
     @wire(getObjectInfo, { objectApiName: CONTACT_OBJECT })
 
     contactMetadata;

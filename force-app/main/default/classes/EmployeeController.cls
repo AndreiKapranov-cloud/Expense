@@ -1,27 +1,5 @@
 public with sharing class EmployeeController {
-    public EmployeeController() {
-    }
-    @AuraEnabled
-    public static  List<ExpenseCard__c> getCardList(Date cardDay,String login){
-        try {
-          List<Contact> con_List=[Select Id,Email,Password__c,Admin__c from Contact where Email =: login Limit 1];
-     
-          List<ExpenseCard__c> expCard_List=[Select Id,Description__c,Amount__c,CardDate__c from ExpenseCard__c where CardKeeper__r.Password__c =: con_List[0].Password__c Limit 1];
-      
-          return expCard_List;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-    @AuraEnabled(cacheable=true)
-    public static List<Table__c> getTables(){
-        try {
-           List <Table__c> tabList = [select Month__c,Income__c,Amount__c from Table__c];
-            return tabList;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
+   
     @AuraEnabled(cacheable =true)
     public static MonthlyExpense__c getMonEx(Integer year,Integer month,String login,String password){
         try {
@@ -102,68 +80,7 @@ public with sharing class EmployeeController {
         }
     }
     
-
-  
-    @AuraEnabled
-    public static List<Table__c>  populateMonths(Integer year,String login,String password){
-        try {
-            List <MonthlyExpense__c> monExList = getMonthlyExpense(year,login,password);
-            
-          
-          
-            List<Table__c>listForTable = new List<Table__c>();
-           
-            List<String>monthList = new List<String>{'January       ','February      ','March         ','April         ','May           ',
-            'June          ','July          ','August        ','September     ','October       ','November      ','December      '};
-         
-            Map<String, Table__c> tabMap = new Map<String, Table__c>();
-           
-               for(String month : monthList){
-                Table__c tab = new Table__c(Month__c = month,Year__c = Decimal.valueOf(year));
-                listForTable.add(tab); 
-                tabMap.put(tab.Month__c,tab);
-            }
-
-            Map<Integer,String> monthNames = new Map<Integer,String>{
-                1 => 'January       ',
-                2 => 'February      ',
-                3 => 'March         ',
-                4 => 'April         ',
-                5 => 'May           ',
-                6 => 'June          ',
-                7 => 'July          ',
-                8 => 'August        ',
-                9 => 'September     ',
-                10 => 'October       ',
-                11 => 'November      ',
-                12 => 'December      '
-            };
-           
-          for(MonthlyExpense__c mon : monExList){
-         
-            Table__c tab = tabMap.get(monthNames.get(mon.MonthDate__c.month()));
-            tab.Amount__c =  mon.SpentAmount__c;
-            tab.Income__c =  mon.Balance__c + mon.SpentAmount__c;
-
-             }
-            List<Table__c> oldList = [select Id from Table__c];
-            delete oldList;
-            insert listForTable;
-            return listForTable;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
-    @AuraEnabled(cacheable=true)
-    public static Integer getYear(){
-        try {
-           List <Table__c> listForTable = [select Id,Year__c from Table__c];
-           Integer year = Integer.valueOf(listForTable[0].Year__c);
-           return year;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
+    
     @AuraEnabled(cacheable=true)
     public static List<Integer> getYearForTab(){
         try {
@@ -197,15 +114,15 @@ public with sharing class EmployeeController {
         }
     }
     @AuraEnabled(cacheable = true)
-    public static List<Integer> getAmountTotal(Integer year,String login,String password){
+    public static List<Decimal> getAmountTotal(Integer year,String login,String password){
         try {
-    Integer amountTotal = 0;
+    Decimal amountTotal = 0;
     List <MonthlyExpense__c> monExList = getMonthlyExpense(year,login,password);
     
     for(MonthlyExpense__c mE : monExList){
-    amountTotal = amountTotal + Integer.valueOf(mE.SpentAmount__c);
+    amountTotal = amountTotal + mE.SpentAmount__c;
     }
-    List<Integer>amountTotalList = new list<Integer>();
+    List<Decimal>amountTotalList = new list<Decimal>();
     amountTotalList.add(amountTotal);
     return amountTotalList;
         } catch (Exception e) {
@@ -213,11 +130,11 @@ public with sharing class EmployeeController {
         }
     }
     @AuraEnabled(cacheable=true)
-    public static List<Integer> getYearIncome(Integer year,String login,String password){
+    public static List<Decimal> getYearIncome(Integer year,String login,String password){
         try {
       
-       List<Integer> yearIncomeList = new List<Integer>();
-       Integer yearIncome = getAmountTotal(year,login,password)[0] + getYearBalance(year,login,password)[0];
+       List<Decimal> yearIncomeList = new List<Decimal>();
+       Decimal yearIncome = getAmountTotal(year,login,password)[0] + getYearBalance(year,login,password)[0];
        yearIncomeList.add(yearIncome);
        return yearIncomeList;
     } catch (Exception e) {
@@ -226,34 +143,21 @@ public with sharing class EmployeeController {
     }
 
 @AuraEnabled(cacheable = true)
-public static List<Integer> getYearBalance(Integer year,String login,String password){
+public static List<Decimal> getYearBalance(Integer year,String login,String password){
     try {
         List <MonthlyExpense__c> monExList = getMonthlyExpense(year,login,password);
 
-        Integer yearBalance = 0;
+        Decimal yearBalance = 0;
         for(MonthlyExpense__c mE : monExList){
-            yearBalance = yearBalance + Integer.valueOf(mE.Balance__c);
+            yearBalance = yearBalance + mE.Balance__c;
         }
-        List<Integer>yearBalanceList = new List<Integer>();
+        List<Decimal>yearBalanceList = new List<Decimal>();
         yearBalanceList.add(yearBalance);
         return yearBalanceList;
     } catch (Exception e) {
         throw new AuraHandledException(e.getMessage());
     }
-}
-
-
-@AuraEnabled(cacheable=true)
-public static List<Accord__c> getAccords(){
-    try {
-        
-        List<Accord__c> acdList = [select CardDate__c,ExpenseCard__c,Name from Accord__c
-     ];
-        return acdList;
-    } catch (Exception e) {
-        throw new AuraHandledException(e.getMessage());
-    }
-}
+ }
 
     @AuraEnabled(cacheable = true)
     public static List<ExpenseCard__c> getExCards(Integer month,Integer year,String login,String password){
@@ -267,7 +171,6 @@ public static List<Accord__c> getAccords(){
        AND CardKeeper__r.Email = :login AND CardKeeper__r.Password__c =:password ];
        Map<Date, ExpenseCard__c> exCardsMap = new Map<Date, ExpenseCard__c>();
       
-    
      return exCards;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -275,7 +178,7 @@ public static List<Accord__c> getAccords(){
      }
      
     @AuraEnabled
-    public static void saveExpenseCard(Integer amount,Date cardDate,String description,
+    public static void saveExpenseCard(Decimal amount,Date cardDate,String description,
     Id cardKeeperId){
         try {
          ExpenseCard__c exCard = new ExpenseCard__c(Amount__c = amount,CardDate__c =
@@ -286,7 +189,7 @@ public static List<Accord__c> getAccords(){
         }
     }
     @AuraEnabled
-    public static void saveIncomeInput(Integer income,Date incomeDate,Id keeperId){
+    public static void saveIncomeInput(Decimal income,Date incomeDate,Id keeperId){
         try {
          Date monthBeginning = incomeDate.toStartOfMonth();
          Date monthEnd = date.newInstance(incomeDate.year(),incomeDate.month()+1,1)-1;
@@ -310,8 +213,8 @@ public static List<Accord__c> getAccords(){
     @AuraEnabled(cacheable = true)
     public static List<string> getMonthNameFromNum(Integer num){
         try {
-            List<String>monthList = new List<String>{'January  ','February ','March    ','April    ','May      ',
-            'June     ','July     ','August   ','September','October  ','November ','December '};
+            List<String>monthList = new List<String>{'January','February','March','April','May',
+            'June','July','August','September','October','November','December'};
          
             String monthName = monthList[num-1];
             List<String>mNList = new List<String>();

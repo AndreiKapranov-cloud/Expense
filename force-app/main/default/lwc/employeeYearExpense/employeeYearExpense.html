@@ -1,7 +1,7 @@
 <template>
     <template if:true={employeeYearExpenseSum}>
     <div class = "overflow"> 
-        <lightning-formatted-number value={employeeYearExpenseSum} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number>
+        <lightning-formatted-number value={employeeYearExpenseSum} maximum-fraction-digits="1" minimum-fraction-digits="1"></lightning-formatted-number>
     </div>
     </template>
     <template if:false={employeeYearExpenseSum}>
