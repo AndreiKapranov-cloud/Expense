@@ -191,11 +191,19 @@ public static List<Decimal> getYearBalance(Integer year,String login,String pass
     @AuraEnabled
     public static void saveIncomeInput(Decimal income,Date incomeDate,Id keeperId){
         try {
+         if(income < 0 ){
+            System.assert(false);
+         }
          Date monthBeginning = incomeDate.toStartOfMonth();
          Date monthEnd = date.newInstance(incomeDate.year(),incomeDate.month()+1,1)-1;
          List<MonthlyExpense__c> mEList = [select Id,Balance__c from MonthlyExpense__c
          where Monthdate__c  <= :monthEnd AND Monthdate__c >= :monthBeginning
          AND Keeper__c =:keeperId];
+        
+        
+        
+        
+        
          if(mEList.size() > 0){
          mEList[0].Balance__c = mEList[0].Balance__c + income;
          update mEList;

@@ -14,14 +14,16 @@ public static List<ExpenseCard__c> getExpenseCards(Date cardDate,String login,St
   }
  
   @AuraEnabled(cacheable = true)
-  public static Integer getSum(Date cardDate,String login,String password){
+  public static List<Decimal> getSum(Date cardDate,String login,String password){
       try {
-        Integer total = 0;
+        Decimal total = 0;
         List <ExpenseCard__c> exList =  getExpenseCards(cardDate, login,password);
+        List<Decimal>sumList = new List<Decimal>();
         for(Expensecard__c exCard : exList){
-        total = total + Integer.valueOf(exCard.Amount__c);
+        total = total + exCard.Amount__c;
         }
-        return total;
+        sumList.add(total);
+        return sumList;
       } catch (Exception e) {
           throw new AuraHandledException(e.getMessage());
       }

@@ -5,6 +5,9 @@ import deleteCard from '@salesforce/apex/AccordController.deleteCard';
 import { updateRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
+import messageChannel from '@salesforce/messageChannel/DeleteCardMessageChannel__c';
+import {publish, MessageContext} from 'lightning/messageService'
+ 
 const columns = [{
     label: 'DESCRIPTION',
     fieldName: 'Description__c',
@@ -40,11 +43,20 @@ export default class AccordTable extends LightningElement {
     @track sum;
     @api login;
     @api password;
+    cardListData;
+    sumData;
 
+    @wire(MessageContext)
+    messageContext;
 
     @wire(getExpenseCards,{cardDate:'$cardDate',login:'$login',password:'$password'})
-    cards({ error, data }) {
-    if (data) {
+    cards(wireResult) {
+   
+        const { data, error } = wireResult;
+        this.cardListData = wireResult;
+  
+   
+     if (data) {
         this.cardList = data;
         this.error = undefined;
     } else if (error) {
@@ -54,11 +66,16 @@ export default class AccordTable extends LightningElement {
         console.error('e.message => ' + e.message );
     }
   }
-  @wire (getSum,{cardDate:'$cardDate',login:'$login',password:'$password'})
-  sum({ error, data }) {
+    @wire (getSum,{cardDate:'$cardDate',login:'$login',password:'$password'})
+    sum(wireResult) {
+    
+        const { data, error } = wireResult;
+        this.sumData = wireResult;
+
     if (data) {
-        this.sum = data;
+        this.sum = data[0];
         this.error = undefined;
+      
     } else if (error) {
         this.error = error;
         this.sum = undefined; 
@@ -80,10 +97,18 @@ export default class AccordTable extends LightningElement {
                     variant: 'success'
                 })
             );
-          
+            refreshApex(this.sumData);
             return this.refresh();
         })
-        .catch((error) => {
+        .then(() => {
+            const deleteEvent = new CustomEvent();
+            this.dispatchEvent(deleteEvent);
+          })
+          .then(() => {
+            let message = {messageText: 'need refresh'};
+            publish(this.messageContext, messageChannel, message);
+          })
+            .catch((error) => {
             this.error = error;
             this.dispatchEvent(
                 new ShowToastEvent({
@@ -102,8 +127,7 @@ export default class AccordTable extends LightningElement {
             const fields = Object.assign({}, draft);
             return { fields };
         });
-
-   
+ 
     const promises = recordInputs.map(recordInput => updateRecord(recordInput));
     Promise.all(promises).then(res => {
         this.dispatchEvent(
@@ -115,11 +139,16 @@ export default class AccordTable extends LightningElement {
         );
         this.saveDraftValues = [];
         return this.refresh();
-    }).catch(error => {
+     })
+    .then(() => {
+        let message = {messageText: 'need refresh'};
+        publish(this.messageContext, messageChannel, message);
+      })
+    .catch(error => {
         this.dispatchEvent(
             new ShowToastEvent({
                 title: 'Error',
-                message: 'An Error Occured!!',
+                message: 'Changes Not Saved!',
                 variant: 'error'
             })
         );
@@ -128,7 +157,9 @@ export default class AccordTable extends LightningElement {
     });
 }
 
-async refresh() {
-    await refreshApex(this.cardList);
+async refresh() {  
+    await refreshApex(this.cardListData);
+    await refreshApex(this.sumData);
  }
+
 }
