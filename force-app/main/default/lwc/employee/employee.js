@@ -1,6 +1,4 @@
 import { LightningElement,api,track,wire} from 'lwc';
-import getMonExSpentAm from '@salesforce/apex/EmployeeController.getMonExSpentAm';
-import getMonExIncome from '@salesforce/apex/EmployeeController.getMonExIncome';
 import getYearForTab from '@salesforce/apex/EmployeeController.getYearForTab';
 import getAmountTotal from '@salesforce/apex/EmployeeController.getAmountTotal';
 import getYearIncome from '@salesforce/apex/EmployeeController.getYearIncome';
@@ -15,7 +13,6 @@ import {publish} from 'lightning/messageService'
 import messageChannelForAccord from '@salesforce/messageChannel/DisplayNewCardOnAccordTabMessageChannel__c';
 export default class Employee extends LightningElement {
     
-back = false;
 year;  
 @track amountTotal = 0;
 month; 

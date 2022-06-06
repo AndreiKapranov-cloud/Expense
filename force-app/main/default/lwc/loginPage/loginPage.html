@@ -1,6 +1,5 @@
 <template>
     
-    <template if:false={selector}>
     <lightning-card>
     <div class="slds-align_absolute-center">
         <div class="slds-col slds-size_2-of-7">
@@ -9,18 +8,17 @@
     </div>
     <div class="help-tooltip">
         
-        <lightning-input type="text" name="inputLogin" label="Login"
-        placeholder="Enter your username"  required="true"  onchange={handleLoginInput}
-         >
-        </lightning-input>
- 
+    <lightning-input type="text" name="inputLogin" label="Login"
+    placeholder="Enter your username"  required="true"  onchange={handleLoginInput}
+        >
+    </lightning-input>
+
     <lightning-input type="text" name="inputPassword" label="Password"
     placeholder="Password"  required="true"  onchange={handlePassInput}
      >
     </lightning-input>
     
     <br>
-    
     
     <lightning-button class="slds-button slds-button_brand slds-align_absolute-center" variant="brand" label="Login" title="Primary action" onclick={handleClick} ></lightning-button>
     </div>
@@ -32,25 +30,4 @@
 
     </lightning-card>
     </template>
-    <!-- <template if:true={selector}>
-    <lightning-card>
-    <template if:true={isAdmin}>
-       
-        <c-admin >      
-        </c-admin>
-        
-    </template> -->
-
-   
-    <!-- <template if:true={isEmployee}>
-       
-       
     
-    <c-employee office={office} keeper-id={keeperId} login={login} password={password}
-     ></c-employee>
-       
-    </template> -->
-<!-- </lightning-card> -->
-</template>
-
-</template>

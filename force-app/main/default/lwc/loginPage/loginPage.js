@@ -1,18 +1,10 @@
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { LightningElement,track,api} from 'lwc';
+import { LightningElement,track} from 'lwc';
 import EXPENSES from '@salesforce/resourceUrl/exp';
 import getDetails from '@salesforce/apex/LoginController.getDetails';
 import getOffice from '@salesforce/apex/LoginController.getOffice';
 import getId from '@salesforce/apex/LoginController.getId';
 import { NavigationMixin } from 'lightning/navigation';
-// import populateData from '@salesforce/apex/LoginController.populateData';
-// import getData from '@salesforce/apex/LoginController.getData';
-// import getKeeperId from '@salesforce/apex/LoginController.getKeeperId';
-// import getOfficeData from '@salesforce/apex/LoginController.getOfficeData';
-// import getIsEmployee from '@salesforce/apex/LoginController.getIsEmployee';
-// import getIsAdmin from '@salesforce/apex/LoginController.getIsAdmin';
-// import getSelector from '@salesforce/apex/LoginController.getSelector';
-// import deleteHelper from '@salesforce/apex/LoginController.deleteHelper';
 export default class LoginPage extends NavigationMixin(LightningElement) {
     keeperId;
     expPict = EXPENSES;
@@ -21,9 +13,6 @@ export default class LoginPage extends NavigationMixin(LightningElement) {
     @track password;
     error;
     result;
-    isAdmin = false;
-    isEmployee = false;
-    selector = false;
     
     handleLoginInput(event) {
        let element = event.target.name;
@@ -64,9 +53,6 @@ export default class LoginPage extends NavigationMixin(LightningElement) {
                    this.dispatchEvent(evt);     
                    break;
                    case 'Admin':
-                                 this.selector = true;
-                                 this.isAdmin = true;
-
                                  this[NavigationMixin.Navigate]({
                                     type: "standard__component",
                                     attributes: {
@@ -77,9 +63,6 @@ export default class LoginPage extends NavigationMixin(LightningElement) {
                                 });
                    break;
                    case 'Employee':  
-                                 this.selector = true;
-                                 this.isEmployee = true;
-                                
                                  this.office = await getOffice({
                                     login: this.login,password: this.password
                                 });
