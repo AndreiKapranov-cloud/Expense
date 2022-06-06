@@ -11,15 +11,16 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import messageChannel from '@salesforce/messageChannel/DeleteCardMessageChannel__c';
 import { subscribe, MessageContext } from 'lightning/messageService';
- 
+import {publish} from 'lightning/messageService'
+import messageChannelForAccord from '@salesforce/messageChannel/DisplayNewCardOnAccordTabMessageChannel__c';
 export default class Employee extends LightningElement {
     
- back = false;
+back = false;
 year;  
-@ track amountTotal = 0;
+@track amountTotal = 0;
 month; 
 @track yearIncome = 0;   
-@ track yearBalance = 0;
+@track yearBalance = 0;
 zero = 0; 
 @api office;
 @api keeperId;
@@ -53,47 +54,47 @@ yearIncomeData;
 
 subscription = null;
  
-    @wire(MessageContext)
-    messageContext;
- 
-    connectedCallback() {
-        this.subscribeToMessageChannel();
-    }
- 
-    subscribeToMessageChannel() {
-        if (!this.subscription) {
-            this.subscription = subscribe(this.messageContext, messageChannel, (message) => {
-                console.log(`grand parent received ${message.messageText}`);
-                               
-                  refreshApex(this.amountTotalData);
-                
-                  refreshApex(this.yearBalanceData);
-                     
-                    this.template.querySelectorAll('c-nav-vertical').forEach(element => {
-                    element.changeSpentAmount();         
-                    });
-                })   
-           }
-      }
+@wire(MessageContext)
+messageContext;
 
-    @wire(getAmountTotal,{year:'$year',login:'$login',password:'$password'})
-        total(wireResult) {
-    
-        const { data, error } = wireResult;
-        this.amountTotalData = wireResult;
-    
-    if (data) {
-     
-        this.amountTotal = data[0];
-       
-        console.log(this.year);
-        this.error = undefined;
-    } else if (error) {
-        this.error = error;
-        this.amountTotal = undefined; 
-        console.log('Something went wrong:', error);
-        console.error('e.message => ' + e.message );
+connectedCallback() {
+    this.subscribeToMessageChannel();
+}
+
+subscribeToMessageChannel() {
+    if (!this.subscription) {
+        this.subscription = subscribe(this.messageContext, messageChannel, (message) => {
+            console.log(`grand parent received ${message.messageText}`);
+                            
+                refreshApex(this.amountTotalData);
+            
+                refreshApex(this.yearBalanceData);
+                    
+                this.template.querySelectorAll('c-nav-vertical').forEach(element => {
+                element.changeSpentAmount();         
+                });
+            })   
+        }
     }
+
+@wire(getAmountTotal,{year:'$year',login:'$login',password:'$password'})
+    total(wireResult) {
+
+    const { data, error } = wireResult;
+    this.amountTotalData = wireResult;
+
+if (data) {
+    
+    this.amountTotal = data[0];
+    
+    console.log(this.year);
+    this.error = undefined;
+} else if (error) {
+    this.error = error;
+    this.amountTotal = undefined; 
+    console.log('Something went wrong:', error);
+    console.error('e.message => ' + e.message );
+  }
 }
 @wire(getYearIncome,{year:'$year',login:'$login',password:'$password'})
 income(wireResult) {
@@ -227,6 +228,11 @@ balance(wireResult) {
     element.changeSpentAmount();         
     });
                 })
+    .then(() => {         
+    let message = {messageText: 'the message'};
+    publish(this.messageContext, messageChannelForAccord, message);
+    })
+    
     .then(res => {
         this.dispatchEvent(
             new ShowToastEvent({

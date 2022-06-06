@@ -7,7 +7,8 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import messageChannel from '@salesforce/messageChannel/DeleteCardMessageChannel__c';
 import {publish, MessageContext} from 'lightning/messageService'
- 
+import messageChannelForAccord from '@salesforce/messageChannel/DisplayNewCardOnAccordTabMessageChannel__c';
+import {subscribe} from 'lightning/messageService';
 const columns = [{
     label: 'DESCRIPTION',
     fieldName: 'Description__c',
@@ -48,6 +49,19 @@ export default class AccordTable extends LightningElement {
 
     @wire(MessageContext)
     messageContext;
+
+    connectedCallback() {
+        this.subscribeToMessageChannel();
+    }
+ 
+    subscribeToMessageChannel() {
+        if (!this.subscription) {
+            this.subscription = subscribe(this.messageContext, messageChannelForAccord, (message) => {
+            return this.refresh();
+            });
+        }
+    }
+
 
     @wire(getExpenseCards,{cardDate:'$cardDate',login:'$login',password:'$password'})
     cards(wireResult) {

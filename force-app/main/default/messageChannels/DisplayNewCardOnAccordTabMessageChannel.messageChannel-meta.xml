@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This is a Message Channel To Display New Card on Accord Table</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>This is the message</description>
+        <fieldName>message</fieldName>
+    </lightningMessageFields>
+    <masterLabel>DisplayNewCardOnAccordTabMessageChanel</masterLabel>
+</LightningMessageChannel>
