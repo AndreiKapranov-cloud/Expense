@@ -140,9 +140,16 @@ public with sharing class AdminController {
            try {
             Date yearBeginning = Date.newInstance(year, 1, 1);
             Date yearEnd = Date.newInstance(year + 1, 1, 1) - 1;
-            List <MonthlyExpense__c> monExList = [select SpentAmount__c,MonthDate__c from 
+            List <MonthlyExpense__c> EmployeeHavingOfficeMonExList = new List<MonthlyExpense__c>();
+            List <MonthlyExpense__c> monExList = [select SpentAmount__c,MonthDate__c,Keeper__r.Office__c from 
             MonthlyExpense__c where MonthDate__c >= :yearBeginning AND MonthDate__c <= :yearEnd];
-            return monExList;
+            
+            for(MonthlyExpense__c mE : monExList){
+            if(mE.Keeper__r.Office__c != null){
+            EmployeeHavingOfficeMonExList.add(mE);
+                }
+            }
+            return EmployeeHavingOfficeMonExList;
         } catch (Exception e) {
                throw new AuraHandledException(e.getMessage());
            }
