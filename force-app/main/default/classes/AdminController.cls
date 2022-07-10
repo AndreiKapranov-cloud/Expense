@@ -1,4 +1,3 @@
-
 public with sharing class AdminController {
     @AuraEnabled(cacheable = true)
     public static List <MonthlyExpense__c> getOfficeMonthlyExpenses(Integer year,String office){
@@ -220,12 +219,3 @@ public with sharing class AdminController {
               }
           }
  }
-       
-    
-    
-    
-    
-    
-    
-   
-

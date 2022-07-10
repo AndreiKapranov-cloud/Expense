@@ -40,12 +40,13 @@ export default class AccordTable extends LightningElement {
     cardId = '';
     @track columns = columns; 
     @api cardDate;
-    @track cardList;
+    cardList = [];
     @track sum;
     @api login;
     @api password;
     cardListData;
     sumData;
+    length;
 
     @wire(MessageContext)
     messageContext;
@@ -69,10 +70,10 @@ export default class AccordTable extends LightningElement {
         const { data, error } = wireResult;
         this.cardListData = wireResult;
   
-   
      if (data) {
         this.cardList = data;
         this.error = undefined;
+        this.length = this.cardList.length;
     } else if (error) {
         this.error = error;
         this.cardList = undefined; 

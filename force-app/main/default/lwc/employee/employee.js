@@ -169,7 +169,7 @@ balance(wireResult) {
         console.log(this.month);
         console.log(this.year);
       
-        console.log(this.dateList);
+       // console.log(this.dateList);
         } catch (error) {
             console.error(error);
             this.error = error;
