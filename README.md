@@ -19,4 +19,5 @@ and top up the balance for the selected month.In the expanded accordion item sho
 date defined in the header of an accordion item are listed.The user should be able to edit records by clicking on the table cell.
 Year buttons value should be dynamic(we should not change values of the year buttons every year).
 https://github.com/AndreiKapranov-cloud/Expense/blob/master/force-app/main/default/staticresources/admin.png
-https://github.com/AndreiKapranov-cloud/Expense/blob/master/force-app/main/default/staticresources/employee.pnghttps://github.com/AndreiKapranov-cloud/Expense/blob/master/force-app/main/default/staticresources/newexpcard.png
+https://github.com/AndreiKapranov-cloud/Expense/blob/master/force-app/main/default/staticresources/employee.png
+https://github.com/AndreiKapranov-cloud/Expense/blob/master/force-app/main/default/staticresources/newexpcard.png
