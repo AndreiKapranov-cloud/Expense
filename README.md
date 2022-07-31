@@ -18,3 +18,5 @@ month and date are listed.Also,the Employee should be able to create a new card 
 and top up the balance for the selected month.In the expanded accordion item should be a table where all of the cards for the
 date defined in the header of an accordion item are listed.The user should be able to edit records by clicking on the table cell.
 Year buttons value should be dynamic(we should not change values of the year buttons every year).
+https://github.com/AndreiKapranov-cloud/Expense/blob/master/force-app/main/default/staticresources/admin.png
+https://github.com/AndreiKapranov-cloud/Expense/blob/master/force-app/main/default/staticresources/employee.pnghttps://github.com/AndreiKapranov-cloud/Expense/blob/master/force-app/main/default/staticresources/newexpcard.png
