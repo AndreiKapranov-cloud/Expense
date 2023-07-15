@@ -1,4 +1,4 @@
-An application to control the expenses of imployees.
+An application to control the expenses of the employees.
 
 Employees should be able to log in to the SF and create/edit/delete their expense cards.Each employee should be able to see only their own expense cards.System Administrator should be able to see all records,to filter it by date/employee/location/etc. This must be done using LWC.
 
